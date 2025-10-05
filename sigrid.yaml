@@ -1,0 +1,25 @@
+# Sigrid CI Configuration for Petanque Application
+# Based on GitHub technology detection and Sigrid documentation
+
+# Languages detected from GitHub repository
+languages:
+  - name: csharp
+  - name: typeScript
+  - name: powershell
+  - name: script
+  - name: css
+  - name: docker
+  - name: mysql
+
+# Enable Open Source Health analysis
+dependencychecker: 
+  blocklist: ["NONE"]
+
+# Enable Security analysis
+thirdpartyfindings:
+  enabled: true
+
+# Enable experimental features
+experimental: true
+
+

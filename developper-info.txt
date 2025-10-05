@@ -1,0 +1,65 @@
+Petanque: info for developpers
+-----------------
+
+For install instructions and how to start the application: see install-instructions.txt
+
+-----------------
+
+URL of the original repo is: https://SpecialDevOps@dev.azure.com/SpecialDevOps/ProjectWerk2/_git/ProjectWerk2
+URL of the new, forked repo, owned by goedertw is: git@github.com:goedertw/petanque.git
+
+-----------------
+
+How to setup your git if you have 2 repo's?
+
+If you have only write access to https://SpecialDevOps@dev.azure.com/.../ProjectWerk2
+and readonly access to git@github.com:goedertw/petanque.git, then do the following:
+
+    # clone your own repo (probably already done)
+    git clone https://SpecialDevOps@dev.azure.com/SpecialDevOps/ProjectWerk2/_git/ProjectWerk2
+    cd ProjectWerk2
+
+    # setup 'upstream'
+    git remote add upstream git@github.com:goedertw/petanque.git
+    # you have now an 'origin' repo and an 'upstream' repo, check this with:
+    git remote -v
+
+    # on a regular base: get all the changes from the main branch of goedertw/petanque
+    git fetch upstream
+    git merge upstream/main
+
+If you have only write access to git@github.com:goedertw/petanque.git, then do the opposite
+
+-----------------
+
+Currently the connection string is hardcoded as "server=127.0.0.1;port=3306;database=petanque;user=root;password=root"
+If you need something else, update following files:
+    ./Petanque/Petanque.Api/appsettings.json
+    ./Petanque/Petanque.Storage/Id312896PetanqueContext.cs
+    (./manage-db/mysql.cfg)
+
+-----------------
+
+Starting 'backend' and 'frontend' in PowerShell while developping:
+
+cd Petanque\Petanque.Api
+$env:DOTNET_CLI_TELEMETRY_OPTOUT = "1"
+dotnet run
+
+cd Petanque\petanquefrontend
+$env:VITE_API_URL = "http://localhost:5251/api"
+npm run dev
+
+-----------------
+
+Starting 'backend' and 'frontend' in CMD while developping:
+
+cd Petanque\Petanque.Api
+set DOTNET_CLI_TELEMETRY_OPTOUT=1
+dotnet run
+
+cd Petanque\petanquefrontend
+set VITE_API_URL=http://localhost:5251/api
+npm run dev
+
+-----------------

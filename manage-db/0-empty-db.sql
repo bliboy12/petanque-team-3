@@ -1,0 +1,193 @@
+-- MySQL dump 10.13  Distrib 8.0.42, for Linux (x86_64)
+--
+-- Host: 127.0.0.1    Database: petanque
+-- ------------------------------------------------------
+-- Server version	8.4.2
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `Aanwezigheid`
+--
+
+DROP TABLE IF EXISTS `Aanwezigheid`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Aanwezigheid` (
+  `aanwezigheidId` int NOT NULL AUTO_INCREMENT,
+  `speeldagId` int DEFAULT NULL,
+  `spelerId` int DEFAULT NULL,
+  `spelerVolgnr` int NOT NULL,
+  PRIMARY KEY (`aanwezigheidId`),
+  UNIQUE KEY `Aanwezigheid_uk` (`speeldagId`,`spelerVolgnr`),
+  KEY `speeldagId` (`speeldagId`),
+  KEY `spelerId` (`spelerId`),
+  CONSTRAINT `Aanwezigheid_ibfk_1` FOREIGN KEY (`speeldagId`) REFERENCES `Speeldag` (`speeldagId`),
+  CONSTRAINT `Aanwezigheid_ibfk_2` FOREIGN KEY (`spelerId`) REFERENCES `Speler` (`spelerId`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `Dagklassement`
+--
+
+DROP TABLE IF EXISTS `Dagklassement`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Dagklassement` (
+  `dagklassementId` int NOT NULL AUTO_INCREMENT,
+  `speeldagId` int DEFAULT NULL,
+  `spelerId` int DEFAULT NULL,
+  `hoofdpunten` int NOT NULL,
+  `plus_min_punten` int NOT NULL,
+  PRIMARY KEY (`dagklassementId`),
+  KEY `speeldagId` (`speeldagId`),
+  KEY `spelerId` (`spelerId`),
+  CONSTRAINT `Dagklassement_ibfk_1` FOREIGN KEY (`speeldagId`) REFERENCES `Speeldag` (`speeldagId`),
+  CONSTRAINT `Dagklassement_ibfk_2` FOREIGN KEY (`spelerId`) REFERENCES `Speler` (`spelerId`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `Seizoen`
+--
+
+DROP TABLE IF EXISTS `Seizoen`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Seizoen` (
+  `seizoensId` int NOT NULL AUTO_INCREMENT,
+  `startdatum` date NOT NULL,
+  `einddatum` date NOT NULL,
+  PRIMARY KEY (`seizoensId`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `Speeldag`
+--
+
+DROP TABLE IF EXISTS `Speeldag`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Speeldag` (
+  `speeldagId` int NOT NULL AUTO_INCREMENT,
+  `datum` date NOT NULL,
+  `seizoensId` int DEFAULT NULL,
+  PRIMARY KEY (`speeldagId`),
+  KEY `seizoensId` (`seizoensId`),
+  CONSTRAINT `Speeldag_ibfk_1` FOREIGN KEY (`seizoensId`) REFERENCES `Seizoen` (`seizoensId`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `Spel`
+--
+
+DROP TABLE IF EXISTS `Spel`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Spel` (
+  `spelId` int NOT NULL AUTO_INCREMENT,
+  `speeldagId` int DEFAULT NULL,
+  `terrein` varchar(100) NOT NULL,
+  `spelerVolgnr` int NOT NULL,
+  `scoreA` int NOT NULL,
+  `scoreB` int NOT NULL,
+  PRIMARY KEY (`spelId`),
+  KEY `speeldagId` (`speeldagId`),
+  CONSTRAINT `Spel_ibfk_1` FOREIGN KEY (`speeldagId`) REFERENCES `Speeldag` (`speeldagId`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `Speler`
+--
+
+DROP TABLE IF EXISTS `Speler`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Speler` (
+  `spelerId` int NOT NULL AUTO_INCREMENT,
+  `voornaam` varchar(100) NOT NULL,
+  `naam` varchar(100) NOT NULL,
+  PRIMARY KEY (`spelerId`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `Spelverdeling`
+--
+
+DROP TABLE IF EXISTS `Spelverdeling`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Spelverdeling` (
+  `spelverdelingsId` int NOT NULL AUTO_INCREMENT,
+  `spelId` int DEFAULT NULL,
+  `team` varchar(50) NOT NULL,
+  `spelerPositie` varchar(50) NOT NULL,
+  `spelerVolgnr` int NOT NULL,
+  `SpelerId` int DEFAULT NULL,
+  PRIMARY KEY (`spelverdelingsId`),
+  KEY `FK_Spelverdeling_Speler` (`SpelerId`),
+  KEY `FK_Spelverdeling_Spel` (`spelId`),
+  CONSTRAINT `FK_Spelverdeling_Spel` FOREIGN KEY (`spelId`) REFERENCES `Spel` (`spelId`),
+  CONSTRAINT `FK_Spelverdeling_Speler` FOREIGN KEY (`SpelerId`) REFERENCES `Speler` (`spelerId`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Temporary view structure for view `vSeizoensklassement`
+--
+
+DROP TABLE IF EXISTS `vSeizoensklassement`;
+/*!50001 DROP VIEW IF EXISTS `vSeizoensklassement`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `vSeizoensklassement` AS SELECT
+ 1 AS `seizoensId`,
+ 1 AS `spelerId`,
+ 1 AS `spelerNaam`,
+ 1 AS `spelerVoornaam`,
+ 1 AS `hoofdpunten`,
+ 1 AS `plus_min_punten`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Final view structure for view `vSeizoensklassement`
+--
+
+/*!50001 DROP VIEW IF EXISTS `vSeizoensklassement`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `vSeizoensklassement` AS select `s`.`seizoensId` AS `seizoensId`,`d`.`spelerId` AS `spelerId`,`s2`.`naam` AS `spelerNaam`,`s2`.`voornaam` AS `spelerVoornaam`,sum(`d`.`hoofdpunten`) AS `hoofdpunten`,sum(`d`.`plus_min_punten`) AS `plus_min_punten` from ((`Dagklassement` `d` join `Speeldag` `s` on((`d`.`speeldagId` = `s`.`speeldagId`))) join `Speler` `s2` on((`d`.`spelerId` = `s2`.`spelerId`))) group by `s`.`seizoensId`,`d`.`spelerId` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2025-07-01 11:58:27
