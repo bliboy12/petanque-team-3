@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   sigridci:
@@ -17,6 +20,5 @@ jobs:
         with:
           customer: hogent
           system: petanque-team-3
-          publishonly: true
         env:
-          SIGRID_CI_TOKEN: "${{ secrets.SIGRID_CI_TOKEN }}"
+          SIGRID_CI_TOKEN: ${{ secrets.SIGRID_API_KEY }}
