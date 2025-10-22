@@ -16,7 +16,7 @@ jobs:
         uses: Software-Improvement-Group/sigridci@main
         with:
           customer: hogent
-          system: ${{ github.event.repository.name }}
+          system: petanque-team-3
           publishonly: true
         env:
           SIGRID_CI_TOKEN: "${{ secrets.SIGRID_CI_TOKEN }}"
