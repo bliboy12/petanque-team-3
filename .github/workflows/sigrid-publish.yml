@@ -15,10 +15,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          
       - name: Sigrid CI
         uses: Software-Improvement-Group/sigridci@main
         with:
           customer: hogent
           system: petanque-team-3
         env:
-          SIGRID_CI_TOKEN: ${{ secrets.SIGRID_API_KEY }}
+          SIGRID_API_TOKEN: ${{ secrets.SIGRID_API_KEY }}
