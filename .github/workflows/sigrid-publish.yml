@@ -21,4 +21,4 @@ jobs:
           source: .
           publishonly: true
         env:
-          SIGRID_API_TOKEN: ${{ secrets.SIGRID_API_KEY }}
+          SIGRID_API_TOKEN: ${{ secrets.SIGRID_CI_TOKEN }}
