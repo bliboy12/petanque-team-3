@@ -3,9 +3,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
   sigridci:
@@ -17,9 +14,11 @@ jobs:
           fetch-depth: 0
           
       - name: Sigrid CI
-        uses: Software-Improvement-Group/sigridci@main
+        uses: Software-Improvement-Group/sigridci@v2
         with:
           customer: hogent
           system: petanque-team-3
+          source: .
+          publishonly: true
         env:
-          SIGRID_API_TOKEN: ${{ secrets.SIGRID_API_KEY }}
+          SIGRID_API_TOKEN: ${{ secrets.SIGRID_CI_TOKEN }}

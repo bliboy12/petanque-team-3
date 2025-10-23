@@ -1,5 +1,6 @@
 name: sigrid-pullrequest
-on: [pull_request]
+on:
+  pull_request:
 
 jobs:
   sigridci:
@@ -7,27 +8,35 @@ jobs:
     permissions:
       pull-requests: write
       contents: read
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Download Sigrid CI
-        run: "git clone https://github.com/Software-Improvement-Group/sigridci.git sigridci"
-      - name: "Run Sigrid CI" 
+
+      # Replaces the clone + python script
+      - name: Run Sigrid CI
+        uses: Software-Improvement-Group/sigridci@v2
+        with:
+          customer: hogent
+          system: petanque-team-3
+          source: .
+          # publishonly is false by default for PRs (we want feedback, not publish)
         env:
-          SIGRID_CI_TOKEN: "${{ secrets.SIGRID_CI_TOKEN }}"
-        run: "./sigridci/sigridci/sigridci.py --customer hogent --system ${{ github.event.repository.name }} --source ."
-      - name: "Save Sigrid CI results"
+          SIGRID_CI_TOKEN: ${{ secrets.SIGRID_CI_TOKEN }}  # or SIGRID_API_KEY if that's your secret name
+
+      - name: Save Sigrid CI results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          path: "sigrid-ci-output/**"
+          path: sigrid-ci-output/**/*
           retention-days: 7
           if-no-files-found: ignore
-      - name: "Sigrid pull request feedback"
-        uses: mshick/add-pr-comment@v2
+
+      - name: Sigrid pull request feedback
         if: always()
+        uses: mshick/add-pr-comment@v2
         with:
           message-id: sigrid
           message-path: sigrid-ci-output/feedback.md
