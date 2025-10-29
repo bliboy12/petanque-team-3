@@ -1,5 +1,6 @@
 namespace Petanque.Models;
 
+// Dutch: Speeldag (entity)
 public class MatchDayModel
 {
     // Dutch: SpeeldagId
@@ -8,6 +9,9 @@ public class MatchDayModel
     // Dutch: Datum
     public DateTime Date { get; set; }
 
+    // Dutch: SeizoenId
+    public int? SeasonId { get; set; }
+    
     // Dutch: Seizoen (reference to Seizoen)
     public SeasonModel? Season { get; set; }
 

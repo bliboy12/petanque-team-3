@@ -1,12 +1,13 @@
 namespace Petanque.Models;
 
-public class PlayerScoresModel
+// Dutch : Spelerscore (entity)
+public class PlayerScoreModel
 {
     // Dutch: SpelerScoresId
     public int? Id { get; set; }
 
     // Dutch: SpelerVolgNr
-    public int PlayerOrderNumber  { get; set; }
+    public int PlayerOrderNumber { get; set; }
 
     // Dutch: ScoreA
     public int ScoreA { get; set; }
