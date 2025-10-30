@@ -1,4 +1,5 @@
-﻿using Petanque.Storage.Entity;
+﻿using Microsoft.EntityFrameworkCore;
+using Petanque.Storage.Entity;
 using Petanque.Storage.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -22,5 +23,26 @@ namespace Petanque.Storage {
 
             dbContext.SaveChanges();
         }
+
+        public void RemoveSpellen(List<Spel> spellen) {
+            dbContext.Spels.RemoveRange(spellen);
+            dbContext.SaveChanges();
+        }
+
+        public Spel Create(Spel spel) {
+            dbContext.Spels.Add(spel);
+            dbContext.SaveChanges();
+
+            return spel;
+        }
+
+        public List<Spel> GetBySpeeldagAndTerrein(int speeldag, int terrein) {
+            var spellen = dbContext.Spels
+                .Where(sp => sp.SpeeldagId == speeldag && sp.Terrein == $"Terrein {terrein}")
+                .ToList();
+
+            return spellen;
+        }
+
     }
 }

@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Petanque.Storage.Interfaces {
     public interface ISpelverdelingRepository {
-        public IEnumerable<Spelverdeling> GetById(int speeldagId);
-        public IEnumerable<Spelverdeling> MaakVerdeling(IEnumerable<Spelverdeling> aanwezigheden, int speeldagId);
-        public IEnumerable<Spelverdeling> GetBySpeeldagAndTerrein(int speeldag, int terrein);
+        public IEnumerable<Spelverdeling> GetBySpelId(List<int> spelIds);
+        void RemoveSpelverdelingen(List<Spelverdeling> spellen);
+        Spelverdeling Create(Spelverdeling spelverdeling);
     }
 }

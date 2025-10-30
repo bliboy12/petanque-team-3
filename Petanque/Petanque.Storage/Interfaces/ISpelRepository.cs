@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace Petanque.Storage.Interfaces {
     public interface ISpelRepository {
-       public Spel? GetById(int id);
-        public void UpdateScore(int spelId, int scoreA, int scoreB);
+        Spel? GetById(int id);
+        void UpdateScore(int spelId, int scoreA, int scoreB);
+        void RemoveSpellen(List<Spel> spellen);
+        Spel Create(Spel request);
+        List<Spel> GetBySpeeldagAndTerrein(int speeldag, int terrein);
     }
 }

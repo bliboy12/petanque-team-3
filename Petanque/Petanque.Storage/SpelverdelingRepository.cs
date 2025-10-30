@@ -1,4 +1,5 @@
-﻿using Petanque.Storage.Entity;
+﻿using Microsoft.EntityFrameworkCore;
+using Petanque.Storage.Entity;
 using Petanque.Storage.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -8,16 +9,22 @@ using System.Threading.Tasks;
 
 namespace Petanque.Storage {
     public class SpelverdelingRepository(Id312896PetanqueContext dbContext) : ISpelverdelingRepository {
-        public IEnumerable<Spelverdeling> GetById(int speeldagId) {
-            throw new NotImplementedException();
+        public IEnumerable<Spelverdeling> GetBySpelId(List<int> spelIds) {
+            return dbContext.Spelverdelings
+                .Where(sv => spelIds.Contains(sv.SpelId ?? 0))
+                .ToList();
         }
 
-        public IEnumerable<Spelverdeling> GetBySpeeldagAndTerrein(int speeldag, int terrein) {
-            throw new NotImplementedException();
+        public void RemoveSpelverdelingen(List<Spelverdeling> spelverdelingen) {
+            dbContext.Spelverdelings.RemoveRange(spelverdelingen);
+            dbContext.SaveChanges();
         }
 
-        public IEnumerable<Spelverdeling> MaakVerdeling(IEnumerable<Spelverdeling> aanwezigheden, int speeldagId) {
-            throw new NotImplementedException();
+        public Spelverdeling Create(Spelverdeling spelverdeling) {
+            dbContext.Spelverdelings.Add(spelverdeling);
+            dbContext.SaveChanges();
+
+            return spelverdeling;
         }
     }
 }

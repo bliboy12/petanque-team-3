@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Petanque.Storage.Interfaces {
     public interface ISpeeldagRepository {
         public Speeldag Create(Speeldag request);
-        public Speeldag GetById(int id);
+        public Speeldag? GetById(int id);
         public IEnumerable<Speeldag> GetAll();
     }
 }

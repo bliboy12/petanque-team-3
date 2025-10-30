@@ -8,12 +8,17 @@ using System.Threading.Tasks;
 
 namespace Petanque.Storage {
     public class SeizoenRepository(Id312896PetanqueContext dbContext) : ISeizoenRepository {
-        public Seizoen Create(Seizoen request) {
-            throw new NotImplementedException();
+        public Seizoen Create(Seizoen seizoen) {
+            dbContext.Seizoens.Add(seizoen);
+            dbContext.SaveChanges();
+
+            return seizoen;
         }
 
         public IEnumerable<Seizoen> GetAll() {
-            throw new NotImplementedException();
+            return dbContext.Seizoens
+            .OrderByDescending(s => s.Startdatum) // Meest recente seizoenen eerst
+            .ToList();
         }
     }
 }
