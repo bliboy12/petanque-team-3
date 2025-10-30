@@ -1,11 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Petanque.Contracts.Requests;
+﻿using Petanque.Contracts.Requests;
 using Petanque.Contracts.Responses;
 using Petanque.Services.Interfaces;
 using Petanque.Storage;
 using Petanque.Storage.Entity;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Petanque.Services.Services
 {

@@ -1,13 +1,6 @@
-using Microsoft.EntityFrameworkCore;
-using Petanque.Contracts.Responses;
-using Petanque.Services.Interfaces;
-using Petanque.Storage;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Extensions.Logging;
-using System.Security.Cryptography.X509Certificates;
-using System.Linq.Expressions;
-using Petanque.Storage.Interfaces;
+using Petanque.Contracts.Responses;
+using Petanque.Storage;
 using Petanque.Storage.Entity;
 
 namespace Petanque.Services.Services

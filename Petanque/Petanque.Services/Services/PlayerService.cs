@@ -3,7 +3,6 @@ using Petanque.Contracts.Responses;
 using Petanque.Services.Interfaces;
 using Petanque.Storage;
 using Petanque.Storage.Entity;
-using Petanque.Storage.Interfaces;
 
 namespace Petanque.Services.Services;
 

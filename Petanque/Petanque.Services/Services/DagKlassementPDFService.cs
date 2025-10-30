@@ -1,11 +1,6 @@
-using Microsoft.EntityFrameworkCore;
 using Petanque.Services.Interfaces;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using QuestPDF.Fluent;
-using QuestPDF.Infrastructure;
 using Petanque.Storage;
+using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 
 namespace Petanque.Services

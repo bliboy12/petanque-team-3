@@ -1,8 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Petanque.Services.Interfaces;
-using QuestPDF.Helpers;
+﻿using Petanque.Services.Interfaces;
 using Petanque.Storage;
 using QuestPDF.Fluent;
+using QuestPDF.Helpers;
 
 namespace Petanque.Services.Services;
 

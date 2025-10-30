@@ -1,13 +1,8 @@
-using System;
 using Petanque.Contracts.Responses;
 using Petanque.Services.Interfaces;
 using Petanque.Storage;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
-using QuestPDF.Infrastructure;
-using QuestPDF.Drawing;
-using QuestPDF.Elements;
-using Microsoft.EntityFrameworkCore;
 
 namespace Petanque.Services.Services
 {
