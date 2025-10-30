@@ -16,7 +16,7 @@ jobs:
           fetch-depth: 0
 
       - name: Run Sigrid CI
-        uses: Software-Improvement-Group/sigridci@v2
+        uses: Software-Improvement-Group/sigridci@v1.7
         with:
           customer: hogent
           system: petanque-team-3
