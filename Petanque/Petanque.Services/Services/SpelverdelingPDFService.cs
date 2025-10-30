@@ -11,15 +11,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Petanque.Services.Services
 {
-    public class SpelverdelingPDFService : ISpelverdelingPDFService
+    public class SpelverdelingPDFService(SpeeldagRepository speeldagRepository) : ISpelverdelingPDFService
     {
-        private readonly Id312896PetanqueContext _context;
-
-        public SpelverdelingPDFService(Id312896PetanqueContext context)
-        {
-            _context = context;
-        }
-
         public Stream GenerateSpelverdelingPDF(IEnumerable<SpelverdelingResponseContract> spelverdelingen)
         {
             var stream = new MemoryStream();
@@ -42,7 +35,7 @@ namespace Petanque.Services.Services
                 .ToList();
 
             int speeldagIdd = spelverdelingen.First().Spel.SpeeldagId ?? throw new InvalidOperationException("SpeeldagId cannot be null.");
-            var speeldag = _context.Speeldags.FirstOrDefault(s => s.SpeeldagId == speeldagIdd);
+            var speeldag = speeldagRepository.GetById(speeldagIdd);
             string datumFormatted = speeldag.Datum.ToString("dddd d MMMM yyyy", new System.Globalization.CultureInfo("nl-NL"));
 
             Document.Create(container =>

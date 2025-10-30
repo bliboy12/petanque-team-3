@@ -38,5 +38,10 @@ namespace Petanque.Storage {
             return spellen;
         }
 
+        public IEnumerable<Spel> GetBySpeeldagId(int speeldagId) {
+            return dbContext.Spels
+                .Where(sp => sp.SpeeldagId == speeldagId)
+                .ToList();
+        }
     }
 }

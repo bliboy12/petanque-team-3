@@ -15,5 +15,9 @@ namespace Petanque.Storage {
             .OrderByDescending(s => s.Startdatum) // Meest recente seizoenen eerst
             .ToList();
         }
+
+        public Seizoen? GetOverlappendeSeizoenen(DateOnly startdatum, DateOnly einddatum) {
+            return dbContext.Seizoens.FirstOrDefault(s => startdatum <= s.Einddatum && einddatum >= s.Startdatum);
+        }
     }
 }

@@ -3,6 +3,7 @@ using Petanque.Contracts.Requests;
 using Petanque.Contracts.Responses;
 using Petanque.Services.Interfaces;
 using Petanque.Storage;
+using Petanque.Storage.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Petanque.Services.Services
 {
-    public class DagKlassementService(Id312896PetanqueContext context) : IDagKlassementService
+    public class DagKlassementService(DagKlassementRepository dagKlassementRepository) : IDagKlassementService
     {
         public DagKlassementResponseContract Create(DagKlassementRequestContract request)
         {
@@ -132,6 +133,7 @@ namespace Petanque.Services.Services
                 PlusMinPunten = k.PlusMinPunten
             }).ToList();
 
+            // TODO is dit correct?? waarom hier add range en in try catch nog eens add range?
             context.AddRange(entities);
             context.SaveChanges();
 

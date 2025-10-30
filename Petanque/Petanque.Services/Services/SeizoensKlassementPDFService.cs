@@ -6,20 +6,12 @@ using QuestPDF.Fluent;
 
 namespace Petanque.Services.Services;
 
-public class SeizoensKlassementPDFService : ISeizoensKlassementPDFService
+public class SeizoensKlassementPDFService(SeizoenKlassementRepository seizoenKlassementRepository) : ISeizoensKlassementPDFService
 {
-    private readonly Id312896PetanqueContext _context;
-
-    public SeizoensKlassementPDFService(Id312896PetanqueContext context)
-    {
-        _context = context;
-    }
     public async Task<Stream> GenerateSeizoensKlassementPdfAsync(int id)
     {
-         var klassementen = await _context.Seizoensklassements
-                .Where(sk => sk.SeizoensId == id)
-                .OrderByDescending(sk => sk.Hoofdpunten).ThenByDescending(sk => sk.PlusMinPunten)
-                .ToListAsync();
+        var klassementen = seizoenKlassementRepository.GetById(id).OrderByDescending(sk => sk.Hoofdpunten).ThenByDescending(sk => sk.PlusMinPunten)
+                .ToList();
 
             if (klassementen == null || !klassementen.Any())
             {

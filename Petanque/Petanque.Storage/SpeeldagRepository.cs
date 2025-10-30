@@ -23,5 +23,16 @@ namespace Petanque.Storage {
                 .Include(s => s.Spels)
                 .FirstOrDefault(s => s.SpeeldagId == id);
         }
+
+        public Speeldag? GetBySpeeldag(int id) {
+            return dbContext.Speeldags
+                .Include(s => s.Seizoens)
+                .Include(s => s.Spels)
+                .FirstOrDefault(s => s.SpeeldagId == id);
+        }
+
+        public Speeldag? GetSpeeldagByRequestedDate(DateTime requestedDate) {
+            return dbContext.Speeldags.FirstOrDefault(sd => EF.Functions.DateDiffDay(sd.Datum, requestedDate) == 0);
+        }
     }
 }

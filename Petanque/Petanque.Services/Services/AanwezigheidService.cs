@@ -8,10 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Petanque.Storage.Entity;
 
 namespace Petanque.Services.Services
 {
-    public class AanwezigheidService(Id312896PetanqueContext context) : IAanwezigheidService
+    public class AanwezigheidService(AanwezigheidRepository aanwezigheidRepository) : IAanwezigheidService
     {
         public AanwezigheidResponseContract Create(AanwezigheidRequestContract request)
         {
@@ -22,19 +23,19 @@ namespace Petanque.Services.Services
                 SpelerVolgnr = request.SpelerVolgnr
             };
 
-            context.Aanwezigheids.Add(entity);
-            context.SaveChanges();
+            aanwezigheidRepository.Create(entity);
 
             return MapToContract(entity);
         }
         public AanwezigheidResponseContract? GetById(int id)
         {
-            var entity = context.Aanwezigheids.Find(id);
+            var entity = aanwezigheidRepository.GetById(id);
             return entity is null ? null : MapToContract(entity);
         }
         public IEnumerable<AanwezigheidResponseContract> GetAll()
         {
-            return context.Aanwezigheids.Select(a => MapToContract(a)).ToList();
+            var entities = aanwezigheidRepository.GetAll();
+            return entities.Select(a => MapToContract(a)).ToList();
         }
         private static AanwezigheidResponseContract MapToContract(Aanwezigheid entity)
         {
@@ -50,27 +51,21 @@ namespace Petanque.Services.Services
 
         public IEnumerable<AanwezigheidResponseContract> GetAanwezighedenOpSpeeldag(int id)
         {
-            return context.Aanwezigheids.Select(a => MapToContract(a)).ToList().Where(s => s.SpeeldagId == id);
+            var entities = aanwezigheidRepository.GetAanwezighedenOpSpeeldag(id);
+            return entities.Select(a => MapToContract(a)).ToList();
+            // verbetering  - ToList() op het einde zetten
+            //return context.Aanwezigheids.Select(a => MapToContract(a)).Where(s => s.SpeeldagId == id).ToList();
+
         }
 
         public void Delete(int id)
         {
-            var entity = context.Aanwezigheids.Find(id);
-            if (entity == null)
-            {
-                throw new ArgumentException($"Aanwezigheid met ID {id} werd niet gevonden.");
-            }
-
-            context.Aanwezigheids.Remove(entity);
-            context.SaveChanges();
+            aanwezigheidRepository.DeleteAanwezigheid(id);
         }
 
         public IEnumerable<AanwezigheidResponseContract> GetAanwezighedenOpSpeler(int spelerId)
         {
-            return context.Aanwezigheids
-                .Include(a => a.Speeldag)
-                .Where(a => a.SpelerId == spelerId)
-                .Select(a => MapToContract(a))
+            return aanwezigheidRepository.GetAanwezighedenOpSpeler(spelerId).Select(a => MapToContract(a))
                 .ToList();
         }
 

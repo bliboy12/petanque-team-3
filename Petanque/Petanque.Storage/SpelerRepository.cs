@@ -1,4 +1,5 @@
-﻿using Petanque.Storage.Entity;
+﻿using Microsoft.EntityFrameworkCore;
+using Petanque.Storage.Entity;
 using Petanque.Storage.Interfaces;
 
 namespace Petanque.Storage {
@@ -25,6 +26,12 @@ namespace Petanque.Storage {
         public Speler? GetById(int id) {
             var entity = dbContext.Spelers.Find(id);
             return entity != null ? entity : null;
+        }
+
+        public IEnumerable<Speler> GetBySpelerIds(List<int?> spelerIdsInDagklassement) {
+            return dbContext.Spelers
+                .Where(sp => spelerIdsInDagklassement.Contains(sp.SpelerId))
+                .ToList();
         }
 
         public void Update(int id, string voornaam, string naam) {

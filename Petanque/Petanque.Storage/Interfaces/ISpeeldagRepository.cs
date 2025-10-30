@@ -5,5 +5,7 @@ namespace Petanque.Storage.Interfaces {
         public Speeldag Create(Speeldag request);
         public Speeldag? GetById(int id);
         public IEnumerable<Speeldag> GetAll();
+        Speeldag? GetSpeeldagByRequestedDate(DateTime requestedDate);
+        Speeldag? GetBySpeeldag(int id);
     }
 }

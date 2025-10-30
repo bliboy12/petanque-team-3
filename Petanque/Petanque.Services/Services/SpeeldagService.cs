@@ -3,26 +3,19 @@ using Petanque.Contracts.Requests;
 using Petanque.Contracts.Responses;
 using Petanque.Services.Interfaces;
 using Petanque.Storage;
+using Petanque.Storage.Entity;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Petanque.Services.Services
 {
-    public class SpeeldagService : ISpeeldagService
+    public class SpeeldagService(SpeeldagRepository speeldagRepository, SpelverdelingRepository spelverdelingRepository) : ISpeeldagService
     {
-        private readonly Id312896PetanqueContext context;
-
-        public SpeeldagService(Id312896PetanqueContext context)
-        {
-            this.context = context;
-        }
-
         public SpeeldagResponseContract Create(SpeeldagRequestContract request)
         {
             var requestedDate = request.Datum.Date;
 
-            var speeldagCheck = context.Speeldags
-                .FirstOrDefault(sd => EF.Functions.DateDiffDay(sd.Datum, requestedDate) == 0);
+            var speeldagCheck = speeldagRepository.GetSpeeldagByRequestedDate(requestedDate);
 
             if (speeldagCheck != null)
                 return MapToContract(speeldagCheck);
@@ -33,8 +26,8 @@ namespace Petanque.Services.Services
                 SeizoensId = request.SeizoensId
             };
 
-            context.Speeldags.Add(speeldag);
-            context.SaveChanges();
+            speeldagRepository.Create(speeldag);
+         
 
             return MapToContract(speeldag);
         }
@@ -42,10 +35,7 @@ namespace Petanque.Services.Services
 
         public SpeeldagResponseContract GetById(int id)
         {
-            var entity = context.Speeldags
-                .Include(s => s.Seizoens)
-                .Include(s => s.Spels)
-                .FirstOrDefault(s => s.SpeeldagId == id);
+            var entity = speeldagRepository.GetBySpeeldag(id);
 
             if (entity == null)
                 return null;
@@ -53,30 +43,22 @@ namespace Petanque.Services.Services
             var spelIds = entity.Spels.Select(s => s.SpelId).ToList();
 
             // Belangrijk: Include Speler zodat spelerinformatie beschikbaar is
-            var spelverdelingen = context.Spelverdelings
-                .Where(sv => spelIds.Contains((int)sv.SpelId))
-                .Include(sv => sv.Speler)
-                .ToList();
+            var spelverdelingen = spelverdelingRepository.GetBySpelIds(spelIds);
 
-            return MapToContract(entity, spelverdelingen);
+            return MapToContract(entity, spelverdelingen.ToList());
         }
 
         public IEnumerable<SpeeldagResponseContract> GetAll()
         {
-            var speeldagen = context.Speeldags
-                                    .Include(s => s.Seizoens)
-                                    .Include(s => s.Spels)
-                                    .ToList();
+            var speeldagen = speeldagRepository.GetAll();
 
             var spelIds = speeldagen.SelectMany(s => s.Spels).Select(sp => sp.SpelId).Distinct().ToList();
 
-            var spelverdelingen = context.Spelverdelings
-                                         .Include(sv => sv.Speler)
-                                         .Where(sv => spelIds.Contains((int)sv.SpelId))
-                                         .ToList();
+            var spelverdelingen = spelverdelingRepository.GetBySpelIds(spelIds);
+
 
             return speeldagen
-                .Select(a => MapToContract(a, spelverdelingen))
+                .Select(a => MapToContract(a, spelverdelingen.ToList()))
                 .ToList();
         }
 

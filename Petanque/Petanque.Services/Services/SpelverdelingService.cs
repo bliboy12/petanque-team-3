@@ -7,40 +7,39 @@ using System.Linq;
 using Microsoft.Extensions.Logging;
 using System.Security.Cryptography.X509Certificates;
 using System.Linq.Expressions;
+using Petanque.Storage.Interfaces;
+using Petanque.Storage.Entity;
 
 namespace Petanque.Services.Services
 {
     public class SpelverdelingService : ISpelverdelingService
     {
         private readonly Random _random = new();
-        private readonly Id312896PetanqueContext _context;
+        private readonly SpelverdelingRepository _spelverdelingRepository;
+        private readonly SpelRepository _spelRepository;
+        private readonly AanwezigheidRepository _aanwezigheidRepository;
         private readonly ILogger _logger;
 
-        public SpelverdelingService(Id312896PetanqueContext context, ILogger<SpelverdelingService> logger)
+        public SpelverdelingService(SpelverdelingRepository spelverdelingRepository, SpelRepository spelRepository, AanwezigheidRepository aanwezigheidRepository, ILogger<SpelverdelingService> logger)
         {
-            _context = context;
+            _spelverdelingRepository = spelverdelingRepository;
+            _spelRepository = spelRepository;
+            _aanwezigheidRepository = aanwezigheidRepository;
             _logger = logger;
         }
 
         public IEnumerable<SpelverdelingResponseContract> GetById(int speeldagId)
         {
-            var spellen = _context.Spels
-                .Where(sp => sp.SpeeldagId == speeldagId)
-                .ToList();
+            var spellen = _spelRepository.GetBySpeeldagId(speeldagId);
 
             if (!spellen.Any())
                 return Enumerable.Empty<SpelverdelingResponseContract>();
 
             var spelIds = spellen.Select(s => s.SpelId).ToList();
 
-            var spelverdelingen = _context.Spelverdelings
-                .Where(sv => spelIds.Contains(sv.SpelId ?? 0))
-                .ToList();
+            var spelverdelingen = _spelverdelingRepository.GetBySpelIds(spelIds);
 
-            var aanwezigheden = _context.Aanwezigheids
-                .Include(a => a.Speler)
-                .Where(a => a.SpeeldagId == speeldagId)
-                .ToList();
+            var aanwezigheden = _aanwezigheidRepository.GetAanwezighedenOpSpeeldag(speeldagId);
 
             return spelverdelingen.Select(sv =>
             {
@@ -225,13 +224,12 @@ namespace Petanque.Services.Services
             }
             // STAP 3: DELETE old Spel + Spelverdeling from DB
             {
-                var oudeSpelIds = _context.Spels.Where(sp => sp.SpeeldagId == speeldagId).Select(sp => sp.SpelId).ToList();
-                var oudeSpelverdelingen = _context.Spelverdelings.Where(sv => oudeSpelIds.Contains(sv.SpelId ?? 0));
-                _context.Spelverdelings.RemoveRange(oudeSpelverdelingen);
+                var oudeSpelIds = _spelRepository.GetBySpeeldagId(speeldagId).Select(sp => sp.SpelId).ToList();
+                var oudeSpelverdelingen = _spelverdelingRepository.GetBySpelIds(oudeSpelIds);
+                _spelverdelingRepository.RemoveSpelverdelingen(oudeSpelverdelingen.ToList());
 
-                var oudeSpellen = _context.Spels.Where(sp => sp.SpeeldagId == speeldagId);
-                _context.Spels.RemoveRange(oudeSpellen);
-                _context.SaveChanges(); // Commit delete
+                var oudeSpellen = _spelRepository.GetBySpeeldagId(speeldagId);
+                _spelRepository.RemoveSpellen(oudeSpellen.ToList());
             }
             // STAP 4: INSERT content of (Dictionary) spelverdelingsInfo to DB
             {
@@ -248,14 +246,14 @@ namespace Petanque.Services.Services
                             ScoreB = 0,
                             SpelerVolgnr = spelverdelingsInfo[$"{spelronde},{terrein},A,1"]
                         };
-                        _context.Spels.Add(spel);
-                        _context.SaveChanges();
+
+                        _spelRepository.Create(spel);
 
                         foreach (char team in new List<char> { 'A', 'B' })
                         {
                             for (int nrInTeam = 1; nrInTeam <= aantalSpelersPerTerreinPerTeam[$"{terrein},{team}"]; nrInTeam++)
                             {
-                                _context.Spelverdelings.Add(new Spelverdeling
+                                _spelverdelingRepository.Create(new Spelverdeling
                                 {
                                     SpelId = spel.SpelId,
                                     Team = $"Team {team}",
@@ -265,11 +263,8 @@ namespace Petanque.Services.Services
                                 });
                             }
                         }
-                        _context.SaveChanges();
-                        responses.AddRange(_context.Spelverdelings
-                            .Where(v => v.SpelId == spel.SpelId)
-                            .Select(MapToContract)
-                            .ToList());
+                        var spelverdelingenToAdd = _spelverdelingRepository.GetBySpelId(spel.SpelId).Select(MapToContract).ToList();
+                        responses.AddRange(spelverdelingenToAdd);
                     }
                 }
                 return responses;
@@ -316,23 +311,17 @@ namespace Petanque.Services.Services
         }
         public IEnumerable<SpelverdelingResponseContract> GetBySpeeldagAndTerrein(int speeldag, int terrein)
         {
-            var spellen = _context.Spels
-                .Where(sp => sp.SpeeldagId == speeldag && sp.Terrein == $"Terrein {terrein}")
-                .ToList();
+            var spellen = _spelRepository.GetBySpeeldagAndTerrein(speeldag, terrein);
 
             if (!spellen.Any())
                 return Enumerable.Empty<SpelverdelingResponseContract>();
 
             var spelIds = spellen.Select(s => s.SpelId).ToList();
 
-            var spelverdelingen = _context.Spelverdelings
-                .Where(sv => spelIds.Contains(sv.SpelId ?? 0))
-                .ToList();
+            var spelverdelingen = _spelverdelingRepository.GetBySpelIds(spelIds);
 
-            var aanwezigheden = _context.Aanwezigheids
-                .Include(a => a.Speler)
-                .Where(a => a.SpeeldagId == speeldag)
-                .ToList();
+
+            var aanwezigheden = _aanwezigheidRepository.GetAanwezighedenOpSpeeldag(speeldag);
 
             return spelverdelingen.Select(sv =>
             {

@@ -7,5 +7,6 @@ namespace Petanque.Storage.Interfaces {
         void RemoveSpellen(List<Spel> spellen);
         Spel Create(Spel request);
         List<Spel> GetBySpeeldagAndTerrein(int speeldag, int terrein);
+        IEnumerable<Spel> GetBySpeeldagId(int speeldagId);
     }
 }
