@@ -1,43 +1,23 @@
-using Microsoft.EntityFrameworkCore;
 using Petanque.Services.Interfaces;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using QuestPDF.Fluent;
-using QuestPDF.Infrastructure;
 using Petanque.Storage;
+using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 
 namespace Petanque.Services
 {
-    public class DagKlassementPDFService : IDagKlassementPDFService
+    public class DagKlassementPDFService(DagKlassementRepository dagKlassementRepository, SpelerRepository spelerRepository, SpeeldagRepository speeldagRepository) : IDagKlassementPDFService
     {
-        private readonly Id312896PetanqueContext _context;
-
-        // Constructor voor Dependency Injection van DbContext
-        public DagKlassementPDFService(Id312896PetanqueContext context)
-        {
-            _context = context;
-        }
-
         public async Task<Stream> GenerateDagKlassementPdfAsync(int id)
         {
-            var speeldag = await _context.Speeldags.FirstOrDefaultAsync(s => s.SpeeldagId == id);
+            var speeldag = speeldagRepository.GetById(id);
             if (speeldag == null)
                 return null;
 
-            var spelerIdsInDagklassement = await _context.Dagklassements
-                .Where(d => d.SpeeldagId == id)
-                .Select(d => d.SpelerId)
-                .ToListAsync();
+            var spelerIdsInDagklassement = dagKlassementRepository.GetById(id).Select(d => d.SpelerId).ToList();
 
-            var spelers = await _context.Spelers
-                .Where(sp => spelerIdsInDagklassement.Contains(sp.SpelerId))
-                .ToListAsync();
+            var spelers = spelerRepository.GetBySpelerIds(spelerIdsInDagklassement);
 
-            var dagklassements = await _context.Dagklassements
-                .Where(d => d.SpeeldagId == id)
-                .ToListAsync();
+            var dagklassements = dagKlassementRepository.GetById(id);
 
             if (dagklassements == null || !dagklassements.Any())
                 return null;
