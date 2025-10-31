@@ -2,10 +2,11 @@ using Petanque.Contracts.Requests;
 using Petanque.Contracts.Responses;
 using Petanque.Services.Interfaces;
 using Petanque.Storage;
+using Petanque.Storage.Entity;
 
 namespace Petanque.Services.Services;
 
-public class PlayerService(Id312896PetanqueContext context) : IPlayerService
+public class PlayerService(SpelerRepository spelerRepository) : IPlayerService
 {
     public PlayerResponseContract Create(PlayerRequestContract request)
     {
@@ -14,44 +15,31 @@ public class PlayerService(Id312896PetanqueContext context) : IPlayerService
             Voornaam = request.Voornaam,
             Naam = request.Naam
         };
-
-        context.Spelers.Add(entity);
-        context.SaveChanges();
+        spelerRepository.Create(entity);  
 
         return MapToContract(entity);
     }
 
     public PlayerResponseContract? GetById(int id)
     {
-        var entity = context.Spelers.Find(id);
+        var entity = spelerRepository.GetById(id);
+
+        //var entity = context.Spelers.Find(id);
         return entity is null ? null : MapToContract(entity);
     }
     public IEnumerable<PlayerResponseContract> GetAll()
     {
-        return context.Spelers.OrderBy(a => a.Naam).ThenBy(a => a.Voornaam).Select(a => MapToContract(a)).ToList();
+        return spelerRepository.GetAll().OrderBy(a => a.Naam).ThenBy(a => a.Voornaam).Select(a => MapToContract(a)).ToList();
     }
 
     public void Update(int id, string voornaam, string naam)
     {
-        var entity = context.Spelers.Find(id);
-        if (entity is null)
-        {
-            throw new ArgumentException($"Lid met ID {id} werd niet gevonden");
-        }
-        entity.Voornaam = voornaam;
-        entity.Naam = naam;
-        context.SaveChanges();
+        spelerRepository.Update(id, voornaam, naam);
     }
 
     public void Delete(int id)
     {
-        var entity = context.Spelers.Find(id);
-        if (entity is null)
-        {
-            throw new ArgumentException($"Lid met ID {id} werd niet gevonden");
-        }
-        context.Spelers.Remove(entity);
-        context.SaveChanges();
+        spelerRepository.Delete(id);
     }
 
     private static PlayerResponseContract MapToContract(Speler entity)

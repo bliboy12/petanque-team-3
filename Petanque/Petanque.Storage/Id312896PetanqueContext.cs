@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Petanque.Storage.Entity;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
 namespace Petanque.Storage;
