@@ -1,12 +1,13 @@
 ﻿using Petanque.Contracts.Requests;
 using Petanque.Contracts.Responses;
 using Petanque.Services.Interfaces;
+using Petanque.Services.Mapping;
 using Petanque.Storage;
 using Petanque.Storage.Entity;
 
 namespace Petanque.Services.Services
 {
-    public class SpeeldagService(SpeeldagRepository speeldagRepository, SpelverdelingRepository spelverdelingRepository) : ISpeeldagService
+    public class SpeeldagService(SpeeldagRepository speeldagRepository) : ISpeeldagService
     {
         public SpeeldagResponseContract Create(SpeeldagRequestContract request)
         {
@@ -15,7 +16,7 @@ namespace Petanque.Services.Services
             var speeldagCheck = speeldagRepository.GetSpeeldagByRequestedDate(requestedDate);
 
             if (speeldagCheck != null)
-                return MapToContract(speeldagCheck);
+                return speeldagCheck.AsModel().AsContract();
 
             var speeldag = new Speeldag
             {
@@ -26,92 +27,24 @@ namespace Petanque.Services.Services
             speeldagRepository.Create(speeldag);
          
 
-            return MapToContract(speeldag);
+            return speeldag.AsModel().AsContract();
         }
-
-
+        
         public SpeeldagResponseContract GetById(int id)
         {
             var entity = speeldagRepository.GetBySpeeldag(id);
 
             if (entity == null)
                 return null;
-
-            var spelIds = entity.Spels.Select(s => s.SpelId).ToList();
-
-            // Belangrijk: Include Speler zodat spelerinformatie beschikbaar is
-            var spelverdelingen = spelverdelingRepository.GetBySpelIds(spelIds);
-
-            return MapToContract(entity, spelverdelingen.ToList());
+            
+            return entity.AsModel().AsContract();
         }
 
         public IEnumerable<SpeeldagResponseContract> GetAll()
         {
             var speeldagen = speeldagRepository.GetAll();
-
-            var spelIds = speeldagen.SelectMany(s => s.Spels).Select(sp => sp.SpelId).Distinct().ToList();
-
-            var spelverdelingen = spelverdelingRepository.GetBySpelIds(spelIds);
-
-
-            return speeldagen
-                .Select(a => MapToContract(a, spelverdelingen.ToList()))
-                .ToList();
-        }
-
-        private SpeeldagResponseContract MapToContract(Speeldag entity)
-        {
-            return new SpeeldagResponseContract
-            {
-                SpeeldagId = entity.SpeeldagId,
-                Datum = entity.Datum,
-                Spel = entity.Spels
-                    .Select(s => new SpelResponseContract
-                    {
-                        SpelId = s.SpelId,
-                        SpeeldagId = s.SpeeldagId,
-                        Terrein = s.Terrein,
-                        ScoreA = s.ScoreA,
-                        ScoreB = s.ScoreB,
-                        Spelverdelingen = new List<SpelverdelingResponseContract>()
-                    })
-                    .ToList()
-            };
-        }
-
-        private SpeeldagResponseContract MapToContract(Speeldag entity, List<Spelverdeling> spelverdelingen)
-        {
-            return new SpeeldagResponseContract
-            {
-                SpeeldagId = entity.SpeeldagId,
-                Datum = entity.Datum,
-                Spel = entity.Spels
-                    .Select(s => new SpelResponseContract
-                    {
-                        SpelId = s.SpelId,
-                        SpeeldagId = s.SpeeldagId,
-                        Terrein = s.Terrein,
-                        ScoreA = s.ScoreA,
-                        ScoreB = s.ScoreB,
-                        Spelverdelingen = spelverdelingen
-                            .Where(sv => sv.SpelId == s.SpelId)
-                            .Select(sv => new SpelverdelingResponseContract
-                            {
-                                SpelverdelingsId = sv.SpelverdelingsId,
-                                SpelId = sv.SpelId,
-                                Team = sv.Team,
-                                SpelerVolgnr = sv.SpelerVolgnr,
-                                Speler = sv.Speler == null ? null : new PlayerResponseContract
-                                {
-                                    SpelerId = sv.Speler.SpelerId,
-                                    Voornaam = sv.Speler.Voornaam,
-                                    Naam = sv.Speler.Naam
-                                }
-                            })
-                            .ToList()
-                    })
-                    .ToList()
-            };
+            
+            return speeldagen.Select(m => m.AsModel().AsContract());
         }
     }
 }
