@@ -9,7 +9,7 @@ using Xunit;
 
 namespace UTModel
 {
-	public class AttendanceUT
+	public class AttendanceTests
 	{
 		
 		[Theory]

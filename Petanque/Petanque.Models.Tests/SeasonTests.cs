@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace UTModel
 {
-	public class SeasonUT
+	public class SeasonTests
 	{
 
 		[Theory]

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace UTModel
 {
-	public class DailyRankingUT
+	public class DailyRankingTests
 	{
 		[Theory]
 		[InlineData(1)]
