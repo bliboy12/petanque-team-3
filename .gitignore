@@ -8,6 +8,10 @@ Petanque/Petanque.Api/bin/
 Petanque/Petanque.Storage/bin/
 Petanque/Petanque.Services/bin/
 Petanque/Petanque.Contracts/bin/
+Petanque/Petanque.ModelUT/bin/
+Petanque/Petanque.ModelUT/obj/
+Petanque/Petanque.Models/bin/
+Petanque/Petanque.Models/obj/
 
 # editors
 .vs
