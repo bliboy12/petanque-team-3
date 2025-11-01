@@ -1,0 +1,12 @@
+C:\Hogent\NieuweTechnologieen\test\petanque-team-3\Petanque\Petanque.Storage.Entity\bin\Debug\net8.0\Petanque.Storage.Entity.deps.json
+C:\Hogent\NieuweTechnologieen\test\petanque-team-3\Petanque\Petanque.Storage.Entity\bin\Debug\net8.0\Petanque.Storage.Entity.dll
+C:\Hogent\NieuweTechnologieen\test\petanque-team-3\Petanque\Petanque.Storage.Entity\bin\Debug\net8.0\Petanque.Storage.Entity.pdb
+C:\Hogent\NieuweTechnologieen\test\petanque-team-3\Petanque\Petanque.Storage.Entity\obj\Debug\net8.0\Petanque.Storage.Entity.GeneratedMSBuildEditorConfig.editorconfig
+C:\Hogent\NieuweTechnologieen\test\petanque-team-3\Petanque\Petanque.Storage.Entity\obj\Debug\net8.0\Petanque.Storage.Entity.AssemblyInfoInputs.cache
+C:\Hogent\NieuweTechnologieen\test\petanque-team-3\Petanque\Petanque.Storage.Entity\obj\Debug\net8.0\Petanque.Storage.Entity.AssemblyInfo.cs
+C:\Hogent\NieuweTechnologieen\test\petanque-team-3\Petanque\Petanque.Storage.Entity\obj\Debug\net8.0\Petanque.Storage.Entity.csproj.CoreCompileInputs.cache
+C:\Hogent\NieuweTechnologieen\test\petanque-team-3\Petanque\Petanque.Storage.Entity\obj\Debug\net8.0\Petanque.Storage.Entity.sourcelink.json
+C:\Hogent\NieuweTechnologieen\test\petanque-team-3\Petanque\Petanque.Storage.Entity\obj\Debug\net8.0\Petanque.Storage.Entity.dll
+C:\Hogent\NieuweTechnologieen\test\petanque-team-3\Petanque\Petanque.Storage.Entity\obj\Debug\net8.0\refint\Petanque.Storage.Entity.dll
+C:\Hogent\NieuweTechnologieen\test\petanque-team-3\Petanque\Petanque.Storage.Entity\obj\Debug\net8.0\Petanque.Storage.Entity.pdb
+C:\Hogent\NieuweTechnologieen\test\petanque-team-3\Petanque\Petanque.Storage.Entity\obj\Debug\net8.0\ref\Petanque.Storage.Entity.dll

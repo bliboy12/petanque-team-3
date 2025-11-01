@@ -1,0 +1,1 @@
+C:\Hogent\NieuweTechnologieen\test\petanque-team-3\Petanque\PetanqueFrontend\obj\Debug\petanquefrontend.esproj.CoreCompileInputs.cache

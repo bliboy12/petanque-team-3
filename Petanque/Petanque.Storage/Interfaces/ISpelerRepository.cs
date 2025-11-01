@@ -10,6 +10,6 @@ namespace Petanque.Storage.Interfaces {
         public void Update(int id, string voornaam, string naam);
 
         public void Delete(int id);
-        IEnumerable<Speler> GetBySpelerIds(List<int?> spelerIdsInDagklassement)
+        IEnumerable<Speler> GetBySpelerIds(List<int?> spelerIdsInDagklassement);
     }
 }

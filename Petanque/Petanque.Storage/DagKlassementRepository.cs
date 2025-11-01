@@ -41,6 +41,5 @@ namespace Petanque.Storage {
 
             return dagklassementen;
         }
-
     }
 }
