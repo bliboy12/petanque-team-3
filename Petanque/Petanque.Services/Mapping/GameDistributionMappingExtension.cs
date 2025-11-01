@@ -3,6 +3,7 @@ using Petanque.Contracts.Responses;
 using Petanque.Models;
 using Petanque.Services.Exceptions;
 using Petanque.Storage;
+using Petanque.Storage.Entity;
 
 namespace Petanque.Services.Mapping;
 

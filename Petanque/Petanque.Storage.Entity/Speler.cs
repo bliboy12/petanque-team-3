@@ -1,4 +1,4 @@
-﻿using Petanque.Storage.Petanque.Storage.Entity;
+﻿using Petanque.Storage.Entity;
 using System;
 using System.Collections.Generic;
 
