@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Petanque.Models", "Petanque
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Petanque.Storage.Entity", "Petanque.Storage.Entity\Petanque.Storage.Entity.csproj", "{3D8C3227-D20D-45B7-B210-22A166C83470}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelUT", "ModelUT\ModelUT.csproj", "{EFF1904B-F543-4221-9F71-2F4F7A5303B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Petanque.Models.Tests", "Petanque.Models.Tests\Petanque.Models.Tests.csproj", "{613D75FE-8E51-4DB1-AB06-32A6C6979DB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,10 +55,10 @@ Global
 		{3D8C3227-D20D-45B7-B210-22A166C83470}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D8C3227-D20D-45B7-B210-22A166C83470}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D8C3227-D20D-45B7-B210-22A166C83470}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EFF1904B-F543-4221-9F71-2F4F7A5303B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EFF1904B-F543-4221-9F71-2F4F7A5303B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EFF1904B-F543-4221-9F71-2F4F7A5303B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EFF1904B-F543-4221-9F71-2F4F7A5303B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{613D75FE-8E51-4DB1-AB06-32A6C6979DB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{613D75FE-8E51-4DB1-AB06-32A6C6979DB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{613D75FE-8E51-4DB1-AB06-32A6C6979DB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{613D75FE-8E51-4DB1-AB06-32A6C6979DB9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

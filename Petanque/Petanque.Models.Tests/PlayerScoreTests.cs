@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace UTModel
 {
-	public class PlayerScoreUT
+	public class PlayerScoreTests
 	{
 		[Theory]
 		[InlineData(1)]
