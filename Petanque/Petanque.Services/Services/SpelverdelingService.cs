@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Petanque.Contracts.Responses;
+using Petanque.Services.Mapping;
 using Petanque.Storage;
 using Petanque.Storage.Entity;
 
@@ -51,6 +52,7 @@ namespace Petanque.Services.Services
             public int Terrein;
             public List<int> TeamLeden, Tegenspelers;
         }
+        
         public IEnumerable<SpelverdelingResponseContract> MaakVerdeling(IEnumerable<AanwezigheidResponseContract> aanwezigheden, int speeldagId)
         {
             _logger.LogCritical("Starting MaakVerdeling");
@@ -256,24 +258,12 @@ namespace Petanque.Services.Services
                                 });
                             }
                         }
-                        var spelverdelingenToAdd = _spelverdelingRepository.GetBySpelId(spel.SpelId).Select(MapToContract).ToList();
+                        var spelverdelingenToAdd = _spelverdelingRepository.GetBySpelId(spel.SpelId).Select(s => s.AsModel().AsContract()).ToList();
                         responses.AddRange(spelverdelingenToAdd);
                     }
                 }
                 return responses;
             }
-        }
-
-        private static SpelverdelingResponseContract MapToContract(Spelverdeling entity)
-        {
-            return new SpelverdelingResponseContract
-            {
-                SpelverdelingsId = entity.SpelverdelingsId,
-                SpelId = entity.SpelId,
-                Team = entity.Team,
-                SpelerPositie = entity.SpelerPositie,
-                SpelerVolgnr = entity.SpelerVolgnr
-            };
         }
 
         private static SpelverdelingResponseContract MapToReturn(Spelverdeling entity, Speler? speler, Spel? spel)

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Petanque.Storage.Entity {
+﻿namespace Petanque.Storage.Entity {
     public partial class Dagklassement {
         public int DagklassementId { get; set; }
 

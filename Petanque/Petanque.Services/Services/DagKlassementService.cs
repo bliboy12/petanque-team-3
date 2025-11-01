@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Petanque.Contracts.Requests;
+﻿using Petanque.Contracts.Requests;
 using Petanque.Contracts.Responses;
 using Petanque.Services.Interfaces;
+using Petanque.Services.Mapping;
 using Petanque.Storage;
 using Petanque.Storage.Entity;
 
@@ -19,23 +19,19 @@ namespace Petanque.Services.Services
                 SpelerId = request.SpelerId
             };
 
-            context.Dagklassements.Add(entity);
-            context.SaveChanges();
+            dagKlassementRepository.Create(entity);
 
-            return MapToContract(entity);
+            return entity.AsModel().AsContract();
         }
 
         public IEnumerable<DagKlassementResponseContract>? GetById(int id)
         {
-            var dagklassementen = context.Dagklassements
-            .Where(d => d.SpeeldagId == id)
-            .ToList();
+            var dagklassementen = dagKlassementRepository.GetById(id);
 
-            return dagklassementen
-                .Select(MapToContract)
-                .Where(contract => contract != null)
-                .ToList()!;
+            return dagklassementen.Select(a => a.AsModel().AsContract()).Where(contract => contract != null) .ToList()!;
         }
+        
+        // TODO: Not transfered inside repo ?? (Rina)
         public IEnumerable<DagKlassementResponseContract> CreateDagKlassementen(SpeeldagResponseContract speeldagData, int id)
         {
             var speeldagId = speeldagData.SpeeldagId;
@@ -149,18 +145,6 @@ namespace Petanque.Services.Services
                 throw;
             }
             return dagKlassementen;
-        }
-
-        private static DagKlassementResponseContract MapToContract(Dagklassement entity)
-        {
-            return new DagKlassementResponseContract()
-            {
-                DagklassementId = entity.DagklassementId,
-                SpeeldagId = entity.SpeeldagId,
-                SpelerId = entity.SpelerId,
-                Hoofdpunten = entity.Hoofdpunten,
-                PlusMinPunten = entity.PlusMinPunten,
-            };
         }
     }
 }
