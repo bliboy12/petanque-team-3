@@ -31,7 +31,7 @@ builder.Logging.AddConsole();
 
 // Services toevoegen
 builder.Services.AddScoped<IPlayerService, PlayerService>();
-builder.Services.AddScoped<IDagKlassementService, DagKlassementService>();
+//builder.Services.AddScoped<IDagKlassementService, DagKlassementService>();
 builder.Services.AddScoped<ISpelverdelingService, SpelverdelingService>();
 builder.Services.AddScoped<IAanwezigheidService, AanwezigheidService>();
 builder.Services.AddScoped<IScoreService, ScoreService>();

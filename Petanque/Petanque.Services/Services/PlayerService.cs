@@ -1,11 +1,13 @@
 using Petanque.Contracts.Requests;
 using Petanque.Contracts.Responses;
 using Petanque.Services.Interfaces;
+using Petanque.Services.Mapping;
 using Petanque.Storage;
+using Petanque.Storage.Entity;
 
 namespace Petanque.Services.Services;
 
-public class PlayerService(Id312896PetanqueContext context) : IPlayerService
+public class PlayerService(SpelerRepository playerRepository) : IPlayerService
 {
     public PlayerResponseContract Create(PlayerRequestContract request)
     {
@@ -14,53 +16,31 @@ public class PlayerService(Id312896PetanqueContext context) : IPlayerService
             Voornaam = request.Voornaam,
             Naam = request.Naam
         };
+        
+        playerRepository.Create(entity);
 
-        context.Spelers.Add(entity);
-        context.SaveChanges();
-
-        return MapToContract(entity);
+        return entity.AsModel().AsContract();
     }
 
     public PlayerResponseContract? GetById(int id)
     {
-        var entity = context.Spelers.Find(id);
-        return entity is null ? null : MapToContract(entity);
+        var entity = playerRepository.GetById(id);
+        
+        return entity is null ? null : entity.AsModel().AsContract();
     }
+    
     public IEnumerable<PlayerResponseContract> GetAll()
     {
-        return context.Spelers.OrderBy(a => a.Naam).ThenBy(a => a.Voornaam).Select(a => MapToContract(a)).ToList();
+        return playerRepository.GetAll().OrderBy(a => a.Naam).ThenBy(a => a.Voornaam).Select(a => a.AsModel().AsContract()).ToList();
     }
 
     public void Update(int id, string voornaam, string naam)
     {
-        var entity = context.Spelers.Find(id);
-        if (entity is null)
-        {
-            throw new ArgumentException($"Lid met ID {id} werd niet gevonden");
-        }
-        entity.Voornaam = voornaam;
-        entity.Naam = naam;
-        context.SaveChanges();
+        playerRepository.Update(id, voornaam, naam);
     }
 
     public void Delete(int id)
     {
-        var entity = context.Spelers.Find(id);
-        if (entity is null)
-        {
-            throw new ArgumentException($"Lid met ID {id} werd niet gevonden");
-        }
-        context.Spelers.Remove(entity);
-        context.SaveChanges();
-    }
-
-    private static PlayerResponseContract MapToContract(Speler entity)
-    {
-        return new PlayerResponseContract()
-        {
-            SpelerId = entity.SpelerId,
-            Voornaam = entity.Voornaam,
-            Naam = entity.Naam
-        };
+        playerRepository.Delete(id);
     }
 }

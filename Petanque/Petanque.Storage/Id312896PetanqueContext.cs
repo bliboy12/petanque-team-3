@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Petanque.Storage.Entity;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
 namespace Petanque.Storage;
@@ -32,7 +33,7 @@ public partial class Id312896PetanqueContext : DbContext
 
     public virtual DbSet<Spelverdeling> Spelverdelings { get; set; }
 
-    protected string _connString = "server=127.0.0.1;port=3306;database=petanque;user=root;password=root";
+    protected string _connString = "server=127.0.0.1;port=3307;database=petanque;user=root;password=";
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

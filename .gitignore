@@ -1,13 +1,7 @@
 ﻿
 # binaries and object files
-Petanque/Petanque.Api/obj/
-Petanque/Petanque.Storage/obj/
-Petanque/Petanque.Services/obj/
-Petanque/Petanque.Contracts/obj/
-Petanque/Petanque.Api/bin/
-Petanque/Petanque.Storage/bin/
-Petanque/Petanque.Services/bin/
-Petanque/Petanque.Contracts/bin/
+**/obj/
+**/bin/
 
 # editors
 .vs
