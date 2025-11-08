@@ -1,26 +1,79 @@
+using Petanque.Models.Exceptions;
+
 namespace Petanque.Models;
 
 // Dutch: Spel (entity)
 public class GameModel
 {
-    // Dutch: SpelId
-    public int? Id { get; set; }
+	private int? _id;
+	private int? _matchDayId;
+	private string _terrain;
+	private int _scoreA;
+	private int _scoreB;
 
-    // Dutch: SpeeldagId
-    public int? MatchDayId { get; set; }
+	// Dutch: SpelId
+	public int? Id
+	{
+		get { return _id; }
+		set
+		{
+			if (value <= 0)
+				throw new GameModelException("Id can not be '0' or negative");
+			_id = value;
+		}
+	}
 
-    // Dutch: Speeldag (reference to Speeldag)
-    public MatchDayModel? MatchDay { get; set; }
+	// Dutch: SpeeldagId
+	public int? MatchDayId
+	{
+		get { return _matchDayId; }
+		set
+		{
+			if (value <= 0)
+				throw new GameModelException("MatchDayId can not be '0' or negative");
+			_matchDayId = value;
+		}
+	}
 
-    // Dutch: Terrein
-    public string Terrain { get; set; } = string.Empty;
+	// Dutch: Speeldag (object or reference)
+	public MatchDayModel? MatchDay { get; set; }
 
-    // Dutch: ScoreA
-    public int ScoreA { get; set; }
+	// Dutch: Terrein
+	public string Terrain
+	{
+		get { return _terrain; }
+		set
+		{
+			if (string.IsNullOrWhiteSpace(value))
+				throw new GameModelException("Terrain can not be empty or null");
+			_terrain = value.Trim();
+		}
+	}
 
-    // Dutch: ScoreB
-    public int ScoreB { get; set; }
+	// Dutch: ScoreA
+	public int ScoreA
+	{
+		get { return _scoreA; }
+		set
+		{
+			if (value < 0 || value > 13)
+				throw new GameModelException("ScoreA must be between 0 and 13");
+			_scoreA = value;
+		}
+	}
 
-    // Dutch: Spelverdelings (collection)
-    public List<GameDistributionModel> GameDistributions { get; set; } = new();
+	// Dutch: ScoreB
+	public int ScoreB
+	{
+		get { return _scoreB; }
+		set
+		{
+			if (value < 0 || value > 13)
+				throw new GameModelException("ScoreB must be between 0 and 13");
+			_scoreB = value;
+		}
+	}
+
+	// Dutch: Spelverdelings (collection)
+	public List<GameDistributionModel> GameDistributions { get; set; } = new();
 }

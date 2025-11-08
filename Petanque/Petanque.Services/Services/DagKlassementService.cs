@@ -1,150 +1,150 @@
-﻿using Petanque.Contracts.Requests;
-using Petanque.Contracts.Responses;
-using Petanque.Services.Interfaces;
-using Petanque.Services.Mapping;
-using Petanque.Storage;
-using Petanque.Storage.Entity;
+﻿//using Petanque.Contracts.Requests;
+//using Petanque.Contracts.Responses;
+//using Petanque.Services.Interfaces;
+//using Petanque.Services.Mapping;
+//using Petanque.Storage;
+//using Petanque.Storage.Entity;
 
-namespace Petanque.Services.Services
-{
-    public class DagKlassementService(DagKlassementRepository dagKlassementRepository) : IDagKlassementService
-    {
-        public DagKlassementResponseContract Create(DagKlassementRequestContract request)
-        {
-            var entity = new Dagklassement()
-            {
-                SpeeldagId = request.SpeeldagId,
-                Hoofdpunten = request.Hoofdpunten,
-                PlusMinPunten = request.PlusMinPunten,
-                SpelerId = request.SpelerId
-            };
+//namespace Petanque.Services.Services
+//{
+//    public class DagKlassementService(DagKlassementRepository dagKlassementRepository) : IDagKlassementService
+//    {
+//        public DagKlassementResponseContract Create(DagKlassementRequestContract request)
+//        {
+//            var entity = new Dagklassement()
+//            {
+//                SpeeldagId = request.SpeeldagId,
+//                Hoofdpunten = request.Hoofdpunten,
+//                PlusMinPunten = request.PlusMinPunten,
+//                SpelerId = request.SpelerId
+//            };
 
-            dagKlassementRepository.Create(entity);
+//            dagKlassementRepository.Create(entity);
 
-            return entity.AsModel().AsContract();
-        }
+//            return entity.AsModel().AsContract();
+//        }
 
-        public IEnumerable<DagKlassementResponseContract>? GetById(int id)
-        {
-            var dagklassementen = dagKlassementRepository.GetById(id);
+//        public IEnumerable<DagKlassementResponseContract>? GetById(int id)
+//        {
+//            var dagklassementen = dagKlassementRepository.GetById(id);
 
-            return dagklassementen.Select(a => a.AsModel().AsContract()).Where(contract => contract != null) .ToList()!;
-        }
+//            return dagklassementen.Select(a => a.AsModel().AsContract()).Where(contract => contract != null) .ToList()!;
+//        }
         
-        // TODO: Not transfered inside repo ?? (Rina)
-        public IEnumerable<DagKlassementResponseContract> CreateDagKlassementen(SpeeldagResponseContract speeldagData, int id)
-        {
-            var speeldagId = speeldagData.SpeeldagId;
+//        // TODO: Not transfered inside repo ?? (Rina)
+//        public IEnumerable<DagKlassementResponseContract> CreateDagKlassementen(SpeeldagResponseContract speeldagData, int id)
+//        {
+//            var speeldagId = speeldagData.SpeeldagId;
 
-            var gebruikteVolgnrs = speeldagData.Spel
-                .SelectMany(s => s.Spelverdelingen ?? [])
-                .Select(sv => sv.SpelerVolgnr)
-                .Distinct()
-                .ToList();
+//            var gebruikteVolgnrs = speeldagData.Spel
+//                .SelectMany(s => s.Spelverdelingen ?? [])
+//                .Select(sv => sv.SpelerVolgnr)
+//                .Distinct()
+//                .ToList();
 
-            var spelersInSpeeldag = context.Aanwezigheids
-                .Where(x => x.SpeeldagId == speeldagId && gebruikteVolgnrs.Contains(x.SpelerVolgnr))
-                .AsEnumerable()
-                .GroupBy(x => x.SpelerVolgnr)
-                .ToDictionary(g => g.Key, g => g.First().SpelerId);
+//            var spelersInSpeeldag = context.Aanwezigheids
+//                .Where(x => x.SpeeldagId == speeldagId && gebruikteVolgnrs.Contains(x.SpelerVolgnr))
+//                .AsEnumerable()
+//                .GroupBy(x => x.SpelerVolgnr)
+//                .ToDictionary(g => g.Key, g => g.First().SpelerId);
 
 
-            var scorePerSpeler = new Dictionary<int, int>();
-            var winsPerSpeler = new Dictionary<int, int>();
+//            var scorePerSpeler = new Dictionary<int, int>();
+//            var winsPerSpeler = new Dictionary<int, int>();
 
-            foreach (var spel in speeldagData.Spel)
-            {
-                if (spel?.Spelverdelingen == null || spel.Spelverdelingen.Count == 0)
-                    continue;
+//            foreach (var spel in speeldagData.Spel)
+//            {
+//                if (spel?.Spelverdelingen == null || spel.Spelverdelingen.Count == 0)
+//                    continue;
 
-                var teamA = spel.Spelverdelingen
-                    .Where(v => v.Team == "Team A")
-                    .Select(v => v.SpelerVolgnr)
-                    .ToList();
+//                var teamA = spel.Spelverdelingen
+//                    .Where(v => v.Team == "Team A")
+//                    .Select(v => v.SpelerVolgnr)
+//                    .ToList();
 
-                var teamB = spel.Spelverdelingen
-                    .Where(v => v.Team == "Team B")
-                    .Select(v => v.SpelerVolgnr)
-                    .ToList();
+//                var teamB = spel.Spelverdelingen
+//                    .Where(v => v.Team == "Team B")
+//                    .Select(v => v.SpelerVolgnr)
+//                    .ToList();
 
-                if (teamA.Count == 0 || teamB.Count == 0)
-                    continue;
+//                if (teamA.Count == 0 || teamB.Count == 0)
+//                    continue;
 
-                var scoreA = spel.ScoreA;
-                var scoreB = spel.ScoreB;
-                var scoreVerschil = scoreA - scoreB;
+//                var scoreA = spel.ScoreA;
+//                var scoreB = spel.ScoreB;
+//                var scoreVerschil = scoreA - scoreB;
 
-                // Punten toekennen
-                foreach (var speler in teamA)
-                {
-                    if (!scorePerSpeler.ContainsKey(speler)) scorePerSpeler[speler] = 0;
-                    scorePerSpeler[speler] += scoreVerschil;
+//                // Punten toekennen
+//                foreach (var speler in teamA)
+//                {
+//                    if (!scorePerSpeler.ContainsKey(speler)) scorePerSpeler[speler] = 0;
+//                    scorePerSpeler[speler] += scoreVerschil;
 
-                    if (scoreA > scoreB) // Team A wint
-                    {
-                        if (!winsPerSpeler.ContainsKey(speler)) winsPerSpeler[speler] = 0;
-                        winsPerSpeler[speler]++;
-                    }
-                }
+//                    if (scoreA > scoreB) // Team A wint
+//                    {
+//                        if (!winsPerSpeler.ContainsKey(speler)) winsPerSpeler[speler] = 0;
+//                        winsPerSpeler[speler]++;
+//                    }
+//                }
 
-                foreach (var speler in teamB)
-                {
-                    if (!scorePerSpeler.ContainsKey(speler)) scorePerSpeler[speler] = 0;
-                    scorePerSpeler[speler] -= scoreVerschil;
+//                foreach (var speler in teamB)
+//                {
+//                    if (!scorePerSpeler.ContainsKey(speler)) scorePerSpeler[speler] = 0;
+//                    scorePerSpeler[speler] -= scoreVerschil;
 
-                    if (scoreB > scoreA) // Team B wint
-                    {
-                        if (!winsPerSpeler.ContainsKey(speler)) winsPerSpeler[speler] = 0;
-                        winsPerSpeler[speler]++;
-                    }
-                }
-            }
+//                    if (scoreB > scoreA) // Team B wint
+//                    {
+//                        if (!winsPerSpeler.ContainsKey(speler)) winsPerSpeler[speler] = 0;
+//                        winsPerSpeler[speler]++;
+//                    }
+//                }
+//            }
 
-            var dagKlassementen = new List<DagKlassementResponseContract>();
+//            var dagKlassementen = new List<DagKlassementResponseContract>();
 
-            foreach (var (spelerVolgNr, spelerId) in spelersInSpeeldag)
-            {
-                var plusMin = scorePerSpeler.TryGetValue(spelerVolgNr, out var punten) ? punten : 0;
-                var gewonnenSpellen = winsPerSpeler.TryGetValue(spelerVolgNr, out var wins) ? wins : 0;
+//            foreach (var (spelerVolgNr, spelerId) in spelersInSpeeldag)
+//            {
+//                var plusMin = scorePerSpeler.TryGetValue(spelerVolgNr, out var punten) ? punten : 0;
+//                var gewonnenSpellen = winsPerSpeler.TryGetValue(spelerVolgNr, out var wins) ? wins : 0;
 
-                dagKlassementen.Add(new DagKlassementResponseContract
-                {
-                    SpeeldagId = speeldagId,
-                    SpelerId = spelerId,
-                    Hoofdpunten = 1 + gewonnenSpellen,
-                    PlusMinPunten = plusMin
-                });
-            }
+//                dagKlassementen.Add(new DagKlassementResponseContract
+//                {
+//                    SpeeldagId = speeldagId,
+//                    SpelerId = spelerId,
+//                    Hoofdpunten = 1 + gewonnenSpellen,
+//                    PlusMinPunten = plusMin
+//                });
+//            }
 
-            var entities = dagKlassementen.Select(k => new Dagklassement
-            {
-                SpeeldagId = k.SpeeldagId,
-                SpelerId = k.SpelerId,
-                Hoofdpunten = k.Hoofdpunten,
-                PlusMinPunten = k.PlusMinPunten
-            }).ToList();
+//            var entities = dagKlassementen.Select(k => new Dagklassement
+//            {
+//                SpeeldagId = k.SpeeldagId,
+//                SpelerId = k.SpelerId,
+//                Hoofdpunten = k.Hoofdpunten,
+//                PlusMinPunten = k.PlusMinPunten
+//            }).ToList();
 
-            // TODO is dit correct?? waarom hier add range en in try catch nog eens add range?
-            context.AddRange(entities);
-            context.SaveChanges();
+//            // TODO is dit correct?? waarom hier add range en in try catch nog eens add range?
+//            context.AddRange(entities);
+//            context.SaveChanges();
 
-            using var transaction = context.Database.BeginTransaction();
-            try
-            {
-                context.Dagklassements
-                    .Where(dk => dk.SpeeldagId == speeldagId)
-                    .ExecuteDelete();
+//            using var transaction = context.Database.BeginTransaction();
+//            try
+//            {
+//                context.Dagklassements
+//                    .Where(dk => dk.SpeeldagId == speeldagId)
+//                    .ExecuteDelete();
 
-                context.AddRange(entities);
-                context.SaveChanges();
-                transaction.Commit();
-            }
-            catch
-            {
-                transaction.Rollback();
-                throw;
-            }
-            return dagKlassementen;
-        }
-    }
-}
+//                context.AddRange(entities);
+//                context.SaveChanges();
+//                transaction.Commit();
+//            }
+//            catch
+//            {
+//                transaction.Rollback();
+//                throw;
+//            }
+//            return dagKlassementen;
+//        }
+//    }
+//}
