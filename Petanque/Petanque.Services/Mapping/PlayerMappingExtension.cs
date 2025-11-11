@@ -18,6 +18,8 @@ public static class PlayerMappingExtension
             Lastname = speler.Naam,
             Attendances = speler.Aanwezigheids.Select(a => a.AsModel()).ToList(),
             DailyRankings = speler.Dagklassements.Select(d => d.AsModel()).ToList()
+
+            SkillLevel = (SkillLevel)speler.SkillLevel
         };
     }
 
@@ -27,6 +29,8 @@ public static class PlayerMappingExtension
         {
             Firstname = player.Voornaam,
             Lastname = player.Naam
+
+            SkillLevel = player.SkillLevel
         };
     }
 
@@ -39,6 +43,8 @@ public static class PlayerMappingExtension
             Naam = player.Lastname,
             Aanwezigheids = player.Attendances.Select(a => a.AsContract()).ToList(),
             Dagklassements = player.DailyRankings.Select(d => d.AsContract()).ToList()
+
+            SkillLevel = player.SkillLevel
         };
     }
 
@@ -49,6 +55,8 @@ public static class PlayerMappingExtension
             SpelerId = player.Id ?? throw new MappingException(),
             Voornaam = player.Firstname,
             Naam = player.Lastname
+
+            SkillLevel = (int)player.SkillLevel
         };
     }
 }

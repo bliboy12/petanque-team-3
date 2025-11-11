@@ -7,6 +7,7 @@ public class PlayerModel
 	private int? _id;
 	private string _firstname = "";
 	private string _lastname = "";
+	private SkillLevel _skillLevel = SkillLevel.Noob;
 
 	// Dutch: SpelerId
 	public int? Id
@@ -43,6 +44,17 @@ public class PlayerModel
 			_lastname = value.Trim();
 		}
 	}
+
+	public SkillLevel SkillLevel
+    {
+        get => _skillLevel;
+        set
+        {
+            if (!Enum.IsDefined(typeof(SkillLevel), value))
+                throw new PlayerModelException("Invalid skill level");
+            _skillLevel = value;
+        }
+    }
 
 	// Dutch: Aanwezigheden (lijst van aanwezigheden)
 	public List<AttendanceModel> Attendances { get; set; } = new();

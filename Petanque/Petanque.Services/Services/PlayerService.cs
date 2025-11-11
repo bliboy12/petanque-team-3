@@ -11,12 +11,19 @@ public class PlayerService(SpelerRepository playerRepository) : IPlayerService
 {
     public PlayerResponseContract Create(PlayerRequestContract request)
     {
-        var entity = new Speler()
+        var skill = request.SkillLevel == 0
+            ? SkillLevel.Noob
+            : request.SkillLevel
+
+        var model = new PlayerModel()
         {
-            Voornaam = request.Voornaam,
-            Naam = request.Naam
+            Firstname = request.Voornaam,
+            Lastname = request.Naam,
+            SkillLevel = skill
         };
-        
+
+        var entity = model.AsEntity();
+
         playerRepository.Create(entity);
 
         return entity.AsModel().AsContract();
