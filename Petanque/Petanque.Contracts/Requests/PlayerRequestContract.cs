@@ -11,6 +11,5 @@ namespace Petanque.Contracts.Requests
         public string Voornaam { get; set; } = null!;
 
         public string Naam { get; set; } = null!;
-        public SkillLevel SkillLevel { get; set; } = SkillLevel.Noob;
     }
 }

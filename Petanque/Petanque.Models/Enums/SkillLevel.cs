@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Petanque.Models.Enums
 {
-    public class SkillLevel
+    public enum SkillLevel
     {
         Noob = 0,
         Expert = 1
