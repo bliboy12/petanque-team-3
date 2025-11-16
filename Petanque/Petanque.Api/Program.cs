@@ -4,6 +4,7 @@ using Petanque.Services;
 using Petanque.Services.Interfaces;
 using Petanque.Services.Services;
 using Petanque.Storage;
+using Petanque.Storage.Interfaces;
 using QuestPDF.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +29,16 @@ builder.Services.AddDbContext<Id312896PetanqueContext>(options =>
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
+
+// Repositories toevoegen
+builder.Services.AddScoped<ISpelerRepository, SpelerRepository>();
+builder.Services.AddScoped<ISpelverdelingRepository, SpelverdelingRepository>();
+builder.Services.AddScoped<IAanwezigheidRepository, AanwezigheidRepository>();
+builder.Services.AddScoped<ISpelRepository, SpelRepository>();
+builder.Services.AddScoped<ISpeeldagRepository, SpeeldagRepository>();
+builder.Services.AddScoped<IDagKlassementRepository, DagKlassementRepository>();
+builder.Services.AddScoped<ISeizoenKlassementRepository, SeizoenKlassementRepository>();
+builder.Services.AddScoped<ISeizoenRepository, SeizoenRepository>();
 
 // Services toevoegen
 builder.Services.AddScoped<IPlayerService, PlayerService>();

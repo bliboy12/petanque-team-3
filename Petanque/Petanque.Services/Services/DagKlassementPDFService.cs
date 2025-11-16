@@ -1,11 +1,12 @@
 using Petanque.Services.Interfaces;
 using Petanque.Storage;
+using Petanque.Storage.Interfaces;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 
-namespace Petanque.Services
+namespace Petanque.Services.Services
 {
-    public class DagKlassementPDFService(DagKlassementRepository dagKlassementRepository, SpelerRepository spelerRepository, SpeeldagRepository speeldagRepository) : IDagKlassementPDFService
+    public class DagKlassementPDFService(IDagKlassementRepository dagKlassementRepository, ISpelerRepository spelerRepository, ISpeeldagRepository speeldagRepository) : IDagKlassementPDFService
     {
         public async Task<Stream> GenerateDagKlassementPdfAsync(int id)
         {

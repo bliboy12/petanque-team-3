@@ -3,10 +3,11 @@ using Petanque.Contracts.Responses;
 using Petanque.Services.Interfaces;
 using Petanque.Services.Mapping;
 using Petanque.Storage;
+using Petanque.Storage.Interfaces;
 
 namespace Petanque.Services.Services;
 
-public class AanwezigheidService(AanwezigheidRepository aanwezigheidRepository) : IAanwezigheidService
+public class AanwezigheidService(IAanwezigheidRepository aanwezigheidRepository) : IAanwezigheidService
 {
     public AanwezigheidResponseContract Create(AanwezigheidRequestContract request)
     {

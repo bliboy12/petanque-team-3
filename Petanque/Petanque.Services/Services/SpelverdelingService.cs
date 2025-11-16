@@ -3,18 +3,19 @@ using Petanque.Contracts.Responses;
 using Petanque.Services.Mapping;
 using Petanque.Storage;
 using Petanque.Storage.Entity;
+using Petanque.Storage.Interfaces;
 
 namespace Petanque.Services.Services
 {
     public class SpelverdelingService : ISpelverdelingService
     {
         private readonly Random _random = new();
-        private readonly SpelverdelingRepository _spelverdelingRepository;
-        private readonly SpelRepository _spelRepository;
-        private readonly AanwezigheidRepository _aanwezigheidRepository;
+        private readonly ISpelverdelingRepository _spelverdelingRepository;
+        private readonly ISpelRepository _spelRepository;
+        private readonly IAanwezigheidRepository _aanwezigheidRepository;
         private readonly ILogger _logger;
 
-        public SpelverdelingService(SpelverdelingRepository spelverdelingRepository, SpelRepository spelRepository, AanwezigheidRepository aanwezigheidRepository, ILogger<SpelverdelingService> logger)
+        public SpelverdelingService(ISpelverdelingRepository spelverdelingRepository, ISpelRepository spelRepository, IAanwezigheidRepository aanwezigheidRepository, ILogger<SpelverdelingService> logger)
         {
             _spelverdelingRepository = spelverdelingRepository;
             _spelRepository = spelRepository;

@@ -4,10 +4,11 @@ using Petanque.Services.Interfaces;
 using Petanque.Services.Mapping;
 using Petanque.Storage;
 using Petanque.Storage.Entity;
+using Petanque.Storage.Interfaces;
 
 namespace Petanque.Services.Services;
 
-public class SeizoensService(SeizoenRepository seizoenRepository) : ISeizoensService
+public class SeizoensService(ISeizoenRepository seizoenRepository) : ISeizoensService
 {
     public IEnumerable<SeizoenResponseContract> GetAll()
     {
