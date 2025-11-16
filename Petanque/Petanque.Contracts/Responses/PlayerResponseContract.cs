@@ -14,6 +14,8 @@ namespace Petanque.Contracts.Responses
 
         public string Naam { get; set; } = null!;
 
+        public SkillLevel SkillLevel { get; set;}
+
         public virtual ICollection<AanwezigheidResponseContract> Aanwezigheids { get; set; } = new List<AanwezigheidResponseContract>();
 
         public virtual ICollection<DagKlassementResponseContract> Dagklassements { get; set; } = new List<DagKlassementResponseContract>();

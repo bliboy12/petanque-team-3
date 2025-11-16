@@ -1,5 +1,7 @@
 using Petanque.Contracts.Requests;
 using Petanque.Contracts.Responses;
+using Petanque.Models;
+using Petanque.Models.Enums;
 using Petanque.Services.Interfaces;
 using Petanque.Services.Mapping;
 using Petanque.Storage;
@@ -11,12 +13,15 @@ public class PlayerService(SpelerRepository playerRepository) : IPlayerService
 {
     public PlayerResponseContract Create(PlayerRequestContract request)
     {
-        var entity = new Speler()
+
+        var model = new PlayerModel()
         {
-            Voornaam = request.Voornaam,
-            Naam = request.Naam
+            Firstname = request.Voornaam,
+            Lastname = request.Naam
         };
-        
+
+        var entity = model.AsEntity();
+
         playerRepository.Create(entity);
 
         return entity.AsModel().AsContract();
