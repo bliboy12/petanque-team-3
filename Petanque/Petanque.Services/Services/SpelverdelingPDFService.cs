@@ -1,12 +1,13 @@
 using Petanque.Contracts.Responses;
 using Petanque.Services.Interfaces;
 using Petanque.Storage;
+using Petanque.Storage.Interfaces;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 
 namespace Petanque.Services.Services
 {
-    public class SpelverdelingPDFService(SpeeldagRepository speeldagRepository) : ISpelverdelingPDFService
+    public class SpelverdelingPDFService(ISpeeldagRepository speeldagRepository) : ISpelverdelingPDFService
     {
         public Stream GenerateSpelverdelingPDF(IEnumerable<SpelverdelingResponseContract> spelverdelingen)
         {

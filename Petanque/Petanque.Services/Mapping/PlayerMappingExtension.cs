@@ -1,6 +1,7 @@
 using Petanque.Contracts.Requests;
 using Petanque.Contracts.Responses;
 using Petanque.Models;
+using Petanque.Models.Enums;
 using Petanque.Services.Exceptions;
 using Petanque.Storage;
 using Petanque.Storage.Entity;
@@ -17,9 +18,8 @@ public static class PlayerMappingExtension
             Firstname = speler.Voornaam,
             Lastname = speler.Naam,
             Attendances = speler.Aanwezigheids.Select(a => a.AsModel()).ToList(),
-            DailyRankings = speler.Dagklassements.Select(d => d.AsModel()).ToList()
-
-            SkillLevel = (SkillLevel)speler.SkillLevel
+            DailyRankings = speler.Dagklassements.Select(d => d.AsModel()).ToList(),
+            SkillLevel = (SkillLevel) speler.SkillLevel
         };
     }
 
@@ -29,8 +29,6 @@ public static class PlayerMappingExtension
         {
             Firstname = player.Voornaam,
             Lastname = player.Naam
-
-            SkillLevel = player.SkillLevel
         };
     }
 
@@ -42,8 +40,7 @@ public static class PlayerMappingExtension
             Voornaam = player.Firstname,
             Naam = player.Lastname,
             Aanwezigheids = player.Attendances.Select(a => a.AsContract()).ToList(),
-            Dagklassements = player.DailyRankings.Select(d => d.AsContract()).ToList()
-
+            Dagklassements = player.DailyRankings.Select(d => d.AsContract()).ToList(),
             SkillLevel = player.SkillLevel
         };
     }
@@ -54,9 +51,8 @@ public static class PlayerMappingExtension
         {
             SpelerId = player.Id ?? throw new MappingException(),
             Voornaam = player.Firstname,
-            Naam = player.Lastname
-
-            SkillLevel = (int)player.SkillLevel
+            Naam = player.Lastname,
+            SkillLevel = (int) player.SkillLevel
         };
     }
 }

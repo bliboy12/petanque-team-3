@@ -4,10 +4,11 @@ using Petanque.Services.Interfaces;
 using Petanque.Services.Mapping;
 using Petanque.Storage;
 using Petanque.Storage.Entity;
+using Petanque.Storage.Interfaces;
 
 namespace Petanque.Services.Services
 {
-    public class SpeeldagService(SpeeldagRepository speeldagRepository) : ISpeeldagService
+    public class SpeeldagService(ISpeeldagRepository speeldagRepository) : ISpeeldagService
     {
         public SpeeldagResponseContract Create(SpeeldagRequestContract request)
         {

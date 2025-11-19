@@ -1,25 +1,24 @@
 using Petanque.Contracts.Requests;
 using Petanque.Contracts.Responses;
+using Petanque.Models;
+using Petanque.Models.Enums;
 using Petanque.Services.Interfaces;
 using Petanque.Services.Mapping;
 using Petanque.Storage;
 using Petanque.Storage.Entity;
+using Petanque.Storage.Interfaces;
 
 namespace Petanque.Services.Services;
 
-public class PlayerService(SpelerRepository playerRepository) : IPlayerService
+public class PlayerService(ISpelerRepository playerRepository) : IPlayerService
 {
     public PlayerResponseContract Create(PlayerRequestContract request)
     {
-        var skill = request.SkillLevel == 0
-            ? SkillLevel.Noob
-            : request.SkillLevel
 
         var model = new PlayerModel()
         {
             Firstname = request.Voornaam,
-            Lastname = request.Naam,
-            SkillLevel = skill
+            Lastname = request.Naam
         };
 
         var entity = model.AsEntity();

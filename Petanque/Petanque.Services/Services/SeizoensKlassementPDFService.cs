@@ -1,11 +1,12 @@
 ﻿using Petanque.Services.Interfaces;
 using Petanque.Storage;
+using Petanque.Storage.Interfaces;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 
 namespace Petanque.Services.Services;
 
-public class SeizoensKlassementPDFService(SeizoenKlassementRepository seizoenKlassementRepository) : ISeizoensKlassementPDFService
+public class SeizoensKlassementPDFService(ISeizoenKlassementRepository seizoenKlassementRepository) : ISeizoensKlassementPDFService
 {
     public async Task<Stream> GenerateSeizoensKlassementPdfAsync(int id)
     {
