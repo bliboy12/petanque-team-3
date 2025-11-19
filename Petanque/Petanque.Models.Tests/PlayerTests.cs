@@ -1,5 +1,6 @@
 ﻿using Petanque.Models.Enums;
 using Petanque.Models.Exceptions;
+using System.Numerics;
 
 namespace Petanque.Models.Tests
 {
@@ -121,11 +122,29 @@ namespace Petanque.Models.Tests
         }
 
         [Fact]
+        public void Test_SkillLevel_Updated_Valid() {
+            PlayerModel p = new PlayerModel { Firstname = "bob", Lastname = "Marley" };
+
+            p.SkillLevel = SkillLevel.Expert;
+
+            Assert.Equal(SkillLevel.Expert, p.SkillLevel);
+        }
+
+        [Fact]
+        public void Test_SkillLevel_InValid_ThrowsError() {
+            PlayerModel p = new PlayerModel { Firstname = "bob", Lastname = "Marley" };
+
+            p.SkillLevel = SkillLevel.Expert;
+
+            Assert.Throws<PlayerModelException>(() => { p.SkillLevel = (SkillLevel)999; });
+        }
+
+        [Fact]
         public void Test_SkillLevel_ChangedAfterPlayerDidAGame() {
             PlayerModel p = new PlayerModel { Firstname = "bob", Lastname = "Marley" };
 
-			// TODO spel en spelverdeling aanmaken en score toevoegen 
-			// voor spell is iemand noob na spel is iemand skillevel export
+            // TODO spel en spelverdeling aanmaken en score toevoegen 
+            // voor spell is iemand noob na spel is iemand skillevel export
 
             Assert.Equal(SkillLevel.Expert, p.SkillLevel);
         }
