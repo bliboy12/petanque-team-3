@@ -1,9 +1,5 @@
-﻿using Petanque.Models.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Petanque.Models.Enums;
+using Petanque.Models.Exceptions;
 
 namespace Petanque.Models.Tests
 {
@@ -76,7 +72,7 @@ namespace Petanque.Models.Tests
 			Assert.Throws<PlayerModelException>(() => p.Lastname = name);
 		}
 
-		[Fact]
+        [Fact]
 		public void Test_Can_Add_Attendance()
 		{
 			PlayerModel p = new PlayerModel { Firstname = "bob", Lastname = "Marley"};
@@ -115,5 +111,23 @@ namespace Petanque.Models.Tests
 			Assert.NotNull(p.DailyRankings);
 			Assert.Empty(p.DailyRankings);
 		}
-	}
+
+
+        [Fact]
+        public void Test_SkillLevel_DefaultNoob_Valid() {
+			PlayerModel p = new PlayerModel { Firstname = "bob", Lastname = "Marley" };
+
+            Assert.Equal(SkillLevel.Noob, p.SkillLevel);
+        }
+
+        [Fact]
+        public void Test_SkillLevel_ChangedAfterPlayerDidAGame() {
+            PlayerModel p = new PlayerModel { Firstname = "bob", Lastname = "Marley" };
+
+			// TODO spel en spelverdeling aanmaken en score toevoegen 
+			// voor spell is iemand noob na spel is iemand skillevel export
+
+            Assert.Equal(SkillLevel.Expert, p.SkillLevel);
+        }
+    }
 }
