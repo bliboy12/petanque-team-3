@@ -39,8 +39,10 @@ public static class PlayerMappingExtension
             SpelerId = player.Id ?? throw new MappingException(),
             Voornaam = player.Firstname,
             Naam = player.Lastname,
-            Aanwezigheids = player.Attendances.Select(a => a.AsContract()).ToList(),
-            Dagklassements = player.DailyRankings.Select(d => d.AsContract()).ToList(),
+            // Aanwezigheids = player.Attendances.Select(a => a.AsContract()).ToList(), -> Create infinite loop
+            // Dagklassements = player.DailyRankings.Select(d => d.AsContract()).ToList(), -> Create infinite loop
+            Aanwezigheids = new List<AanwezigheidResponseContract>(),
+            Dagklassements = new List<DagKlassementResponseContract>(),
             SkillLevel = player.SkillLevel
         };
     }

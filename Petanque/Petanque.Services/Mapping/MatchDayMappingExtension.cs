@@ -2,7 +2,6 @@ using Petanque.Contracts.Requests;
 using Petanque.Contracts.Responses;
 using Petanque.Models;
 using Petanque.Services.Exceptions;
-using Petanque.Storage;
 using Petanque.Storage.Entity;
 
 namespace Petanque.Services.Mapping;
@@ -16,7 +15,7 @@ public static class MatchDayMappingExtension
             Id = matchDay.SpeeldagId,
             Date = matchDay.Datum,
             SeasonId = matchDay.SeizoensId,
-            Season = matchDay.Seizoens.AsModel(),
+            Season = matchDay.Seizoens?.AsModel(),
             Games = matchDay.Spels.Select(g => g.AsModel()).ToList(),
         };
     }
@@ -36,7 +35,7 @@ public static class MatchDayMappingExtension
         {
             SpeeldagId = matchDay.Id ?? throw new MappingException(),
             Datum = matchDay.Date,
-            Seizoenen = matchDay.Season.AsContract(),
+            Seizoenen = matchDay.Season?.AsContract() ?? throw new MappingException(),
             Spel = matchDay.Games.Select(s => s.AsContract()).ToList(),
         };
     }
@@ -48,8 +47,10 @@ public static class MatchDayMappingExtension
             SpeeldagId = matchDay.Id ?? throw new MappingException(),
             Datum = matchDay.Date,
             SeizoensId = matchDay.SeasonId,
-            Seizoens = matchDay.Season.AsEntity(),
-            Spels = matchDay.Games.Select(g => g.AsEntity()).ToList(),
+            // Seizoens = matchDay.Season?.AsEntity() ?? throw new MappingException(), -> Create infinite loop
+            // Spels = matchDay.Games.Select(g => g.AsEntity()).ToList(), -> Create infinite loop
+            Seizoens = null,
+            Spels = new List<Spel>()
         };
     }
 }

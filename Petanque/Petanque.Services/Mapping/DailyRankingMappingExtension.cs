@@ -55,8 +55,10 @@ public static class DailyRankingMappingExtension
             SpelerId = dailyRanking.PlayerId,
             Hoofdpunten = dailyRanking.MainPoints,
             PlusMinPunten = dailyRanking.PlusMinPoints,
-            Speeldag = dailyRanking.MatchDay.AsEntity(),
-            Speler = dailyRanking.Player.AsEntity()
+            // Speeldag = dailyRanking.MatchDay.AsEntity(), -> Create infinite loop
+            // Speler = dailyRanking.Player.AsEntity() -> Create infinite loop
+            Speeldag = null,
+            Speler = null
         };
     }
 }

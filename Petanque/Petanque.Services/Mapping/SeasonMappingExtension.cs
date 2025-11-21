@@ -16,7 +16,8 @@ public static class SeasonMappingExtension
             Id = season.SeizoensId,
             StartDate = season.Startdatum,
             EndDate = season.Einddatum,
-            MatchDays = season.Speeldags.Select(m => m.AsModel()).ToList()
+            //MatchDays = season.Speeldags.Select(m => m.AsModel()).ToList() // Create a circular reference
+            MatchDays = new List<MatchDayModel>()
         };
     }
 

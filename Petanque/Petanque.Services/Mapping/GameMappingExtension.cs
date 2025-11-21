@@ -56,8 +56,10 @@ public static class GameMappingExtension
             Terrein = game.Terrain,
             ScoreA = game.ScoreA,
             ScoreB = game.ScoreB,
-            Speeldag = game.MatchDay.AsEntity(),
-            Spelverdelings = game.GameDistributions.Select(g => g.AsEntity()).ToList()
+            // Speeldag = game.MatchDay.AsEntity(), -> Create infinite loop
+            // Spelverdelings = game.GameDistributions.Select(g => g.AsEntity()).ToList() -> Create infinite loop
+            Speeldag = null,
+            Spelverdelings = new List<Spelverdeling>()
         };
     }
 }
