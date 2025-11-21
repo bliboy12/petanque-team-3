@@ -25,5 +25,9 @@ namespace Petanque.Storage {
 
             return spelverdeling;
         }
-    }
+		public bool HeeftSpelerGespeeld(int spelerId)
+		{
+			return dbContext.Spelverdelings.Any(sv => sv.SpelerId == spelerId);
+		}
+	}
 }

@@ -120,6 +120,7 @@ CREATE TABLE `Speler` (
   `spelerId` int NOT NULL AUTO_INCREMENT,
   `voornaam` varchar(100) NOT NULL,
   `naam` varchar(100) NOT NULL,
+  `skillLevel` int NOT NULL default 0,
   PRIMARY KEY (`spelerId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
