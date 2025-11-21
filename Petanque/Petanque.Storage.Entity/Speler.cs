@@ -10,6 +10,8 @@ namespace Petanque.Storage.Entity {
 
         public string Naam { get; set; } = null!;
 
+        public int SkillLevel { get; set; } = 0;
+
         public virtual ICollection<Aanwezigheid> Aanwezigheids { get; set; } = new List<Aanwezigheid>();
 
         public virtual ICollection<Dagklassement> Dagklassements { get; set; } = new List<Dagklassement>();

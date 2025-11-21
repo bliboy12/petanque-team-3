@@ -47,15 +47,39 @@ namespace Petanque.Services.Services
             }).ToList();
         }
 
-        public struct smartDetails
-        {
-            public int Terrein;
-            public List<int> TeamLeden, Tegenspelers;
-        }
-        
-        public IEnumerable<SpelverdelingResponseContract> MaakVerdeling(IEnumerable<AanwezigheidResponseContract> aanwezigheden, int speeldagId)
-        {
-            _logger.LogCritical("Starting MaakVerdeling");
+		public struct smartDetails
+		{
+			public int Terrein;
+			public List<int> TeamLeden, Tegenspelers;
+		}
+		// Voor elke speler die aanwezig is op de speeldag geven wij een dictionary terug per volgnr van de speler met zijn correspondent SkillLevel
+		public Dictionary<int, Models.SkillLevel> BepaalSkillLevels(int speeldag)
+		{
+			// de volgnr van elke speler en zijn SkillLevel
+			var skillLevels = new Dictionary<int, Models.SkillLevel>();
+			var aanwezighedenMetSpeler = _aanwezigheidRepository.GetAanwezighedenOpSpeeldag(speeldag);
+
+			foreach (var aanwezigheid in aanwezighedenMetSpeler)
+			{
+				int spelerVolgnr = aanwezigheid.SpelerVolgnr;
+
+				var speler = aanwezigheid.Speler;
+				// checked als de speler al andere matchen ervoor heeft gespeelt, zo ja wordt hij geclassifeerd als een expert anders als een noob
+				// Als de spelerId al niet bestaat wilt het zeggen dat het een nieuwe speler is dus geven wij 0 als id maar die id bestaat sowieso niet dus
+				// wordt false terug gegeven.
+				bool heeftGespeeld = _spelverdelingRepository.HeeftSpelerGespeeld(aanwezigheid.SpelerId ?? 0);
+
+				if (speler.SkillLevel == (int)SkillLevel.Noob && !heeftGespeeld)
+					skillLevels[spelerVolgnr] = SkillLevel.Noob;
+				else
+					skillLevels[spelerVolgnr] = (SkillLevel)speler.SkillLevel;
+			}
+			return skillLevels;
+		}
+
+		public IEnumerable<SpelverdelingResponseContract> MaakVerdeling(IEnumerable<AanwezigheidResponseContract> aanwezigheden, int speeldagId)
+		{
+			_logger.LogCritical("Starting MaakVerdeling");
 
             const int maxAantalTerreinen = 10;
             const int aantalSpelrondes = 3;
