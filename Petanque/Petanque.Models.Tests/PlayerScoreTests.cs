@@ -98,5 +98,6 @@ namespace UTModel
 
 			Assert.Throws<PlayerScoreModelException>(() => gm.ScoreB = scoreB);
 		}
+
 	}
 }

@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Petanque.Contracts\Petanque.Contracts.csproj" />
     <ProjectReference Include="..\Petanque.Models\Petanque.Models.csproj" />
   </ItemGroup>
 
