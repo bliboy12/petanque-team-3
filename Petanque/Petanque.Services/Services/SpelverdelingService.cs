@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Petanque.Contracts.Responses;
+using Petanque.Models.Enums;
 using Petanque.Services.Mapping;
 using Petanque.Storage;
 using Petanque.Storage.Entity;
@@ -53,10 +54,10 @@ namespace Petanque.Services.Services
 			public List<int> TeamLeden, Tegenspelers;
 		}
 		// Voor elke speler die aanwezig is op de speeldag geven wij een dictionary terug per volgnr van de speler met zijn correspondent SkillLevel
-		public Dictionary<int, Models.SkillLevel> BepaalSkillLevels(int speeldag)
+		public Dictionary<int, SkillLevel> BepaalSkillLevels(int speeldag)
 		{
 			// de volgnr van elke speler en zijn SkillLevel
-			var skillLevels = new Dictionary<int, Models.SkillLevel>();
+			var skillLevels = new Dictionary<int, SkillLevel>();
 			var aanwezighedenMetSpeler = _aanwezigheidRepository.GetAanwezighedenOpSpeeldag(speeldag);
 
 			foreach (var aanwezigheid in aanwezighedenMetSpeler)

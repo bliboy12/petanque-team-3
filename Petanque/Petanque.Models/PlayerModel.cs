@@ -1,4 +1,5 @@
-﻿using Petanque.Models.Exceptions;
+﻿using Petanque.Models.Enums;
+using Petanque.Models.Exceptions;
 
 namespace Petanque.Models;
 
@@ -7,6 +8,7 @@ public class PlayerModel
 	private int? _id;
 	private string _firstname = "";
 	private string _lastname = "";
+	private SkillLevel _skillLevel = SkillLevel.Noob;
 
 	// Dutch: SpelerId
 	public int? Id
