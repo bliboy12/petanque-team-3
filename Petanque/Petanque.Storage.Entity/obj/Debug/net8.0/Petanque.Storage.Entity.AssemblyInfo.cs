@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Petanque.Storage.Entity")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7fb1ec7d479721dc3697d8c11782b25e78514ac6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b797da2ba82217afe7870c725a2a3d78efb9059d")]
 [assembly: System.Reflection.AssemblyProductAttribute("Petanque.Storage.Entity")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Petanque.Storage.Entity")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -6,5 +6,7 @@ namespace Petanque.Storage.Interfaces {
         void RemoveSpelverdelingen(List<Spelverdeling> spellen);
         Spelverdeling Create(Spelverdeling spelverdeling);
         IEnumerable<Spelverdeling> GetBySpelId(int spelId);
-    }
+        bool HeeftSpelerGespeeld(int spelerId);
+
+	}
 }

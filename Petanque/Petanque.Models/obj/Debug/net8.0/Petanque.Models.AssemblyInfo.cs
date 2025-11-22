@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Petanque.Models")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7c19cbb2aac09998353c04fbd96e0a2f5adc256b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b797da2ba82217afe7870c725a2a3d78efb9059d")]
 [assembly: System.Reflection.AssemblyProductAttribute("Petanque.Models")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Petanque.Models")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

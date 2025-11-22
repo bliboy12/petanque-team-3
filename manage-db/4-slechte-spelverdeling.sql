@@ -199,6 +199,7 @@ CREATE TABLE `Speler` (
   `spelerId` int NOT NULL AUTO_INCREMENT,
   `voornaam` varchar(100) NOT NULL,
   `naam` varchar(100) NOT NULL,
+  `skillLevel` int NOT NULL default 0,
   PRIMARY KEY (`spelerId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -209,7 +210,7 @@ CREATE TABLE `Speler` (
 
 LOCK TABLES `Speler` WRITE;
 /*!40000 ALTER TABLE `Speler` DISABLE KEYS */;
-INSERT INTO `Speler` (spelerId,naam,voornaam) VALUES (1,'Ardeneus','Jacqueline'),(2,'Adam','Annie'),(3,'Becqaert','JeanMarc'),(4,'Bonnier','Micheline'),(5,'Deblauwe','Dominicque'),(6,'Cotteneye','Pascal'),(7,'Delobel','Luc'),(8,'Decock','Geert'),(9,'Descammps','Ghislaine'),(10,'Deput','Diana'),(11,'Decroi','Nadia'),(12,'Dobbels','Marijke'),(13,'Engelbergh','Noella'),(14,'Ghesqueire','Saseyane'),(15,'Goos','Magda'),(16,'Hugo','Jo'),(17,'Kenes','René'),(18,'Kennes','Josephine'),(19,'Lautrie','Rudy'),(20,'Lammertijn','Marnix'),(21,'Laperre','Marleen'),(22,'Legrand','Leona'),(23,'LeBlon','Bernard'),(24,'Librecht','Ghislain'),(25,'Maes','Marc'),(26,'Mille','Henri'),(27,'Nisen','Jonhy'),(28,'Nuytten','Ghislain'),(29,'Platteau','Jacqueline'),(30,'Platteau','Richard'),(31,'Pacco','Linda'),(32,'Pacco','Lydia'),(33,'Pacco','Rika'),(34,'Peeters','Fleurette'),(35,'Salaets','Ghslain'),(36,'Saelens','Luc'),(37,'Soen','Therese'),(38,'Traen','Monicque'),(39,'Vandaele','Leopold'),(40,'Vandecasteele','Raymond'),(41,'Vanoppilinus','Gilbert'),(42,'Vanheule','Marianne'),(43,'Veldeman','Willy'),(44,'Vermeulen','Jim');
+INSERT INTO `Speler` (spelerId,naam,voornaam, skillLevel) VALUES (1,'Ardeneus','Jacqueline', 0),(2,'Adam','Annie', 0),(3,'Becqaert','JeanMarc', 1),(4,'Bonnier','Micheline', 0),(5,'Deblauwe','Dominicque', 1),(6,'Cotteneye','Pascal', 1),(7,'Delobel','Luc', 1),(8,'Decock','Geert', 0),(9,'Descammps','Ghislaine', 0),(10,'Deput','Diana', 1),(11,'Decroi','Nadia', 1),(12,'Dobbels','Marijke', 0),(13,'Engelbergh','Noella', 1),(14,'Ghesqueire','Saseyane', 1),(15,'Goos','Magda', 0),(16,'Hugo','Jo', 0),(17,'Kenes','René', 1),(18,'Kennes','Josephine', 1),(19,'Lautrie','Rudy', 1),(20,'Lammertijn','Marnix', 1),(21,'Laperre','Marleen', 0),(22,'Legrand','Leona', 1),(23,'LeBlon','Bernard', 0),(24,'Librecht','Ghislain', 1),(25,'Maes','Marc', 1),(26,'Mille','Henri', 1),(27,'Nisen','Jonhy', 1),(28,'Nuytten','Ghislain', 0),(29,'Platteau','Jacqueline', 0),(30,'Platteau','Richard', 0),(31,'Pacco','Linda', 0),(32,'Pacco','Lydia', 0),(33,'Pacco','Rika', 1),(34,'Peeters','Fleurette', 1),(35,'Salaets','Ghslain', 0),(36,'Saelens','Luc', 0),(37,'Soen','Therese', 0),(38,'Traen','Monicque', 0),(39,'Vandaele','Leopold', 1),(40,'Vandecasteele','Raymond', 0),(41,'Vanoppilinus','Gilbert', 0),(42,'Vanheule','Marianne', 0),(43,'Veldeman','Willy', 0),(44,'Vermeulen','Jim', 0);
 /*!40000 ALTER TABLE `Speler` ENABLE KEYS */;
 UNLOCK TABLES;
 
