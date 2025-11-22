@@ -6,4 +6,22 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Include="bin\Debug\net8.0\Petanque.Storage.Entity.deps.json" />
+    <Content Include="bin\Debug\net8.0\Petanque.Storage.Entity.dll" />
+    <Content Include="bin\Debug\net8.0\Petanque.Storage.Entity.pdb" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="bin\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="bin\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="bin\**" />
+  </ItemGroup>
+
 </Project>
