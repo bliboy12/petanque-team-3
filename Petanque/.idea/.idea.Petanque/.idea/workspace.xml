@@ -11,10 +11,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="75454461-056e-4e36-a46d-acd2a84235fb" name="Changes" comment="Fix: Fixing the mapping infinite recursive pointment loop V2">
+    <list default="true" id="75454461-056e-4e36-a46d-acd2a84235fb" name="Changes" comment="Fix: Fixing the mapping infinite recursive pointment loop V3">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Petanque/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Petanque/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Petanque.Services/Mapping/GameMappingExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Petanque.Services/Mapping/GameMappingExtension.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Petanque.Services/Mapping/MatchDayMappingExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Petanque.Services/Mapping/MatchDayMappingExtension.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Storage.Entity/Petanque.Storage.Entity.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Petanque.Storage.Entity/Petanque.Storage.Entity.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Storage/Petanque.Storage.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Petanque.Storage/Petanque.Storage.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +55,11 @@
     "Docker.Petanque.Api/Dockerfile.executor": "Run",
     "git-widget-placeholder": "lucas__mapping__v2",
     "node.js.selected.package.tslint": "(autodetect)"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
   }
 }]]></component>
   <component name="RunManager" selected=".NET Launch Settings Profile.Petanque.Api: http">
@@ -116,7 +121,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763900618295</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Fix: Fixing the mapping infinite recursive pointment loop V3">
+      <option name="closed" value="true" />
+      <created>1763900790517</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1763900790517</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="false" />
@@ -124,6 +137,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Fix: Fixing the mapping infinite recursive pointment loop" />
     <MESSAGE value="Fix: Fixing the mapping infinite recursive pointment loop V2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix: Fixing the mapping infinite recursive pointment loop V2" />
+    <MESSAGE value="Fix: Fixing the mapping infinite recursive pointment loop V3" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix: Fixing the mapping infinite recursive pointment loop V3" />
   </component>
 </project>
