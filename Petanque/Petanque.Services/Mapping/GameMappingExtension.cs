@@ -19,7 +19,8 @@ public static class GameMappingExtension
             ScoreA = game.ScoreA,
             ScoreB = game.ScoreB,
             MatchDay = game.Speeldag.AsModel(),
-            GameDistributions = game.Spelverdelings.Select(g => g.AsModel()).ToList()
+            //GameDistributions = game.Spelverdelings.Select(g => g.AsModel()).ToList(),
+            GameDistributions = new List<GameDistributionModel>(),
         };
     }
 
