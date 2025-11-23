@@ -17,7 +17,8 @@ public static class MatchDayMappingExtension
             Date = matchDay.Datum,
             SeasonId = matchDay.SeizoensId,
             Season = matchDay.Seizoens.AsModel(),
-            Games = matchDay.Spels.Select(g => g.AsModel()).ToList(),
+            // Games = matchDay.Spels.Select(g => g.AsModel()).ToList(),
+            Games = new List<GameModel>(),
         };
     }
 
