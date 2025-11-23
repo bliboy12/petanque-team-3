@@ -96,11 +96,15 @@ namespace Petanque.Services.Services
             Dictionary<string, int> aantalSpelersPerTerreinPerTeam; // key="terrein,team", value=aantalSpelers
             Dictionary<string, int> spelverdelingsInfo; // key="spelronde,terrein,team,nrInTeam", value=spelerVolgnr
             Dictionary<string, smartDetails> smartDetailsDictionary; // key="spelronde,spelerVolgnr", value="Terrein,TeamLeden,Tegenspelers"
+            Dictionary<int, int?> spelerVolgnrToSpelerId; // mapping van SpelerVolgnr naar SpelerId
 
             // STAP 1: Vul 'masterSpelerList', check aantal aanwezigen en terreinen, vul 'aantalSpelersPerTerreinPerTeam'
             {
                 if (aanwezigheden == null)
                     throw new InvalidOperationException($"BUG: Aanwezigheden zijn null. Dit mag niet gebeuren.");
+
+                // Create mapping from SpelerVolgnr to SpelerId
+                spelerVolgnrToSpelerId = aanwezigheden.ToDictionary(a => a.SpelerVolgnr, a => a.SpelerId);
 
                 masterSpelerList = aanwezigheden.Select(a => a.SpelerVolgnr).ToList();
                 if (masterSpelerList.Distinct().Count() != masterSpelerList.Count())
@@ -312,18 +316,19 @@ namespace Petanque.Services.Services
                         };
 
                         _spelRepository.Create(spel);
-
+    
                         foreach (char team in new List<char> { 'A', 'B' })
                         {
                             for (int nrInTeam = 1; nrInTeam <= aantalSpelersPerTerreinPerTeam[$"{terrein},{team}"]; nrInTeam++)
                             {
+                                int spelerVolgnr = spelverdelingsInfo[$"{spelronde},{terrein},{team},{nrInTeam}"];
                                 _spelverdelingRepository.Create(new Spelverdeling
                                 {
                                     SpelId = spel.SpelId,
                                     Team = $"Team {team}",
                                     SpelerPositie = $"P{nrInTeam}",
-                                    SpelerVolgnr = spelverdelingsInfo[$"{spelronde},{terrein},{team},{nrInTeam}"],
-                                    SpelerId = spelverdelingsInfo[$"{spelronde},{terrein},{team},{nrInTeam}"]
+                                    SpelerVolgnr = spelerVolgnr,
+                                    SpelerId = spelerVolgnrToSpelerId[spelerVolgnr]
                                 });
                             }
                         }
