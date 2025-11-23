@@ -7,6 +7,7 @@ interface Speler {
     spelerId: number;
     voornaam: string;
     naam: string;
+    skillLevel: number;
 }
 
 interface SpelResponseContract {
@@ -51,13 +52,6 @@ const createEmptyTeam = (): Team => ({
     points: 0,
 });
 
-
-
-const formatDateToDutch = (dateString: string): string => {
-    const date = new Date(dateString);
-    return ` speeldag: ${date.getDate()} ${date.toLocaleDateString("nl-NL", { month: "long" })}`;
-};
-
 // Component
 function Scorebladpagina() {
     const [gamesPerTerrein, setGamesPerTerrein] = useState<Record<string, Game[]>>({});
@@ -99,10 +93,12 @@ function Scorebladpagina() {
                 const terreinMap: Record<string, Record<number, Game>> = {};
 
                 data.forEach((entry) => {
+                  console.log(entry)
+
                     const terreinLabel = entry.spel.terrein.trim();
                     const spelId = entry.spel.spelId;
                     const teamKey = entry.team === "Team A" ? "teamA" : "teamB";
-                    const spelerNaam = `${entry.spelerVolgnr}. ${entry.speler.naam} ${entry.speler.voornaam}`;
+                    const spelerNaam = `${entry.spelerVolgnr}. ${entry.speler.naam} ${entry.speler.voornaam} (${entry.speler.skillLevel ? "Expert" : "Noob"})`;
 
                     if (!terreinMap[terreinLabel]) {
                         terreinMap[terreinLabel] = {};
@@ -131,6 +127,7 @@ function Scorebladpagina() {
                         const parsed = JSON.parse(opgeslagen) as Game[];
                         restoredGames[terrein] = games.map((game) => {
                             const match = parsed.find((g) => g.spelId === game.spelId);
+
                             return match
                                 ? {
                                     ...game,
