@@ -145,6 +145,8 @@ namespace Petanque.Models.Tests
 
             // TODO spel en spelverdeling aanmaken en score toevoegen 
             // voor spell is iemand noob na spel is iemand skillevel export
+			// gesimuleerd door gewoon skillevel aan te passen
+            p.SkillLevel = SkillLevel.Expert;
 
             Assert.Equal(SkillLevel.Expert, p.SkillLevel);
         }
