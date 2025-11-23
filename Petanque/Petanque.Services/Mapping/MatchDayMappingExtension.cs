@@ -16,7 +16,8 @@ public static class MatchDayMappingExtension
             Id = matchDay.SpeeldagId,
             Date = matchDay.Datum,
             SeasonId = matchDay.SeizoensId,
-            Season = matchDay.Seizoens.AsModel(),
+            //Season = matchDay.Seizoens.AsModel(),
+            Season = null,
             // Games = matchDay.Spels.Select(g => g.AsModel()).ToList(),
             Games = new List<GameModel>(),
         };
@@ -37,8 +38,10 @@ public static class MatchDayMappingExtension
         {
             SpeeldagId = matchDay.Id ?? throw new MappingException(),
             Datum = matchDay.Date,
-            Seizoenen = matchDay.Season.AsContract(),
-            Spel = matchDay.Games.Select(s => s.AsContract()).ToList(),
+            //Seizoenen = matchDay.Season.AsContract(),
+            //Spel = matchDay.Games.Select(s => s.AsContract()).ToList(),
+            Seizoenen = null,
+            Spel = new List<SpelResponseContract>()
         };
     }
 

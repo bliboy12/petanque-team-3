@@ -11,10 +11,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="75454461-056e-4e36-a46d-acd2a84235fb" name="Changes" comment="Fix: Fixing the mapping infinite recursive pointment loop V3">
+    <list default="true" id="75454461-056e-4e36-a46d-acd2a84235fb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Petanque/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Petanque/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Petanque.Storage.Entity/Petanque.Storage.Entity.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Petanque.Storage.Entity/Petanque.Storage.Entity.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Petanque.Storage/Petanque.Storage.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Petanque.Storage/Petanque.Storage.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Api/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Petanque.Api/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Services/Mapping/AttendanceMappingExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Petanque.Services/Mapping/AttendanceMappingExtension.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Services/Mapping/MatchDayMappingExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Petanque.Services/Mapping/MatchDayMappingExtension.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Services/Mapping/PlayerMappingExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Petanque.Services/Mapping/PlayerMappingExtension.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Services/Mapping/SeasonMappingExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Petanque.Services/Mapping/SeasonMappingExtension.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Services/Services/DagKlassementService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Petanque.Services/Services/DagKlassementService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Services/Services/SpelverdelingPDFService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Petanque.Services/Services/SpelverdelingPDFService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Services/Services/SpelverdelingService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Petanque.Services/Services/SpelverdelingService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Storage/AanwezigheidRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Petanque.Storage/AanwezigheidRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Storage/Id312896PetanqueContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Petanque.Storage/Id312896PetanqueContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/petanquefrontend/src/assets/pages/aanwezigheidspagina.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/petanquefrontend/src/assets/pages/aanwezigheidspagina.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/petanquefrontend/src/assets/pages/scorebladpagina.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/petanquefrontend/src/assets/pages/scorebladpagina.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/petanquefrontend/src/assets/pages/spelerpagina.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/petanquefrontend/src/assets/pages/spelerpagina.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,8 +45,11 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$USER_HOME$/.nuget/packages/microsoft.net.test.sdk/17.8.0/build/netcoreapp3.1/Microsoft.NET.Test.Sdk.Program.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7d9c427a6d9b4875a44ddf075e7fbd591de918/c0/2e6106f9/ControllerActionInvoker.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/20885d5d627d4da82a4a22d7c55abb3d50afdd1ab121738514d59792dc9993/Select.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/387238ef9c8f8c6b1dccf4dcba4eed0e459454919b2e4b9cad11a5071789df/Dictionary.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/59109b68aa8966a8b4c17bb8642684239e9598dc1f117d294c355534a932786/CastHelpers.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/785cb06347b08be517ad0b1b839ac619ef8f215fd3d132183d549a28ddf4016/LicenseType.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9a6b1457cbcf17db31a383ba49ef9bcc786cf3ef77146d997eee499b27a46d/Object.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/b7208b3f72528d22781d25fde9a55271bdf2b5aade4f03b1324579a25493cd8/List.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/c69576b4a074ad2839225611609498e344b7e2819997af48dbb2d2f8257f3/EntityFrameworkQueryableExtensions.cs" root0="FORCE_HIGHLIGHTING" />
@@ -53,7 +67,8 @@
   "keyToString": {
     ".NET Launch Settings Profile.Petanque.Api: http.executor": "Run",
     "Docker.Petanque.Api/Dockerfile.executor": "Run",
-    "git-widget-placeholder": "lucas__mapping__v2",
+    "XThreadsFramesViewSplitterKey": "0.5010352",
+    "git-widget-placeholder": "lucas__frontend__implement__skilllevel",
     "node.js.selected.package.tslint": "(autodetect)"
   },
   "keyToStringList": {
@@ -90,7 +105,10 @@
       <method v="2" />
     </configuration>
     <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
-      <deployment type="dockerfile" />
+      <deployment type="dockerfile">
+        <settings />
+      </deployment>
+      <EXTENSION ID="com.jetbrains.rider.docker.debug" isFastModeEnabled="true" isSslEnabled="false" />
       <method v="2" />
     </configuration>
     <list>
@@ -139,5 +157,63 @@
     <MESSAGE value="Fix: Fixing the mapping infinite recursive pointment loop V2" />
     <MESSAGE value="Fix: Fixing the mapping infinite recursive pointment loop V3" />
     <option name="LAST_COMMIT_MESSAGE" value="Fix: Fixing the mapping infinite recursive pointment loop V3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Petanque.Storage/AanwezigheidRepository.cs</url>
+          <line>29</line>
+          <properties documentPath="C:\Users\lucas\RiderProjects\petanque-team-3\Petanque\Petanque.Storage\AanwezigheidRepository.cs" containingFunctionPresentation="Method 'GetAanwezighedenOpSpeler'">
+            <startOffsets>
+              <option value="1091" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1243" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Petanque.Services/Services/SpelverdelingService.cs</url>
+          <line>40</line>
+          <properties documentPath="C:\Users\lucas\RiderProjects\petanque-team-3\Petanque\Petanque.Services\Services\SpelverdelingService.cs" containingFunctionPresentation="Method 'GetById'">
+            <startOffsets>
+              <option value="1602" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1963" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Petanque.Api/Controllers/SeizoensKlassementPDFController.cs</url>
+          <line>21</line>
+          <properties documentPath="C:\Users\lucas\RiderProjects\petanque-team-3\Petanque\Petanque.Api\Controllers\SeizoensKlassementPDFController.cs" containingFunctionPresentation="Method 'GeneratePdf'">
+            <startOffsets>
+              <option value="605" />
+            </startOffsets>
+            <endOffsets>
+              <option value="696" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Petanque.Api/Controllers/DagKlassementPDFController.cs</url>
+          <line>21</line>
+          <properties documentPath="C:\Users\lucas\RiderProjects\petanque-team-3\Petanque\Petanque.Api\Controllers\DagKlassementPDFController.cs" containingFunctionPresentation="Method 'GeneratePdf'">
+            <startOffsets>
+              <option value="740" />
+            </startOffsets>
+            <endOffsets>
+              <option value="821" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

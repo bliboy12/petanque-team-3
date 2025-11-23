@@ -264,15 +264,15 @@ public partial class Id312896PetanqueContext : DbContext
     protected static void ErrorAndExit(string msg1,string msg2)
     {
         Console.WriteLine($@"
-*********
-* ERROR *
-*********
-{msg1}
+        *********
+        * ERROR *
+        *********
+        {msg1}
 
-{msg2}
+        {msg2}
 
-Druk een toets om de backend af te sluiten...
-");
+        Druk een toets om de backend af te sluiten...
+        ");
         Console.ReadKey(true);
         Environment.Exit(1);
     }

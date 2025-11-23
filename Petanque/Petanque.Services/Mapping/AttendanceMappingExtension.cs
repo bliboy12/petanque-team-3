@@ -15,6 +15,8 @@ public static class AttendanceMappingExtension
         {
             Id = attendance.AanwezigheidId,
             MatchDayId = attendance.SpeeldagId,
+            //MatchDay = attendance.Speeldag.AsModel(),
+            MatchDay = null,
             PlayerId = attendance.SpelerId,
             PlayerNumber = attendance.SpelerVolgnr
         };
@@ -37,6 +39,7 @@ public static class AttendanceMappingExtension
             AanwezigheidId = attendance.Id ?? throw new MappingException(),
             SpeeldagId = attendance.MatchDayId,
             SpelerId = attendance.PlayerId,
+            SpeeldagDatum = attendance.MatchDay?.Date.ToString() ?? null,
             SpelerVolgnr = attendance.PlayerNumber
         };
     }
@@ -45,12 +48,14 @@ public static class AttendanceMappingExtension
     {
         return new Aanwezigheid
         {
-            AanwezigheidId = attendance.Id ?? throw new MappingException(),
+            AanwezigheidId = attendance.Id ?? 0,
             SpeeldagId = attendance.MatchDayId,
             SpelerId = attendance.PlayerId,
             SpelerVolgnr = attendance.PlayerNumber,
-            Speeldag = attendance.MatchDay.AsEntity(),
-            Speler = attendance.Player.AsEntity()
+            // Speeldag = attendance.MatchDay.AsEntity(),
+            // Speler = attendance.Player.AsEntity()
+            Speeldag = null,
+            Speler = null
         };
     }
 }

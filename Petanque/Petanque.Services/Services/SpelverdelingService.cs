@@ -37,7 +37,8 @@ namespace Petanque.Services.Services
 
             var aanwezigheden = _aanwezigheidRepository.GetAanwezighedenOpSpeeldag(speeldagId);
 
-            return spelverdelingen.Select(sv =>
+            
+            var t = spelverdelingen.Select(sv =>
             {
                 var speler = aanwezigheden
                     .FirstOrDefault(a => a.SpelerVolgnr == sv.SpelerVolgnr)
@@ -47,6 +48,8 @@ namespace Petanque.Services.Services
 
                 return MapToReturn(sv, speler, spel);
             }).ToList();
+
+            return t;
         }
 
         public struct smartDetails
@@ -348,7 +351,8 @@ namespace Petanque.Services.Services
                 {
                     SpelerId = speler.SpelerId,
                     Voornaam = speler.Voornaam,
-                    Naam = speler.Naam
+                    Naam = speler.Naam,
+                    SkillLevel = (SkillLevel) speler.SkillLevel
                 },
                 Spel = new SpelResponseContract
                 {
