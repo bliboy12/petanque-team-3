@@ -59,8 +59,10 @@ public static class GameDistributionMappingExtension
             SpelerPositie = gameDistribution.PlayerPosition,
             SpelerVolgnr = gameDistribution.PlayerOrderNumber,
             SpelerId = gameDistribution.PlayerId,
-            Spel = gameDistribution.Game.AsEntity(),
-            Speler = gameDistribution.Player.AsEntity()
+            // Spel = gameDistribution.Game.AsEntity(), -> Create infinite loop
+            // Speler = gameDistribution.Player.AsEntity() -> Create infinite loop
+            Spel = null,
+            Speler = null
         };
     }
 }

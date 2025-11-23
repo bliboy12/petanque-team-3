@@ -48,8 +48,10 @@ public static class MatchDayMappingExtension
             SpeeldagId = matchDay.Id ?? throw new MappingException(),
             Datum = matchDay.Date,
             SeizoensId = matchDay.SeasonId,
-            Seizoens = matchDay.Season.AsEntity(),
-            Spels = matchDay.Games.Select(g => g.AsEntity()).ToList(),
+            // Seizoens = matchDay.Season?.AsEntity() ?? throw new MappingException(), -> Create infinite loop
+            // Spels = matchDay.Games.Select(g => g.AsEntity()).ToList(), -> Create infinite loop
+            Seizoens = null,
+            Spels = new List<Spel>()
         };
     }
 }
