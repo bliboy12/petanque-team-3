@@ -12,7 +12,35 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3f1dcfb4-58dd-4a6d-9930-8de4b23aa6d9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Petanque.Models/obj/Debug/net8.0/Petanque.Models.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Petanque.Models/obj/Debug/net8.0/Petanque.Models.AssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Petanque/.idea/copilot.data.migration.agent.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Petanque/.idea/copilot.data.migration.ask.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Petanque/.idea/copilot.data.migration.ask2agent.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Petanque/.idea/copilot.data.migration.edit.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Petanque/.idea/httpRequests/http-requests-log.http" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Petanque/.idea/indexLayout.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Petanque/.idea/projectSettingsUpdater.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Petanque/.idea/shelf/Uncommitted_changes_before_Checkout_at_02_11_2025_21_41_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Petanque/.idea/shelf/Uncommitted_changes_before_Checkout_at_02_11_2025_21_41__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Petanque/.idea/shelf/Uncommitted_changes_before_Checkout_at_31_10_2025_16_18_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Petanque/.idea/shelf/Uncommitted_changes_before_Checkout_at_31_10_2025_16_18__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Petanque/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Petanque/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Models/obj/Debug/net8.0/Petanque.Models.AssemblyInfo.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Models/obj/Debug/net8.0/Petanque.Models.AssemblyInfoInputs.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Storage.Entity/obj/Debug/net8.0/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Storage.Entity/obj/Debug/net8.0/Petanque.Storage.Entity.AssemblyInfo.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Storage.Entity/obj/Debug/net8.0/Petanque.Storage.Entity.AssemblyInfoInputs.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Storage.Entity/obj/Debug/net8.0/Petanque.Storage.Entity.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Storage.Entity/obj/Debug/net8.0/Petanque.Storage.Entity.GlobalUsings.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Storage.Entity/obj/Debug/net8.0/Petanque.Storage.Entity.assets.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Storage.Entity/obj/Petanque.Storage.Entity.csproj.nuget.dgspec.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Storage.Entity/obj/Petanque.Storage.Entity.csproj.nuget.g.props" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Storage.Entity/obj/Petanque.Storage.Entity.csproj.nuget.g.targets" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Storage.Entity/obj/project.assets.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Storage.Entity/obj/project.nuget.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Storage.Entity/obj/project.packagespec.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Storage.Entity/obj/rider.project.model.nuget.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Petanque.Storage.Entity/obj/rider.project.restore.info" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,10 +65,12 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9a6b1457cbcf17db31a383ba49ef9bcc786cf3ef77146d997eee499b27a46d/Object.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/b7208b3f72528d22781d25fde9a55271bdf2b5aade4f03b1324579a25493cd8/List.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/c69576b4a074ad2839225611609498e344b7e2819997af48dbb2d2f8257f3/EntityFrameworkQueryableExtensions.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/lucas/RiderProjects/petanque-team-3/Petanque/Petanque.Api/appsettings.json" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/lucas/RiderProjects/petanque-team-3/Petanque/Petanque.Storage.Entity/obj/Debug/net8.0/Petanque.Storage.Entity.AssemblyInfo.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/lucas/RiderProjects/petanque-team-3/Petanque/Petanque.Storage.Entity/obj/Petanque.Storage.Entity.csproj.nuget.dgspec.json" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/lucas/RiderProjects/petanque-team-3/Petanque/Petanque.Storage/Id312896PetanqueContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/lucas/RiderProjects/petanque-team-3/Petanque/Petanque.Models/obj/Debug/net8.0/Petanque.Models.AssemblyInfo.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/lucas/RiderProjects/petanque-team-3/Petanque/Petanque.Models/obj/Debug/net8.0/Petanque.Models.AssemblyInfo.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/lucas/RiderProjects/petanque-team-3/Petanque/Petanque.Models/obj/Debug/net8.0/Petanque.Models.AssemblyInfo.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/lucas/RiderProjects/petanque-team-3/Petanque/Petanque.Models/obj/Debug/net8.0/Petanque.Models.AssemblyInfo.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/lucas/RiderProjects/petanque-team-3/Petanque/Petanque.Models/obj/Debug/net8.0/Petanque.Models.AssemblyInfo.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/lucas/RiderProjects/petanque-team-3/Petanque/Petanque.Storage.Entity/obj/Debug/net8.0/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/petanquefrontend/package-lock.json" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
@@ -56,26 +86,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET Launch Settings Profile.Petanque.Api: http.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.Petanque.Api/Dockerfile.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.Petanque.Api | #1.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;lucas__fixing__mapping__bug&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\lucas\\RiderProjects\\petanque-team-3\\Petanque\\petanquefrontend\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Launch Settings Profile.Petanque.Api: http.executor": "Run",
+    "Docker.Petanque.Api/Dockerfile.executor": "Run",
+    "HTTP Request.Petanque.Api | #1.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "fix__git__ignore",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "C:\\Users\\lucas\\RiderProjects\\petanque-team-3\\Petanque\\petanquefrontend\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected=".NET Launch Settings Profile.Petanque.Api: http">
     <configuration name="Petanque.Api | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/Petanque.Api/Petanque.Api.http" executionIdentifier="#1" runType="Run single request">
       <method v="2" />
@@ -169,6 +199,14 @@
       <envs />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue=".NET Launch Settings Profile.Petanque.Api: IIS Express" />
+      <item itemvalue=".NET Launch Settings Profile.Petanque.Api: http" />
+      <item itemvalue=".NET Launch Settings Profile.Petanque.Api: https" />
+      <item itemvalue="Docker.Petanque.Api/Dockerfile" />
+      <item itemvalue="HTTP Request.Petanque.Api | #1" />
+      <item itemvalue="npm.petanquefrontend: run" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="HTTP Request.Petanque.Api | #1" />
