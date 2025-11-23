@@ -28,7 +28,7 @@ public static class PlayerMappingExtension
         return new PlayerModel
         {
             Firstname = player.Voornaam,
-            Lastname = player.Naam,
+            Lastname = player.Naam
         };
     }
 
@@ -49,7 +49,7 @@ public static class PlayerMappingExtension
     {
         return new Speler
         {
-            SpelerId = player.Id ?? throw new MappingException(),
+            SpelerId = player.Id ?? 0/*?? throw new MappingException()*/,
             Voornaam = player.Firstname,
             Naam = player.Lastname,
             SkillLevel = (int)player.SkillLevel

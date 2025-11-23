@@ -1,4 +1,5 @@
-﻿using Petanque.Models.Exceptions;
+﻿using Petanque.Contracts.Responses;
+using Petanque.Models.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -191,5 +192,14 @@ namespace Petanque.Models.Tests
 
 			Assert.Null(g.Game);
 		}
-	}
+
+        [Fact]
+        public void Test_GameDistribution_Has_3Noob_Players_2Expert_Players() {
+
+			var matchDayId = 1;
+			var playerPresences = new List<AanwezigheidResponseContract>();
+			// SpelverdelingService.MaakVerdeling aanroepen (IEnumerable<AanwezigheidResponseContract> aanwezigheden, int speeldagId)
+			// Controleren of per team het aantal expert en noob spelers correct zijn
+        }
+    }
 }

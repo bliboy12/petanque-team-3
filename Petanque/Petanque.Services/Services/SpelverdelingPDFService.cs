@@ -1,12 +1,13 @@
 using Petanque.Contracts.Responses;
 using Petanque.Services.Interfaces;
 using Petanque.Storage;
+using Petanque.Storage.Interfaces;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 
 namespace Petanque.Services.Services
 {
-    public class SpelverdelingPDFService(SpeeldagRepository speeldagRepository) : ISpelverdelingPDFService
+    public class SpelverdelingPDFService(ISpeeldagRepository speeldagRepository) : ISpelverdelingPDFService
     {
         public Stream GenerateSpelverdelingPDF(IEnumerable<SpelverdelingResponseContract> spelverdelingen)
         {
@@ -92,8 +93,9 @@ namespace Petanque.Services.Services
 
                                             foreach (var speler in teamA)
                                             {
+                                                var skill = speler.Speler.SkillLevel == 0 ? "Noob" : "Expert";
                                                 var naam = speler.Speler != null
-                                                    ? $"{speler.SpelerVolgnr}. {speler.Speler.Naam} {speler.Speler.Voornaam}"
+                                                    ? $"{speler.SpelerVolgnr}. {speler.Speler.Naam} {speler.Speler.Voornaam} ({skill})"
                                                     : $"Onbekende speler (volgnr {speler.SpelerVolgnr})";
                                                 teamCol.Item().Text(naam);
                                             }
@@ -125,8 +127,10 @@ namespace Petanque.Services.Services
 
                                             foreach (var speler in teamB)
                                             {
+                                                var skill = speler.Speler.SkillLevel == 0 ? "Noob" : "Expert";
+                                                
                                                 var naam = speler.Speler != null
-                                                    ? $"{speler.SpelerVolgnr}. {speler.Speler.Naam} {speler.Speler.Voornaam}"
+                                                    ? $"{speler.SpelerVolgnr}. {speler.Speler.Naam} {speler.Speler.Voornaam} ({skill})"
                                                     : $"Onbekende speler (volgnr {speler.SpelerVolgnr})";
                                                 teamCol.Item().Text(naam);
                                             }

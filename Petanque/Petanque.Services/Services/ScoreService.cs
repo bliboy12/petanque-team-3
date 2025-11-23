@@ -2,10 +2,11 @@
 using Petanque.Services.Interfaces;
 using Petanque.Services.Mapping;
 using Petanque.Storage;
+using Petanque.Storage.Interfaces;
 
 namespace Petanque.Services.Services
 {
-    public class ScoreService(SpelRepository spelRepository) : IScoreService
+    public class ScoreService(ISpelRepository spelRepository) : IScoreService
     {
         public SpelResponseContract? GetById(int id)
         {
