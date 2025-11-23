@@ -1,4 +1,5 @@
-﻿using Petanque.Models.Exceptions;
+﻿using Petanque.Models.Enums;
+using Petanque.Models.Exceptions;
 
 namespace Petanque.Models;
 

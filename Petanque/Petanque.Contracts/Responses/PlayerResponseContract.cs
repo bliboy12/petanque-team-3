@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Petanque.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace Petanque.Contracts.Responses
 
         public string Naam { get; set; } = null!;
 
-        public SkillLevel SkillLevel { get; set;}
+        public int SkillLevel { get; set;}
 
         public virtual ICollection<AanwezigheidResponseContract> Aanwezigheids { get; set; } = new List<AanwezigheidResponseContract>();
 
