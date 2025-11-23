@@ -34,7 +34,7 @@ public partial class Id312896PetanqueContext : DbContext
     public virtual DbSet<Spelverdeling> Spelverdelings { get; set; }
 
     protected string _connString = "server=127.0.0.1;port=3306;database=petanque;user=root;password=root";
-
+    
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseMySql(_connString, Microsoft.EntityFrameworkCore.ServerVersion.AutoDetect(_connString));

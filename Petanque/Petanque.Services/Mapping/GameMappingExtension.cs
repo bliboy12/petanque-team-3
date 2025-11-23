@@ -18,8 +18,10 @@ public static class GameMappingExtension
             Terrain = game.Terrein,
             ScoreA = game.ScoreA,
             ScoreB = game.ScoreB,
-            MatchDay = game.Speeldag.AsModel(),
-            GameDistributions = game.Spelverdelings.Select(g => g.AsModel()).ToList()
+            //MatchDay = game.Speeldag.AsModel(),
+            //GameDistributions = game.Spelverdelings.Select(g => g.AsModel()).ToList(),
+            MatchDay = null,
+            GameDistributions = new List<GameDistributionModel>(),
         };
     }
 
