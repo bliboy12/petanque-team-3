@@ -33,8 +33,8 @@ public partial class Id312896PetanqueContext : DbContext
 
     public virtual DbSet<Spelverdeling> Spelverdelings { get; set; }
 
-    protected string _connString = "server=127.0.0.1;port=3307;database=petanque;user=root;password=";
-
+    protected string _connString = "server=127.0.0.1;port=3306;database=petanque;user=root;password=root";
+    
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseMySql(_connString, Microsoft.EntityFrameworkCore.ServerVersion.AutoDetect(_connString));
@@ -264,15 +264,15 @@ public partial class Id312896PetanqueContext : DbContext
     protected static void ErrorAndExit(string msg1,string msg2)
     {
         Console.WriteLine($@"
-*********
-* ERROR *
-*********
-{msg1}
+        *********
+        * ERROR *
+        *********
+        {msg1}
 
-{msg2}
+        {msg2}
 
-Druk een toets om de backend af te sluiten...
-");
+        Druk een toets om de backend af te sluiten...
+        ");
         Console.ReadKey(true);
         Environment.Exit(1);
     }

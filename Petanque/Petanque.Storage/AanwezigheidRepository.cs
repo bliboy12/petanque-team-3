@@ -26,10 +26,13 @@ namespace Petanque.Storage {
         }
 
         public IEnumerable<Aanwezigheid> GetAanwezighedenOpSpeler(int spelerId) {
-            return dbContext.Aanwezigheids
-               .Include(a => a.Speeldag)
-               .Where(a => a.SpelerId == spelerId)
-               .ToList();
+            
+            var t = dbContext.Aanwezigheids
+                .Include(a => a.Speeldag)
+                .Where(a => a.SpelerId == spelerId)
+                .ToList();
+
+            return t;
         }
 
         public IEnumerable<Aanwezigheid> GetAll() {

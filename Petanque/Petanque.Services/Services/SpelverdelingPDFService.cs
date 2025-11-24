@@ -93,8 +93,9 @@ namespace Petanque.Services.Services
 
                                             foreach (var speler in teamA)
                                             {
+                                                var skill = speler.Speler.SkillLevel == 0 ? "Noob" : "Expert";
                                                 var naam = speler.Speler != null
-                                                    ? $"{speler.SpelerVolgnr}. {speler.Speler.Naam} {speler.Speler.Voornaam}"
+                                                    ? $"{speler.SpelerVolgnr}. {speler.Speler.Naam} {speler.Speler.Voornaam} ({skill})"
                                                     : $"Onbekende speler (volgnr {speler.SpelerVolgnr})";
                                                 teamCol.Item().Text(naam);
                                             }
@@ -126,8 +127,10 @@ namespace Petanque.Services.Services
 
                                             foreach (var speler in teamB)
                                             {
+                                                var skill = speler.Speler.SkillLevel == 0 ? "Noob" : "Expert";
+                                                
                                                 var naam = speler.Speler != null
-                                                    ? $"{speler.SpelerVolgnr}. {speler.Speler.Naam} {speler.Speler.Voornaam}"
+                                                    ? $"{speler.SpelerVolgnr}. {speler.Speler.Naam} {speler.Speler.Voornaam} ({skill})"
                                                     : $"Onbekende speler (volgnr {speler.SpelerVolgnr})";
                                                 teamCol.Item().Text(naam);
                                             }

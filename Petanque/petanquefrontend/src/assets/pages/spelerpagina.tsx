@@ -6,6 +6,7 @@ interface Speler {
     spelerId: number;
     voornaam: string;
     naam: string;
+    skillLevel: number;
 }
 
 function SpelerPagina() {
@@ -213,7 +214,7 @@ function SpelerPagina() {
                                         className="font-semibold text-[#44444c] text-xl cursor-pointer"
                                         title="Wijzig lid"
                                     >
-                                        {speler.naam} {speler.voornaam}
+                                        {speler.naam} {speler.voornaam} ({speler.skillLevel ? "Expert" : "Noob"})
                                     </button>
                                     <span>
                                         <button

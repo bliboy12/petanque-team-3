@@ -16,7 +16,8 @@ public static class SeasonMappingExtension
             Id = season.SeizoensId,
             StartDate = season.Startdatum,
             EndDate = season.Einddatum,
-            MatchDays = season.Speeldags.Select(m => m.AsModel()).ToList()
+            // MatchDays = season.Speeldags.Select(m => m.AsModel()).ToList() // Create a circular reference
+            MatchDays = new List<MatchDayModel>()
         };
     }
 
@@ -36,7 +37,8 @@ public static class SeasonMappingExtension
             SeizoensId = season.Id ?? throw new MappingException(),
             Startdatum = season.StartDate,
             Einddatum = season.EndDate,
-            Speeldags = season.MatchDays.Select(m => m.AsContract()).ToList()
+            //Speeldags = season.MatchDays.Select(m => m.AsContract()).ToList()
+            Speeldags = new List<SpeeldagResponseContract>()
         };
     }
 

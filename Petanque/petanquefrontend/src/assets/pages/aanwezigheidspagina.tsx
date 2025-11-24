@@ -7,6 +7,7 @@ interface Speler {
     spelerId: number;
     voornaam: string;
     naam: string;
+    skillLevel: number;
 }
 
 interface Speeldag {
@@ -239,6 +240,9 @@ function Aanwezigheidspagina() {
                             >
                                 Voornaam {sortField === 'voornaam' ? '▲' : ''}
                             </th>
+                            <th className="px-6 py-1 my-0">
+                              Skill Level
+                            </th>
                             <th className="px-6 py-1">Aanwezig?</th>
                         </tr>
                     </thead>
@@ -261,6 +265,7 @@ function Aanwezigheidspagina() {
                             >
                                 <td className="px-6 py-1 border-b border-gray-200">{speler.naam}</td>
                                 <td className="px-6 py-1 border-b border-gray-200">{speler.voornaam}</td>
+                                <td className="px-6 py-1 border-b border-gray-200">{speler.skillLevel ? "Expert" : "Noob"}</td>
                                 <td className="px-6 py-1 border-b border-gray-200 text-center">
                                     <div className="flex items-center justify-center space-x-2">
                                         <input
