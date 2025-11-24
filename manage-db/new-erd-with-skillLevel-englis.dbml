@@ -1,0 +1,83 @@
+// ERD created via https://dbdiagram.io/d
+// Using DBML DataBase Markup Language
+// Use DBML to define your database structure
+// Documentation and syntax: https://dbml.dbdiagram.io/docs
+
+Table Player {
+  PlayerId integer [primary key]
+  Firstname varchar
+  Lastname varchar
+  SkillLevel integer
+}
+
+Table Attendance {
+  AttendanceId integer [primary key]
+  PlayerId integer
+  MatchDayId integer
+  PlayerNumber integer
+}
+
+Table GameDistribution {
+  GameDistributionId integer [primary key]
+  GameId integer
+  Team varchar
+  PlayerPosition varchar
+  PlayerNumber integer
+  PlayerId integer
+}
+
+Table Game {
+  GameId integer [primary key]
+  MatchDayId integer
+  Terrain varchar
+  ScoreA integer
+  ScoreB integer
+}
+
+Table DailyRanking {
+  DailyRankingId integer [primary key]
+  PlayerId integer
+  MatchDayId integer
+  MainPoints integer
+  PlusMinPoints integer
+}
+
+Table Season {
+  SeasonId integer [primary key]
+  StartDate datetime
+  EndDate datetime
+}
+
+Table MatchDay {
+  MatchDayId integer [primary key]
+  Date datetime
+  SeasonId integer
+}
+
+Table ViewSeasonRanking {
+  SeasonId integer [primary key]
+  PlayerId integer
+  PlayerLastname varchar
+  PlayerFirstname varchar
+  MainPoints integer
+  PlusMinPoints integer
+}
+
+
+Ref PlayerId_Attendance: Attendance.PlayerId > Player.PlayerId // many-to-one
+
+Ref PlayerId_GameDistribution: GameDistribution.PlayerId > Player.PlayerId // many-to-one
+
+Ref PlayerId_DailyRanking: DailyRanking.PlayerId > Player.PlayerId // many-to-one
+
+Ref Game_GameDistribution: GameDistribution.GameId > Game.GameId // many-to-one
+
+Ref: Attendance.MatchDayId - MatchDay.MatchDayId // one-to-one
+
+Ref: DailyRanking.MatchDayId - MatchDay.MatchDayId // // one-to-one
+
+Ref: Season.SeasonId - MatchDay.SeasonId // // one-to-one
+
+
+
+
