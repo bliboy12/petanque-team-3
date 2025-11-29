@@ -1,0 +1,39 @@
+name: .NET CI
+
+# Trigger op push en pull request naar main
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        dotnet-version: [10.0]
+
+    steps:
+      # Stap 1: Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Stap 2: .NET setup
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }} # zal de dotnet-version checen dus voor 8.0 en 10.0 werken
+
+      # Stap 3: Restore all dependencies
+      - name: Restore dependencies
+        run: dotnet restore
+
+      # Stap 4: Build the complete solution
+      - name: Build solution
+        run: dotnet build --no-restore --configuration Release
+
+      # Stap 5: Run unit tests project
+      - name: Run unit tests
+        run: dotnet test ./tests/Petanque.Models.Tests/Petanque.Models.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=test_results.trx"
