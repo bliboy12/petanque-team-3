@@ -24,8 +24,9 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 10.0.100-preview.7  # example preview version
-          #dotnet-version: ${{ matrix.dotnet-version }} # zal de dotnet-version checen dus voor 8.0 en 10.0 werken
+          package-type: sdk
+          include-prerelease: true
+          version: 10.0.100-preview.7 # example preview version
 
       # Stap 3: Restore all dependencies
       - name: Restore dependencies
