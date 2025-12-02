@@ -28,15 +28,25 @@ jobs:
 
       # Stap 3: Restore all dependencies
       - name: Restore dependencies
-        working-directory: ./Petanque
-        run: dotnet restore Petanque.sln
+        run: |
+          dotnet restore ./Petanque/Petanque.Api/Petanque.Api.csproj
+          dotnet restore ./Petanque/Petanque.Contracts/Petanque.Contracts.csproj
+          dotnet restore ./Petanque/Petanque.Models/Petanque.Models.csproj
+          dotnet restore ./Petanque/Petanque.Services/Petanque.Services.csproj
+          dotnet restore ./Petanque/Petanque.Storage/Petanque.Storage.csproj
+          dotnet restore ./Petanque/Petanque.Storage.Entity/Petanque.Storage.Entity.csproj
 
       # Stap 4: Build the complete solution
       - name: Build solution
-        working-directory: ./Petanque
-        run: dotnet build Petanque.sln --no-restore --configuration Release
+        run: |
+          dotnet build ./Petanque/Petanque.Api/Petanque.Api.csproj --configuration Release --no-restore
+          dotnet build ./Petanque/Petanque.Contracts/Petanque.Contracts.csproj --configuration Release --no-restore
+          dotnet build ./Petanque/Petanque.Models/Petanque.Models.csproj --configuration Release --no-restore
+          dotnet build ./Petanque/Petanque.Services/Petanque.Services.csproj --configuration Release --no-restore
+          dotnet build ./Petanque/Petanque.Storage/Petanque.Storage.csproj --configuration Release --no-restore
+          dotnet build ./Petanque/Petanque.Storage.Entity/Petanque.Storage.Entity.csproj --configuration Release --no-restore
 
       # Stap 5: Run unit tests project
       - name: Run unit tests
-        working-directory: ./Petanque/Petanque.Models.Tests
-        run: dotnet test Petanque.Models.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=test_results.trx"
+        run: dotnet test ./Petanque/Petanque.Models.Tests/Petanque.Models.Tests.csproj --configuration Release --no-build --logger "trx;LogFileName=test_results.trx"
+
