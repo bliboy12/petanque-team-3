@@ -28,12 +28,15 @@ jobs:
 
       # Stap 3: Restore all dependencies
       - name: Restore dependencies
-        run: dotnet restore
+        working-directory: ./Petanque
+        run: dotnet restore Petanque.sln
 
       # Stap 4: Build the complete solution
       - name: Build solution
-        run: dotnet build --no-restore --configuration Release
+        working-directory: ./Petanque
+        run: dotnet build Petanque.sln --no-restore --configuration Release
 
       # Stap 5: Run unit tests project
       - name: Run unit tests
-        run: dotnet test ./tests/Petanque.Models.Tests/Petanque.Models.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=test_results.trx"
+        working-directory: ./Petanque/Petanque.Models.Tests
+        run: dotnet test Petanque.Models.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=test_results.trx"
