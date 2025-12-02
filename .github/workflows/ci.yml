@@ -52,5 +52,11 @@ jobs:
 
       # Stap 5: Run unit tests project
       - name: Run unit tests
-        run: dotnet test ./Petanque/Petanque.Models.Tests/Petanque.Models.Tests.csproj --configuration Release --no-build --logger "trx;LogFileName=test_results.trx"
+        run: dotnet test ./Petanque/Petanque.Models.Tests/Petanque.Models.Tests.csproj \
+          --configuration Release \
+          --framework net10.0 \
+          --logger "trx;LogFileName=TestResults/test_results.trx"
+     # - name: Run unit tests
+     #   run: dotnet test ./Petanque/Petanque.Models.Tests/Petanque.Models.Tests.csproj --configuration Release --no-build --logger "trx;LogFileName=test_results.trx"
+
 
