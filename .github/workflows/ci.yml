@@ -1,0 +1,58 @@
+name: .NET CI
+
+# Trigger op push en pull request naar main
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        dotnet-version: [10.0]
+
+    steps:
+      # Stap 1: Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+    
+      # Stap 2: .NET setup
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+
+      # Stap 3: Restore all dependencies
+      - name: Restore dependencies
+        run: |
+          dotnet restore ./Petanque/Petanque.Api/Petanque.Api.csproj
+          dotnet restore ./Petanque/Petanque.Contracts/Petanque.Contracts.csproj
+          dotnet restore ./Petanque/Petanque.Models/Petanque.Models.csproj
+          dotnet restore ./Petanque/Petanque.Services/Petanque.Services.csproj
+          dotnet restore ./Petanque/Petanque.Storage/Petanque.Storage.csproj
+          dotnet restore ./Petanque/Petanque.Storage.Entity/Petanque.Storage.Entity.csproj
+
+      # Stap 4: Build the complete solution
+      - name: Build solution
+        run: |
+          dotnet build ./Petanque/Petanque.Api/Petanque.Api.csproj --configuration Release --no-restore
+          dotnet build ./Petanque/Petanque.Contracts/Petanque.Contracts.csproj --configuration Release --no-restore
+          dotnet build ./Petanque/Petanque.Models/Petanque.Models.csproj --configuration Release --no-restore
+          dotnet build ./Petanque/Petanque.Services/Petanque.Services.csproj --configuration Release --no-restore
+          dotnet build ./Petanque/Petanque.Storage/Petanque.Storage.csproj --configuration Release --no-restore
+          dotnet build ./Petanque/Petanque.Storage.Entity/Petanque.Storage.Entity.csproj --configuration Release --no-restore
+
+      # Stap 5: Run unit tests project
+      - name: Run unit tests
+        run: |
+          dotnet test ./Petanque/Petanque.Models.Tests/Petanque.Models.Tests.csproj \
+          --configuration Release \
+          --framework net10.0 \
+          --logger "trx;LogFileName=TestResults/test_results.trx"
+
+
+
