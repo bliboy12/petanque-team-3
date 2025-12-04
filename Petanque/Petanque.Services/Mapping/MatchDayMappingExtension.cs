@@ -19,7 +19,7 @@ public static class MatchDayMappingExtension
             //Season = matchDay.Seizoens.AsModel(),
             Season = null,
             // Games = matchDay.Spels.Select(g => g.AsModel()).ToList(),
-            Games = new List<GameModel>(),
+            Games = matchDay.Spels?.Select(s => s.AsModel()).ToList() ?? new List<GameModel>(),
         };
     }
 
@@ -41,7 +41,7 @@ public static class MatchDayMappingExtension
             //Seizoenen = matchDay.Season.AsContract(),
             //Spel = matchDay.Games.Select(s => s.AsContract()).ToList(),
             Seizoenen = null,
-            Spel = new List<SpelResponseContract>()
+            Spel = matchDay.Games?.Select(s => s.AsContract()).ToList() ?? new List<SpelResponseContract>(),
         };
     }
 

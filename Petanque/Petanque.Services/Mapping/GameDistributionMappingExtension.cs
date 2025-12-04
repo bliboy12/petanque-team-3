@@ -19,8 +19,8 @@ public static class GameDistributionMappingExtension
             PlayerPosition = gameDistribution.SpelerPositie,
             PlayerOrderNumber = gameDistribution.SpelerVolgnr,
             PlayerId = gameDistribution.SpelerId,
-            Player = gameDistribution.Speler.AsModel(),
-            Game = gameDistribution.Spel.AsModel()
+            Player = gameDistribution.Speler == null ? null : gameDistribution.Speler.AsModel(),
+            Game = gameDistribution.Spel == null ? null : gameDistribution.Spel.AsModel()
         };
     }
 
@@ -44,8 +44,8 @@ public static class GameDistributionMappingExtension
             Team = gameDistribution.Team,
             SpelerPositie = gameDistribution.PlayerPosition,
             SpelerVolgnr = gameDistribution.PlayerOrderNumber,
-            Speler = gameDistribution.Player.AsContract(),
-            Spel = gameDistribution.Game.AsContract()
+            Speler = gameDistribution.Player == null ? null : gameDistribution.Player.AsContract(),
+            Spel = gameDistribution.Game == null ? null : gameDistribution.Game.AsContract()
         };
     }
 

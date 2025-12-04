@@ -59,7 +59,7 @@ function Dagklassementpagina() {
 
         try {
             const response = await fetch(
-                `${apiUrl}/pdfdagklassementen/${selectedSpeeldag.speeldagId}`,
+                `${apiUrl}/pdf/dailyrankings/${selectedSpeeldag.speeldagId}`,
                 {
                     method: "POST",
                     headers: {

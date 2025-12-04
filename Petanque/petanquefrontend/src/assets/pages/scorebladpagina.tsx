@@ -190,7 +190,7 @@ function Scorebladpagina() {
             );
 
             // 🔁 Na scores succesvol opgeslagen → klassement genereren
-            const klassementResp = await fetch(`${apiUrl}/dagklassementen/${selectedSpeeldag.speeldagId}`, {
+            const klassementResp = await fetch(`${apiUrl}/dailyrankings/${selectedSpeeldag.speeldagId}`, {
                 method: "POST",
             });
 
