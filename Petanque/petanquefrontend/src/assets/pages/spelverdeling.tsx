@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Kalender from '../Components/Kalender.tsx';
+import Weather from '../Components/Weather.tsx';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -73,6 +74,7 @@ function Spelverdeling() {
     const maakSpelverdeling = async () => {
         if (!selectedSpeeldag) {
             alert("Selecteer eerst een speeldag");
+            return;
         }
         setPdfBlobUrl(null); // reset tonen oude PDF
 
@@ -87,8 +89,9 @@ function Spelverdeling() {
             //alert("Spelverdeling aangemaakt!");
             fetchPdf(selectedSpeeldag.speeldagId);
         } catch (error) {
-            console.error("Fout bij aanmaken van spelverdeling:", error.message);
-            alert(error.message);
+            const errorMessage = error instanceof Error ? error.message : 'Onbekende fout';
+            console.error("Fout bij aanmaken van spelverdeling:", errorMessage);
+            alert(errorMessage);
         }
     };
 
@@ -124,6 +127,8 @@ function Spelverdeling() {
                 showCalendar={showCalendar}
                 onToggleCalendar={handleToggleCalendar}
             />
+
+            <Weather speeldagDatum={selectedSpeeldag?.datum ?? null} />
 
             <button
                 onClick={maakSpelverdeling}

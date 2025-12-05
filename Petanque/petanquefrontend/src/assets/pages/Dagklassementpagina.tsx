@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 const apiUrl = import.meta.env.VITE_API_URL;
 import Kalender from '../Components/Kalender.tsx';  // jouw herbruikbare Kalender component
+import Weather from '../Components/Weather.tsx';
 
 interface Speeldag {
     speeldagId: number;
@@ -116,6 +117,8 @@ function Dagklassementpagina() {
                     onToggleCalendar={handleToggleCalendar}
                 />
             )}
+
+            <Weather speeldagDatum={selectedSpeeldag?.datum ?? null} />
 
             <button
                 onClick={fetchPdf}
