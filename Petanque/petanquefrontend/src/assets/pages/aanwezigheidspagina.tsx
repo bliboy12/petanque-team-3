@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import '../../index.css';
 const apiUrl = import.meta.env.VITE_API_URL;
 import Kalender from '../Components/Kalender.tsx';
+import Weather from '../Components/Weather.tsx';
 
 interface Speler {
     spelerId: number;
@@ -223,6 +224,8 @@ function Aanwezigheidspagina() {
                     onToggleCalendar={handleToggleCalendar}
                 />
             )}
+
+            <Weather speeldagDatum={selectedSpeeldag?.datum ?? null} />
 
             <div className="overflow-x-auto overflow-y-auto border rounded-2xl shadow-md w-fit place-self-center">
                 <table className="text-left text-xl">
