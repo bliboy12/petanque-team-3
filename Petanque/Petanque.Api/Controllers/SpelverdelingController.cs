@@ -10,7 +10,6 @@ public class SpelverdelingController(ISpelverdelingService service, IAanwezighei
 {
     [HttpGet("{id}")]
     public ActionResult<IEnumerable<SpelverdelingResponseContract>> Get([FromRoute] int id)
-
     {
         var spelverdeling = service.GetById(id);
         if (spelverdeling is null) return NotFound();
