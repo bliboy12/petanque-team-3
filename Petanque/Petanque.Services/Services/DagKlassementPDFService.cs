@@ -11,28 +11,28 @@ namespace Petanque.Services.Services
     {
         public async Task<Stream> GenerateDagKlassementPdfAsync(int id)
         {
-			// Get the speeldag (match day) by ID
+			/// Get the speeldag (match day) by ID
 			var speeldag = speeldagRepository.GetById(id);
             if (speeldag == null)
                 return null;
 
-			// Get all speler IDs that appear in the dagklassement for this speeldag
+			/// Get all speler IDs that appear in the dagklassement for this speeldag
 			var spelerIdsInDagklassement = dagKlassementRepository.GetById(id).Select(d => d.SpelerId).ToList();
 
-            // Load all spelers matching the IDs from the dagklassement
+            /// Load all spelers matching the IDs from the dagklassement
             var spelers = spelerRepository.GetBySpelerIds(spelerIdsInDagklassement);
 
             var dagklassements = dagKlassementRepository.GetById(id);
 
-			// If none exist → no reason to generate a PDF
+			/// If none exist → no reason to generate a PDF
 			if (dagklassements == null || !dagklassements.Any())
                 return null;
 
 
-			// Combine speler info with their scores, sort descending by hoofdpunten, then by score
+			/// Combine speler info with their scores, sort descending by hoofdpunten, then by score
 			var spelersMetScores = spelers.Select(speler =>
             {
-				// Find the klassement entry for this specific speler
+				/// Find the klassement entry for this specific speler
 				var dagKlassement = dagklassements.FirstOrDefault(dk => dk.SpelerId == speler.SpelerId);
                 return new
                 {
@@ -43,10 +43,10 @@ namespace Petanque.Services.Services
                 };
             }).OrderByDescending(s => s.Hoofdpunten).ThenByDescending(s => s.Score).ToList();
 
-			// Memory stream that will contain the PDF output
+			/// Memory stream that will contain the PDF output
 			var memoryStream = new MemoryStream();
 
-			// Create the PDF document using QuestPDF
+			/// Create the PDF document using QuestPDF
 			var document = Document.Create(container =>
             {
                 container.Page(page =>
@@ -59,7 +59,7 @@ namespace Petanque.Services.Services
                     {
                         string datumFormatted = speeldag.Datum.ToString("d MMMM yyyy", new System.Globalization.CultureInfo("nl-NL"));
 
-						// PDF title
+						/// PDF title
 						col.Item().Element(e => e
                             .PaddingBottom(2)
                             .Text($"VL@S - Dagklassement - {datumFormatted}")
@@ -69,10 +69,10 @@ namespace Petanque.Services.Services
 
                         col.Item().Element(e => e.PaddingTop(10));
 
-						// Build the score table
+						/// Build the score table
 						col.Item().Table(table =>
                         {
-							// Define table columns: rank, name, hoofdpunten, score
+							/// Define table columns: rank, name, hoofdpunten, score
 							table.ColumnsDefinition(columns =>
                             {
                                 columns.ConstantColumn(25);
@@ -81,8 +81,8 @@ namespace Petanque.Services.Services
                                 columns.ConstantColumn(35);
                             });
 
-                            int rang = 1; // Current ranking number
-							int prevHoofdpunten = 0; // To compare equal scores
+                            int rang = 1; /// Current ranking number
+							int prevHoofdpunten = 0; /// To compare equal scores
 							int prevScore = 0;
 
                             foreach (var speler in spelersMetScores)
@@ -90,20 +90,20 @@ namespace Petanque.Services.Services
                                 bool isEvenRow = rang % 2 == 0;
                                 string background = isEvenRow ? Colors.Grey.Lighten4 : Colors.White;
 
-								// If hoofdpunten + score are identical → tied rank → show blank instead of rank number
+								/// If hoofdpunten + score are identical → tied rank → show blank instead of rank number
 								if ((speler.Hoofdpunten == prevHoofdpunten) && (speler.Score == prevScore))
                                     table.Cell().Element(e => e.Background(background).PaddingVertical(2)).Text(' ');
                                 else
                                     table.Cell().Element(e => e.Background(background).PaddingVertical(2)).Text(rang.ToString());
 
-								// Player full name
+								/// Player full name
 								table.Cell().Element(e => e.Background(background).PaddingVertical(2)).Text($"{speler.Naam} {speler.Voornaam}");
-								// Hoofdpunten column
+								/// Hoofdpunten column
 								table.Cell().Element(e => e.Background(background).PaddingVertical(2)).AlignCenter().Text(speler.Hoofdpunten.ToString());
-								// Score column
+								/// Score column
 								table.Cell().Element(e => e.Background(background).PaddingVertical(2)).AlignCenter().Text(speler.Score.ToString());
 
-								// Update ranking logic
+								/// Update ranking logic
 								rang++;
                                 prevHoofdpunten = speler.Hoofdpunten;
                                 prevScore = speler.Score;
@@ -113,9 +113,9 @@ namespace Petanque.Services.Services
                 });
             });
 
-			// Render PDF into the memory stream
+			/// Render PDF into the memory stream
 			document.GeneratePdf(memoryStream);
-			// Reset stream pointer so it can be read from start
+			/// Reset stream pointer so it can be read from start
 			memoryStream.Seek(0, SeekOrigin.Begin);
 
             return memoryStream;

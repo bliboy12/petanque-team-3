@@ -24,13 +24,13 @@ public class SeizoensKlassementPDFService(ISeizoenKlassementRepository seizoenKl
             {
                 container.Page(page =>
                 {
-                    page.Size(595, 842); // A4 formaat in pixels
+                    page.Size(595, 842); /// A4 formaat in pixels
                     page.Margin(20);
                     page.DefaultTextStyle(x => x.FontSize(11));
 
                     page.Content().Column(col =>
                     {
-                        // Titel met padding
+                        /// Titel met padding
                         col.Item().Element(e => e
                             .PaddingBottom(2)
                             .Text($"VL@S Seizoensklassement {id}")
@@ -38,18 +38,18 @@ public class SeizoensKlassementPDFService(ISeizoenKlassementRepository seizoenKl
                             .Bold()
                             .AlignCenter());
 
-                        // Ruimte tussen titel en tabel
+                        /// Ruimte tussen titel en tabel
                         col.Item().Element(e => e.PaddingTop(10));
 
-                        // Tabel opbouw
+                        /// Tabel opbouw
                         col.Item().Table(table =>
                         {
                             table.ColumnsDefinition(columns =>
                             {
-                                columns.ConstantColumn(25);   // Rang
-                                columns.RelativeColumn(3);    // Naam
-                                columns.ConstantColumn(35);   // Hoofdpunten
-                                columns.ConstantColumn(35);   // +/- punten
+                                columns.ConstantColumn(25);   /// Rang
+                                columns.RelativeColumn(3);    /// Naam
+                                columns.ConstantColumn(35);   /// Hoofdpunten
+                                columns.ConstantColumn(35);   /// +/- punten
                             });
 
                             int rang = 1;

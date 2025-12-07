@@ -56,10 +56,10 @@ namespace Petanque.Services.Services
 			public int Terrein;
 			public List<int> TeamLeden, Tegenspelers;
 		}
-		// Voor elke speler die aanwezig is op de speeldag geven wij een dictionary terug per volgnr van de speler met zijn correspondent SkillLevel
+		/// Voor elke speler die aanwezig is op de speeldag geven wij een dictionary terug per volgnr van de speler met zijn correspondent SkillLevel
 		public Dictionary<int, SkillLevel> BepaalSkillLevels(int speeldag)
 		{
-			// de volgnr van elke speler en zijn SkillLevel
+			/// de volgnr van elke speler en zijn SkillLevel
 			var skillLevels = new Dictionary<int, SkillLevel>();
 			var aanwezighedenMetSpeler = _aanwezigheidRepository.GetAanwezighedenOpSpeeldag(speeldag);
 
@@ -68,9 +68,9 @@ namespace Petanque.Services.Services
 				int spelerVolgnr = aanwezigheid.SpelerVolgnr;
 
 				var speler = aanwezigheid.Speler;
-				// checked als de speler al andere matchen ervoor heeft gespeelt, zo ja wordt hij geclassifeerd als een expert anders als een noob
-				// Als de spelerId al niet bestaat wilt het zeggen dat het een nieuwe speler is dus geven wij 0 als id maar die id bestaat sowieso niet dus
-				// wordt false terug gegeven.
+				/// checked als de speler al andere matchen ervoor heeft gespeelt, zo ja wordt hij geclassifeerd als een expert anders als een noob
+				/// Als de spelerId al niet bestaat wilt het zeggen dat het een nieuwe speler is dus geven wij 0 als id maar die id bestaat sowieso niet dus
+				/// wordt false terug gegeven.
 				bool heeftGespeeld = _spelverdelingRepository.HeeftSpelerGespeeld(aanwezigheid.SpelerId ?? 0);
 
 				if (speler.SkillLevel == (int)SkillLevel.Noob && !heeftGespeeld)
@@ -90,20 +90,20 @@ namespace Petanque.Services.Services
 			const int minAantalSpelersPerTeam = 2;
 			const int maxAantalSpelersPerTeam = 3;
 
-			int aantalGebruikteTerreinen; // aantal GEBRUIKTE terreinen
-			List<int> masterSpelerList; // lijst van Volgnrs van aanwezige spelers
-			Dictionary<string, int> aantalSpelersPerTerreinPerTeam; // key="terrein,team", value=aantalSpelers
-			Dictionary<string, int> spelverdelingsInfo; // key="spelronde,terrein,team,nrInTeam", value=spelerVolgnr
-			Dictionary<string, smartDetails> smartDetailsDictionary; // key="spelronde,spelerVolgnr", value="Terrein,TeamLeden,Tegenspelers"
+			int aantalGebruikteTerreinen; /// aantal GEBRUIKTE terreinen
+			List<int> masterSpelerList; /// lijst van Volgnrs van aanwezige spelers
+			Dictionary<string, int> aantalSpelersPerTerreinPerTeam; /// key="terrein,team", value=aantalSpelers
+			Dictionary<string, int> spelverdelingsInfo; /// key="spelronde,terrein,team,nrInTeam", value=spelerVolgnr
+			Dictionary<string, smartDetails> smartDetailsDictionary; /// key="spelronde,spelerVolgnr", value="Terrein,TeamLeden,Tegenspelers"
 
-			// STAP 1: Vul 'masterSpelerList', check aantal aanwezigen en terreinen, vul 'aantalSpelersPerTerreinPerTeam'
+			/// STAP 1: Vul 'masterSpelerList', check aantal aanwezigen en terreinen, vul 'aantalSpelersPerTerreinPerTeam'
 			{
 				if (aanwezigheden == null)
 					throw new InvalidOperationException($"BUG: Aanwezigheden zijn null. Dit mag niet gebeuren.");
 
 				masterSpelerList = aanwezigheden.Select(a => a.SpelerVolgnr).ToList();
 
-				// Veiligheidscheck: dubbele spelers mogen niet voorkomen
+				/// Veiligheidscheck: dubbele spelers mogen niet voorkomen
 				if (masterSpelerList.Distinct().Count() != masterSpelerList.Count())
 					throw new InvalidOperationException($"BUG: Er zitten dubbele 'SpelerVolgnr's in de lijst 'aanwezigheden'.");
 
@@ -112,28 +112,28 @@ namespace Petanque.Services.Services
 				if (aantalAanwezigen == 0)
 					throw new InvalidOperationException($"Er zijn nog geen aanwezigen aangeduid op deze speeldag");
 
-				// Controle: Er mogen niet meer spelers zijn dan de terreinen aankunnen
+				/// Controle: Er mogen niet meer spelers zijn dan de terreinen aankunnen
 				if ((int)Math.Ceiling((double)aantalAanwezigen / maxAantalSpelersPerTeam / 2) > maxAantalTerreinen)
 					throw new InvalidOperationException($"Er zijn {maxAantalTerreinen} terreinen beschikbaar. Er is dus slechts plaats voor {maxAantalSpelersPerTeam * 2 * maxAantalTerreinen} van de {aantalAanwezigen} aanwezigen. (Verhoog evt. 'maxAantalSpelersPerTeam')");
 
-				// Bepaal hoeveel terreinen effectief gebruikt zullen worden
-				// (team A & B per terrein => dus delen door 2)
+				/// Bepaal hoeveel terreinen effectief gebruikt zullen worden
+				/// (team A & B per terrein => dus delen door 2)
 				aantalGebruikteTerreinen = (int)Math.Floor((double)aantalAanwezigen / minAantalSpelersPerTeam / 2);
 				
 				if (aantalGebruikteTerreinen < 1)
 					throw new InvalidOperationException($"Er zijn slechts {aantalAanwezigen} aanwezigen. Dit is onvoldoende als je minstens {minAantalSpelersPerTeam} spelers per team wilt. (Verlaag evt. 'minAantalSpelersPerTeam')");
 				
-				// Controle: is teamgrootte haalbaar?
+				/// Controle: is teamgrootte haalbaar?
 				if ((int)Math.Ceiling((double)aantalAanwezigen / aantalGebruikteTerreinen / 2) > maxAantalSpelersPerTeam)
 					throw new InvalidOperationException($"Met {aantalAanwezigen} aanwezigen kan er geen spelverdeling gemaakt worden met minstens {minAantalSpelersPerTeam} en maximaal {maxAantalSpelersPerTeam} spelers per team. (Verlaag evt. 'minAantalSpelersPerTeam' of verhoog 'maxAantalSpelersPerTeam')");
 
-				// Initialiseer dictionary die teamgroottes per terrein bewaart
+				/// Initialiseer dictionary die teamgroottes per terrein bewaart
 				aantalSpelersPerTerreinPerTeam = new Dictionary<string, int>();
 
 				int totaalAantalSpelers = 0;
 				int terrein;
 
-				// Initieel krijgt elk team op elk terrein minAantalSpelersPerTeam
+				/// Initieel krijgt elk team op elk terrein minAantalSpelersPerTeam
 				for (terrein = 1; terrein <= aantalGebruikteTerreinen; terrein++)
 				{
 					aantalSpelersPerTerreinPerTeam[$"{terrein},A"] = minAantalSpelersPerTeam;
@@ -143,7 +143,7 @@ namespace Petanque.Services.Services
 				if (totaalAantalSpelers > aantalAanwezigen)
 					throw new InvalidOperationException($"BUG: totaalAantalSpelers={totaalAantalSpelers} > aantalAanwezigen={aantalAanwezigen}");
 
-				// Verdeel de resterende spelers 1-per-team-per-terrein
+				/// Verdeel de resterende spelers 1-per-team-per-terrein
 				terrein = 1; char team = 'A';
 
 				while (totaalAantalSpelers < aantalAanwezigen)
@@ -151,10 +151,10 @@ namespace Petanque.Services.Services
 					aantalSpelersPerTerreinPerTeam[$"{terrein},{team}"]++;
 					totaalAantalSpelers++;
 
-					// Wissel tussen team A / B
+					/// Wissel tussen team A / B
 					team++;
 
-					// Spring terug naar terrein 1 na A=>B=>reset
+					/// Spring terug naar terrein 1 na A=>B=>reset
 					if (team == 'C')
 					{
 						team = 'A';
@@ -163,84 +163,84 @@ namespace Petanque.Services.Services
 					}
 				}
 			}
-			//Bepaal skill levels voor alle spelers
+			///Bepaal skill levels voor alle spelers
 			Dictionary<int, SkillLevel> spelerSkillLevels = BepaalSkillLevels(speeldagId);
 
-			// Dit is om te testen als alle data werkt
+			/// Dit is om te testen als alle data werkt
 			int aantalExperts = spelerSkillLevels.Values.Count(s => s == SkillLevel.Expert);
 			int aantalNoobs = spelerSkillLevels.Values.Count(s => s == SkillLevel.Noob);
 			_logger.LogInformation($"Skill levels: {aantalExperts} Experts, {aantalNoobs} Noobs");
 
-			// ---------------------------------------------------------
-			// STAP 2: Spelverdeling berekenen per ronde en terrein (lokaal in dictionary)
-			// ---------------------------------------------------------
+			/// ---------------------------------------------------------
+			/// STAP 2: Spelverdeling berekenen per ronde en terrein (lokaal in dictionary)
+			/// ---------------------------------------------------------
 			{
 				smartDetailsDictionary = new Dictionary<string, smartDetails>();
 				spelverdelingsInfo = new Dictionary<string, int>();
 
-				// 3 rondes
+				/// 3 rondes
 				for (int spelronde = 1; spelronde <= aantalSpelrondes; spelronde++)
 				{
-					// Spelers die nog niet geplaatst zijn in deze ronde
+					/// Spelers die nog niet geplaatst zijn in deze ronde
 					var beschikbareSpelers = new List<int>(masterSpelerList);
 
-					// Elke speler start met basishoogte van 100
+					/// Elke speler start met basishoogte van 100
 					var selectieVoorkeurScores = beschikbareSpelers.ToDictionary(n => n, n => 100);
-					// Elke ronde per terrein verwerken
+					/// Elke ronde per terrein verwerken
 					for (int terrein = 1; terrein <= aantalGebruikteTerreinen; terrein++)
 					{
-						// Teamconstructie voor dit terrein
+						/// Teamconstructie voor dit terrein
 						var teamListDict = new Dictionary<char, List<int>>();
 						teamListDict['A'] = new List<int>();
 						teamListDict['B'] = new List<int>();
 
-						// Voor team A en B
+						/// Voor team A en B
 						foreach (char team in new List<char> { 'A', 'B' })
 						{
 							char otherTeam = (team == 'A') ? 'B' : 'A';
 
-							// Reset voorkeuren voor teams die opnieuw opgebouwd worden
+							/// Reset voorkeuren voor teams die opnieuw opgebouwd worden
 							if (spelronde > 1) { selectieVoorkeurScores = beschikbareSpelers.ToDictionary(n => n, n => 100); }
 
-							// Bepaal hoeveel spelers er in dit team moeten
+							/// Bepaal hoeveel spelers er in dit team moeten
 							for (int nrInTeam = 1; nrInTeam <= aantalSpelersPerTerreinPerTeam[$"{terrein},{team}"]; nrInTeam++)
 							{
 
 								int huidigTeamSize = aantalSpelersPerTerreinPerTeam[$"{terrein},{team}"];
 
-								// Zijn alle bestaande teamleden Noobs?
+								/// Zijn alle bestaande teamleden Noobs?
 								bool alleTeamLedenZijnNoobs = teamListDict[team].Count > 0 && teamListDict[team].All(s => spelerSkillLevels[s] == SkillLevel.Noob);
-								// Is dit de laatste speler die aan dit team wordt toegevoegd?
+								/// Is dit de laatste speler die aan dit team wordt toegevoegd?
 								bool isLaatsteSpelerInTeam = (nrInTeam == aantalSpelersPerTerreinPerTeam[$"{terrein},{team}"]);
 
-								// *** SKILL-LEVEL WAARDERING ***
+								/// *** SKILL-LEVEL WAARDERING ***
 								foreach (int speler in beschikbareSpelers)
 								{
-									// Boost experts om te vermijden dat een volledig team Noobs wordt
+									/// Boost experts om te vermijden dat een volledig team Noobs wordt
 									if (alleTeamLedenZijnNoobs && isLaatsteSpelerInTeam && spelerSkillLevels[speler] == SkillLevel.Expert)
 									{
-										selectieVoorkeurScores[speler] += 100; // Grote bonus om all-Noob team te voorkomen maar ik weet nu niet als dit een te grote nummer zou zijn
+										selectieVoorkeurScores[speler] += 100; /// Grote bonus om all-Noob team te voorkomen maar ik weet nu niet als dit een te grote nummer zou zijn
 									}
 
-									// Experts spelen liever in kleine teams
+									/// Experts spelen liever in kleine teams
 									if (spelerSkillLevels[speler] == SkillLevel.Expert)
 									{
-										// Expert heeft voorkeur voor 2-speler team
+										/// Expert heeft voorkeur voor 2-speler team
 										if (huidigTeamSize == 2)
 											selectieVoorkeurScores[speler] += 20;
 										else if (huidigTeamSize == 3)
 											selectieVoorkeurScores[speler] -= 8;
 									}
-									else // Noobs liever in grotere teams
+									else /// Noobs liever in grotere teams
 									{
-										// Noob heeft voorkeur voor 3-speler team
+										/// Noob heeft voorkeur voor 3-speler team
 										if (huidigTeamSize == 3)
 											selectieVoorkeurScores[speler] += 20;
 										else if (huidigTeamSize == 2)
 											selectieVoorkeurScores[speler] -= 8;
 									}
 								}
-								// pas 'selectieVoorkeurScores' aan ==> voorkom herhaling van vorige rondes
+								/// pas 'selectieVoorkeurScores' aan ==> voorkom herhaling van vorige rondes
 								for (int spelronde2 = 1; spelronde2 < spelronde; spelronde2++)
 								{
 									foreach (int speler in beschikbareSpelers)
@@ -248,21 +248,21 @@ namespace Petanque.Services.Services
 										if (nrInTeam == 1)
 										{
 											if (smartDetailsDictionary[$"{spelronde2},{speler}"].Terrein == terrein)
-												selectieVoorkeurScores[speler] -= spelronde2; // speelde al eens op dit terrein
+												selectieVoorkeurScores[speler] -= spelronde2; /// speelde al eens op dit terrein
 
-											if (aantalSpelersPerTerreinPerTeam[$"{terrein},{team}"] > minAantalSpelersPerTeam) // zal nu in te groot team zitten
+											if (aantalSpelersPerTerreinPerTeam[$"{terrein},{team}"] > minAantalSpelersPerTeam) /// zal nu in te groot team zitten
 											{
 												if (smartDetailsDictionary[$"{spelronde2},{speler}"].TeamLeden.Count > minAantalSpelersPerTeam)
-													selectieVoorkeurScores[speler] -= spelronde2 + 10; // speelde al eens in een te groot team
+													selectieVoorkeurScores[speler] -= spelronde2 + 10; /// speelde al eens in een te groot team
 												if (smartDetailsDictionary[$"{spelronde2},{speler}"].Tegenspelers.Count > minAantalSpelersPerTeam)
-													selectieVoorkeurScores[speler] -= spelronde2 + 8; // speelde al eens TEGEN een te groot team
+													selectieVoorkeurScores[speler] -= spelronde2 + 8; /// speelde al eens TEGEN een te groot team
 											}
-											if (aantalSpelersPerTerreinPerTeam[$"{terrein},{otherTeam}"] > minAantalSpelersPerTeam) // zal TEGEN te groot team spelen
+											if (aantalSpelersPerTerreinPerTeam[$"{terrein},{otherTeam}"] > minAantalSpelersPerTeam) /// zal TEGEN te groot team spelen
 											{
 												if (smartDetailsDictionary[$"{spelronde2},{speler}"].TeamLeden.Count > minAantalSpelersPerTeam)
-													selectieVoorkeurScores[speler] -= spelronde2 + 8; // speelde zelf al eens in een te groot team
+													selectieVoorkeurScores[speler] -= spelronde2 + 8; /// speelde zelf al eens in een te groot team
 												if (smartDetailsDictionary[$"{spelronde2},{speler}"].Tegenspelers.Count > minAantalSpelersPerTeam)
-													selectieVoorkeurScores[speler] -= spelronde2 + 6; // speelde al eens TEGEN een te groot team
+													selectieVoorkeurScores[speler] -= spelronde2 + 6; /// speelde al eens TEGEN een te groot team
 
 											}
 											if (team == 'B')
@@ -270,21 +270,21 @@ namespace Petanque.Services.Services
 												foreach (int speler2 in teamListDict['A'])
 												{
 													if (smartDetailsDictionary[$"{spelronde2},{speler}"].TeamLeden.Contains(speler2))
-														selectieVoorkeurScores[speler] -= spelronde2 + 14; // was Teamlid, zou nu Tegenspeler zijn
+														selectieVoorkeurScores[speler] -= spelronde2 + 14; /// was Teamlid, zou nu Tegenspeler zijn
 													if (smartDetailsDictionary[$"{spelronde2},{speler}"].Tegenspelers.Contains(speler2))
-														selectieVoorkeurScores[speler] -= spelronde2 + 17; // was Tegenspeler, zou nu opnieuw Tegenspeler zijn
+														selectieVoorkeurScores[speler] -= spelronde2 + 17; /// was Tegenspeler, zou nu opnieuw Tegenspeler zijn
 												}
 											}
 										}
-										else // nrInTeam > 1
+										else /// nrInTeam > 1
 										{
-											// Niet eerste speler in team → check relatie met vorige speler
+											/// Niet eerste speler in team → check relatie met vorige speler
 											int vorigeSpeler = spelverdelingsInfo[$"{spelronde},{terrein},{team},{nrInTeam - 1}"];
 
 											if (smartDetailsDictionary[$"{spelronde2},{speler}"].TeamLeden.Contains(vorigeSpeler))
-												selectieVoorkeurScores[speler] -= spelronde2 + 20; // was TeamLid, zou nu opnieuw TeamLid zijn
+												selectieVoorkeurScores[speler] -= spelronde2 + 20; /// was TeamLid, zou nu opnieuw TeamLid zijn
 											if (smartDetailsDictionary[$"{spelronde2},{speler}"].Tegenspelers.Contains(vorigeSpeler))
-												selectieVoorkeurScores[speler] -= spelronde2 + 14; // was Tegenspeler, zou nu TeamLid zijn
+												selectieVoorkeurScores[speler] -= spelronde2 + 14; /// was Tegenspeler, zou nu TeamLid zijn
 										}
 									}
 									/*foreach (int speler in beschikbareSpelers)
@@ -293,28 +293,28 @@ namespace Petanque.Services.Services
 									}*/
 								}
 
-								// Kies de speler met de hoogste score
+								/// Kies de speler met de hoogste score
 								int maxVal = selectieVoorkeurScores.Values.Max();
 								int count = selectieVoorkeurScores.Where(kvp => kvp.Value == maxVal).Count();
 
-								// Als er meerdere zijn met dezelfde hoogste score → random kiezen
+								/// Als er meerdere zijn met dezelfde hoogste score → random kiezen
 								int s = selectieVoorkeurScores.Where(kvp => kvp.Value == maxVal).ToDictionary().Keys.ElementAt(_random.Next(count));
 
 								_logger.LogCritical($"spelronde={spelronde}, terrein={terrein}, team={team}, nrInTeam={nrInTeam}, maxVal={maxVal}, count={count}: speler={s}");
 
-								// Verwijder de gekozen speler uit beschikbare lijst
+								/// Verwijder de gekozen speler uit beschikbare lijst
 								beschikbareSpelers.Remove(s);
 								selectieVoorkeurScores.Remove(s);
 
-								// Sla selectie op
+								/// Sla selectie op
 								spelverdelingsInfo[$"{spelronde},{terrein},{team},{nrInTeam}"] = s;
 								teamListDict[team].Add(s);
 							}
 						}
-						// Vul smartDetailsDictionary voor alle spelers die deze ronde geplaatst zijn
+						/// Vul smartDetailsDictionary voor alle spelers die deze ronde geplaatst zijn
 						if (spelronde < aantalSpelrondes)
 						{
-							//_logger.LogInformation($"--- vul smartDetailsDictionary in");
+							///_logger.LogInformation($"--- vul smartDetailsDictionary in");
 							foreach (char team in new List<char> { 'A', 'B' })
 							{
 								char otherTeam = (team == 'A') ? 'B' : 'A';
@@ -333,7 +333,7 @@ namespace Petanque.Services.Services
 					}
 				}
 			}
-			// STAP 3: DELETE old Spel + Spelverdeling from DB
+			/// STAP 3: DELETE old Spel + Spelverdeling from DB
 			{
 				var oudeSpelIds = _spelRepository.GetBySpeeldagId(speeldagId).Select(sp => sp.SpelId).ToList();
 				var oudeSpelverdelingen = _spelverdelingRepository.GetBySpelIds(oudeSpelIds);
@@ -342,14 +342,14 @@ namespace Petanque.Services.Services
 				var oudeSpellen = _spelRepository.GetBySpeeldagId(speeldagId);
 				_spelRepository.RemoveSpellen(oudeSpellen.ToList());
 			}
-			// STAP 4: Nieuwe berekende spelverdeling die in dictionary is bewaarde naar de database bewaren
+			/// STAP 4: Nieuwe berekende spelverdeling die in dictionary is bewaarde naar de database bewaren
 			{
 				var responses = new List<SpelverdelingResponseContract>();
 				for (int spelronde = 1; spelronde <= aantalSpelrondes; spelronde++)
 				{
 					for (int terrein = 1; terrein <= aantalGebruikteTerreinen; terrein++)
 					{
-						// Nieuw spel record aanmaken
+						/// Nieuw spel record aanmaken
 						var spel = new Spel
 						{
 							SpeeldagId = speeldagId,
@@ -361,7 +361,7 @@ namespace Petanque.Services.Services
 
 						_spelRepository.Create(spel);
 
-						// Teams wegschrijven naar database
+						/// Teams wegschrijven naar database
 						foreach (char team in new List<char> { 'A', 'B' })
 						{
 							for (int nrInTeam = 1; nrInTeam <= aantalSpelersPerTerreinPerTeam[$"{terrein},{team}"]; nrInTeam++)
@@ -376,7 +376,7 @@ namespace Petanque.Services.Services
 								});
 							}
 						}
-						// Ophalen om als response te returnen
+						/// Ophalen om als response te returnen
 						var spelverdelingenToAdd = _spelverdelingRepository.GetBySpelId(spel.SpelId).Select(s => s.AsModel().AsContract()).ToList();
 						responses.AddRange(spelverdelingenToAdd);
 					}
