@@ -18,7 +18,10 @@ public class WeatherService : IWeatherService
     public async Task<WeatherResponseContract> GetWeatherForecastAsync(DateTime date, double latitude, double longitude)
     {
         var dateString = date.ToString("yyyy-MM-dd");
-        var url = $"{OpenMeteoBaseUrl}?latitude={latitude}&longitude={longitude}&hourly=temperature_2m,precipitation&start_date={dateString}&end_date={dateString}&timezone=Europe/Brussels";
+        string latitudeRoundedWithPoint = Math.Round(latitude, 2).ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
+        string longitudeRoundedWithPoint = Math.Round(longitude, 2).ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
+
+        var url = $"{OpenMeteoBaseUrl}?latitude={latitudeRoundedWithPoint}&longitude={longitudeRoundedWithPoint}&hourly=temperature_2m,precipitation&start_date={dateString}&end_date={dateString}&timezone=Europe/Brussels";
 
         var response = await _httpClient.GetFromJsonAsync<OpenMeteoResponse>(url);
 
