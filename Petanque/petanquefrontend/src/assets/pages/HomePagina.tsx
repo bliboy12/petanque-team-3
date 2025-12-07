@@ -1,4 +1,5 @@
 import Kalender from "../Components/Kalender.tsx";
+import Weather from "../Components/Weather.tsx";
 import { useState, useEffect } from "react";
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -32,7 +33,7 @@ function HomePagina() {
         const fetchSpeeldagen = async () => {
             try {
                 const response = await fetch(`${apiUrl}/speeldagen`);
-                const data = await response.json();
+                const data: Speeldag[] = await response.json();
                 setSpeeldagen(data);
 
                 const savedSpeeldagId = localStorage.getItem('speeldagId');
@@ -172,8 +173,9 @@ function HomePagina() {
 
             alert("Seizoen succesvol aangemaakt!");
         } catch (error) {
-            console.error("Fout bij aanmaken van seizoen:", error.message);
-            alert(error.message);
+            const errorMessage = error instanceof Error ? error.message : 'Onbekende fout';
+            console.error("Fout bij aanmaken van seizoen:", errorMessage);
+            alert(errorMessage);
         }
     };
 
@@ -265,6 +267,8 @@ function HomePagina() {
                 onToggleCalendar={handleToggleCalendar}
                 onClickOnNewDate={handleClickOnNewDate}
             />
+
+            <Weather speeldagDatum={selectedSpeeldag?.datum ?? null} />
 
             {showCreateSpeeldagDialog && pendingDate && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">

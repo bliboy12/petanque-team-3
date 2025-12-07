@@ -18,6 +18,7 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddControllers();
+builder.Services.AddHttpClient<IWeatherService, WeatherService>();
 
 // Verbinding met de MySQL database
 var connectionString = builder.Configuration.GetConnectionString("LocalMySQL");
