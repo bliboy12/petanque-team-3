@@ -11,13 +11,17 @@ namespace Petanque.Services.Services
     {
         public Stream GenerateSpelverdelingPDF(IEnumerable<SpelverdelingResponseContract> spelverdelingen)
         {
-            var stream = new MemoryStream();
+			/// Create an in-memory stream that will contain the final PDF output.
+			var stream = new MemoryStream();
 
-            var spellen = spelverdelingen
+			/// Group the flat list of spelverdelingen per SpelId, and convert each group
+			/// into a SpelResponseContract containing all relevant spel data
+			var spellen = spelverdelingen
                 .GroupBy(sv => sv.SpelId)
                 .Select(g =>
                 {
-                    var eerste = g.First();
+					/// Take the first element to access spel-level data (same for whole group)
+					var eerste = g.First();
                     return new SpelResponseContract
                     {
                         SpelId = (int)eerste.SpelId,
@@ -29,30 +33,37 @@ namespace Petanque.Services.Services
                     };
                 })
                 .ToList();
+			/// Extract speeldag ID; throw if null because without it we cannot retrieve the date
+			int speeldagIdd = spelverdelingen.First().Spel.SpeeldagId ?? throw new InvalidOperationException("SpeeldagId cannot be null.");
+			/// Retrieve speeldag info such as date
+			var speeldag = speeldagRepository.GetById(speeldagIdd);
+			/// Format date in Dutch: e.g. "maandag 3 juni 2024"
+			string datumFormatted = speeldag.Datum.ToString("dddd d MMMM yyyy", new System.Globalization.CultureInfo("nl-NL"));
 
-            int speeldagIdd = spelverdelingen.First().Spel.SpeeldagId ?? throw new InvalidOperationException("SpeeldagId cannot be null.");
-            var speeldag = speeldagRepository.GetById(speeldagIdd);
-            string datumFormatted = speeldag.Datum.ToString("dddd d MMMM yyyy", new System.Globalization.CultureInfo("nl-NL"));
-
-            Document.Create(container =>
+			/// Begin PDF document creation
+			Document.Create(container =>
             {
                 container.Page(page =>
                 {
-                    page.Size(PageSizes.A4);
+					/// Configure page layout
+					page.Size(PageSizes.A4);
                     page.Margin(30);
                     page.DefaultTextStyle(x => x.FontSize(12));
 
                     page.Content().Column(col =>
                     {
-                        var spellenPerTerrein = spellen
+						/// Group all spellen by terrain and sort
+						var spellenPerTerrein = spellen
                             .GroupBy(spel => spel.Terrein)
                             .OrderBy(g => g.Key);
 
                         int terreinNummer = 1;
 
-                        foreach (var terreinGroup in spellenPerTerrein)
+						/// Iterate over each terrain group
+						foreach (var terreinGroup in spellenPerTerrein)
                         {
-                            col.Item().PaddingBottom(15).Row(r =>
+							/// Terrain header with date on the right
+							col.Item().PaddingBottom(15).Row(r =>
                             {
                                 r.RelativeItem().Text($"TERREIN: {terreinGroup.Key}")
                                     .FontSize(18)
@@ -63,14 +74,18 @@ namespace Petanque.Services.Services
 
                             int spelnummer = 1;
 
-                            foreach (var spel in terreinGroup)
+							/// Render every spel under this terrain
+							foreach (var spel in terreinGroup)
                             {
-                                var teamA = spel.Spelverdelingen.Where(x => x.Team == "Team A").ToList();
+								/// Create lists of players per team
+								var teamA = spel.Spelverdelingen.Where(x => x.Team == "Team A").ToList();
                                 var teamB = spel.Spelverdelingen.Where(x => x.Team == "Team B").ToList();
 
-                                col.Item().PaddingBottom(20).Border(1).Padding(15).Column(spelCol =>
+								/// Box around the spel
+								col.Item().PaddingBottom(20).Border(1).Padding(15).Column(spelCol =>
                                 {
-                                    spelCol.Item().Row(row =>
+									/// Spel title bar (Spel 1, Spel 2, …)
+									spelCol.Item().Row(row =>
                                     {
                                         row.RelativeItem().AlignCenter()
                                             .Background(Colors.BlueGrey.Darken2)
@@ -80,18 +95,19 @@ namespace Petanque.Services.Services
                                             .Bold()
                                             .FontColor(Colors.White);
                                     });
-
-                                    spelCol.Item().PaddingTop(10);
+									/// Layout for Team A and Team B side-by-side
+									spelCol.Item().PaddingTop(10);
 
                                     spelCol.Item().Row(row =>
                                     {
-                                        // Team A
+                                        /// Team A
                                         row.RelativeItem().Column(teamCol =>
                                         {
                                             teamCol.Item().Text("Team A").FontSize(14).Bold().Underline();
                                             teamCol.Item().PaddingBottom(5);
 
-                                            foreach (var speler in teamA)
+											/// Print all Team A players
+											foreach (var speler in teamA)
                                             {
                                                 var skill = speler.Speler.SkillLevel == 0 ? "Noob" : "Expert";
                                                 var naam = speler.Speler != null
@@ -100,8 +116,8 @@ namespace Petanque.Services.Services
                                                 teamCol.Item().Text(naam);
                                             }
 
-
-                                            teamCol.Item().Row(scoreRow =>
+											/// Score boxes for Team A (13 small squares)
+											teamCol.Item().Row(scoreRow =>
                                             {
                                                 for (int i = 0; i < 13; i++)
                                                 {
@@ -111,21 +127,24 @@ namespace Petanque.Services.Services
                                                         .PaddingRight(2);
                                                 }
                                             });
-                                            teamCol.Item().PaddingTop(1).Text("  1   2    3    4   5    6   7    8    9  10  11 12 13");
-                                            teamCol.Item().PaddingTop(5).Text("Punten Team A:");
+											/// Score numbering row below boxes
+											teamCol.Item().PaddingTop(1).Text("  1   2    3    4   5    6   7    8    9  10  11 12 13");
+											/// Label for total points
+											teamCol.Item().PaddingTop(5).Text("Punten Team A:");
 
                                         });
 
-                                        // Verticale lijn tussen teams
-                                        row.ConstantItem(2).Height(120).Background(Colors.Grey.Lighten2);
+										/// Vertical divider between teams
+										row.ConstantItem(2).Height(120).Background(Colors.Grey.Lighten2);
 
-                                        // Team B
-                                        row.RelativeItem().Column(teamCol =>
+										/// === TEAM B SECTION ===
+										row.RelativeItem().Column(teamCol =>
                                         {
                                             teamCol.Item().Text("Team B").FontSize(14).Bold().Underline();
                                             teamCol.Item().PaddingBottom(5);
 
-                                            foreach (var speler in teamB)
+											/// Print all Team B players
+											foreach (var speler in teamB)
                                             {
                                                 var skill = speler.Speler.SkillLevel == 0 ? "Noob" : "Expert";
                                                 
@@ -135,8 +154,8 @@ namespace Petanque.Services.Services
                                                 teamCol.Item().Text(naam);
                                             }
 
-
-                                            teamCol.Item().Row(scoreRow =>
+											/// Score boxes for Team B
+											teamCol.Item().Row(scoreRow =>
                                             {
                                                 for (int i = 0; i < 13; i++)
                                                 {
@@ -146,15 +165,16 @@ namespace Petanque.Services.Services
                                                         .PaddingRight(2);
                                                 }
                                             });
-                                            teamCol.Item().PaddingTop(1).Text("  1   2    3    4   5    6   7    8    9  10  11 12 13");
-                                            teamCol.Item().PaddingTop(5).Text("Punten Team B:");
-
+											/// Score numbering row
+											teamCol.Item().PaddingTop(1).Text("  1   2    3    4   5    6   7    8    9  10  11 12 13");
+											/// Label for total points
+											teamCol.Item().PaddingTop(5).Text("Punten Team B:");
                                         });
                                     });
                                 });
                             }
-
-                            if (terreinGroup.Key != spellenPerTerrein.Last().Key)
+							/// Add page break between terrains unless this is the last one
+							if (terreinGroup.Key != spellenPerTerrein.Last().Key)
                             {
                                 col.Item().PageBreak();
                             }
@@ -164,9 +184,11 @@ namespace Petanque.Services.Services
                     });
                 });
             })
-            .GeneratePdf(stream);
+			/// Write the finished PDF into the MemoryStream
+			.GeneratePdf(stream);
 
-            stream.Position = 0;
+			/// Reset position so the caller can read from the beginning
+			stream.Position = 0;
             return stream;
         }
     }
