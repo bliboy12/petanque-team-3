@@ -33,39 +33,22 @@ namespace Petanque.Services.Services
             return dagklassementen.Select(a => a.AsModel().AsContract()).Where(contract => contract != null) .ToList()!;
         }
         
-<<<<<<< HEAD
         /** Service to generate all the daily rankings for a specific match day */
         public IEnumerable<DagKlassementResponseContract> CreateDailyRankings(int matchDayId)
-=======
-         ///TODO: Not transfered inside repo ?? (Rina)
-        public IEnumerable<DagKlassementResponseContract> CreateDagKlassementen(SpeeldagResponseContract speeldagData, int id)
->>>>>>> main
         {
             // SpeeldagResponseContract speeldagData
             // var speeldagId = speeldagData.SpeeldagId;
-
-<<<<<<< HEAD
+            
             var speeldagData = speeldagRepository.GetById(matchDayId);
             
             var gebruikteVolgnrs = speeldagData.Spels
                 .SelectMany(s => s.Spelverdelings ?? [])
-=======
-			/// Get all speler-volgnummers that actually appear in spelverdelingen
-			var gebruikteVolgnrs = speeldagData.Spel
-                .SelectMany(s => s.Spelverdelingen ?? [])
->>>>>>> main
                 .Select(sv => sv.SpelerVolgnr)
                 .Distinct()
                 .ToList();
-
-<<<<<<< HEAD
+            
             var spelersInSpeeldag = context.Aanwezigheids
                 .Where(x => x.SpeeldagId == matchDayId && gebruikteVolgnrs.Contains(x.SpelerVolgnr))
-=======
-			/// Find all spelers present on the speeldag AND who appear in the games
-			var spelersInSpeeldag = context.Aanwezigheids
-                .Where(x => x.SpeeldagId == speeldagId && gebruikteVolgnrs.Contains(x.SpelerVolgnr))
->>>>>>> main
                 .AsEnumerable()
                 .GroupBy(x => x.SpelerVolgnr)
                 .ToDictionary(g => g.Key, g => g.First().SpelerId);
@@ -75,25 +58,13 @@ namespace Petanque.Services.Services
 			/// 2) win count per spelerVolgnr
 			var scorePerSpeler = new Dictionary<int, int>();
             var winsPerSpeler = new Dictionary<int, int>();
-
-<<<<<<< HEAD
+            
             foreach (var spel in speeldagData.Spels)
             {
                 if (spel?.Spelverdelings == null || spel.Spelverdelings.Count == 0)
                     continue;
 
                 var teamA = spel.Spelverdelings
-=======
-			/// Iterate through every spel of the speeldag
-			foreach (var spel in speeldagData.Spel)
-            {
-				/// Skip empty or invalid spellen
-				if (spel?.Spelverdelingen == null || spel.Spelverdelingen.Count == 0)
-                    continue;
-
-				/// Split spelers into team A and team B based on their Spelverdelingen
-				var teamA = spel.Spelverdelingen
->>>>>>> main
                     .Where(v => v.Team == "Team A")
                     .Select(v => v.SpelerVolgnr)
                     .ToList();
@@ -183,7 +154,7 @@ namespace Petanque.Services.Services
             {
 				/// Delete all old klassements for this speeldag
 				context.Dagklassements
-                    .Where(dk => dk.SpeeldagId == speeldagId)
+                    .Where(dk => dk.SpeeldagId == speeldagData.SpeeldagId)
                     .ExecuteDelete();
 
 				/// Insert new klassements

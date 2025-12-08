@@ -438,9 +438,4 @@ namespace Petanque.Services.Services
 			}).ToList();
 		}
 	}
-
-    public IEnumerable<SpelverdelingResponseContract> GetBySpel(int spelId)
-    {
-        return _spelverdelingRepository.GetBySpelId(spelId).Select(s => s.AsModel().AsContract());
-    }
 }
