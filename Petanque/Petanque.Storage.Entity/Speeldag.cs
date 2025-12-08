@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace Petanque.Storage.Entity;
 
-namespace Petanque.Storage.Entity {
-    public partial class Speeldag {
-        public int SpeeldagId { get; set; }
+public partial class Speeldag {
+    public int SpeeldagId { get; set; }
 
-        public DateTime Datum { get; set; }
+    public DateTime Datum { get; set; }
 
-        public int? SeizoensId { get; set; }
+    public int? SeizoensId { get; set; }
 
-        public virtual ICollection<Aanwezigheid> Aanwezigheids { get; set; } = new List<Aanwezigheid>();
+    public virtual ICollection<Aanwezigheid> Aanwezigheids { get; set; } = new List<Aanwezigheid>();
 
-        public virtual ICollection<Dagklassement> Dagklassements { get; set; } = new List<Dagklassement>();
+    public virtual ICollection<Dagklassement> Dagklassements { get; set; } = new List<Dagklassement>();
 
-        public virtual Seizoen? Seizoens { get; set; }
+    public virtual Seizoen? Seizoens { get; set; }
 
-        public virtual ICollection<Spel> Spels { get; set; } = new List<Spel>();
-    }
+    public virtual ICollection<Spel> Spels { get; set; } = new List<Spel>();
 }
-
 

@@ -21,6 +21,7 @@ namespace Petanque.Storage {
             return dbContext.Speeldags
                 .Include(s => s.Seizoens)
                 .Include(s => s.Spels)
+                    .ThenInclude(s => s.Spelverdelings)
                 .FirstOrDefault(s => s.SpeeldagId == id);
         }
 

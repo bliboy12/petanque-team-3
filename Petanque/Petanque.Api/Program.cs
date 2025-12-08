@@ -7,28 +7,33 @@ using QuestPDF.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-QuestPDF.Settings.License = LicenseType.Community; // Deze regel kan nu mogelijk niet werken als 'LicenseType' niet bestaat
+/** Define the license we use for QuestPDF nugget package */
+QuestPDF.Settings.License = LicenseType.Community;
 
+/** Configure CORS to allow requests from the frontend application */
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
-        policy => policy.WithOrigins("*")
+        policy => policy.AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader());
 });
 
+/** Find all controllers and add them to the service collection */
 builder.Services.AddControllers();
 builder.Services.AddHttpClient<IWeatherService, WeatherService>();
 
-// Verbinding met de MySQL database
+/** Configure the database context to use MySQL */
 var connectionString = builder.Configuration.GetConnectionString("LocalMySQL");
 builder.Services.AddDbContext<Id312896PetanqueContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
+/** Configure logging to use console output */
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
-// Repositories toevoegen
+/** Add all repositories and services to the dependency injection container */
+// ------------- REPOS -------------
 builder.Services.AddScoped<ISpelerRepository, SpelerRepository>();
 builder.Services.AddScoped<ISpelverdelingRepository, SpelverdelingRepository>();
 builder.Services.AddScoped<IAanwezigheidRepository, AanwezigheidRepository>();
@@ -38,7 +43,7 @@ builder.Services.AddScoped<IDagKlassementRepository, DagKlassementRepository>();
 builder.Services.AddScoped<ISeizoenKlassementRepository, SeizoenKlassementRepository>();
 builder.Services.AddScoped<ISeizoenRepository, SeizoenRepository>();
 
-// Services toevoegen
+// ------------- SERVICES -------------
 builder.Services.AddScoped<IPlayerService, PlayerService>();
 builder.Services.AddScoped<IDagKlassementService, DagKlassementService>();
 builder.Services.AddScoped<ISpelverdelingService, SpelverdelingService>();
@@ -50,16 +55,21 @@ builder.Services.AddScoped<ISpelverdelingPDFService, SpelverdelingPDFService>();
 builder.Services.AddScoped<ISeizoensKlassementPDFService, SeizoensKlassementPDFService>();
 builder.Services.AddScoped<ISeizoensService, SeizoensService>();
 
+/** Build the app */
 var app = builder.Build();
 
+/** Apply CORS config to allow frontend access */
 app.UseCors("AllowFrontend");
 
+/** Map controllers, enable HTTPS redirection and routing */
 app.MapControllers();
 app.UseHttpsRedirection();
 app.UseRouting();
 
-var dbcontext = new Id312896PetanqueContext();
+/** Test database connection and apply migrations (DISABLED) */
+/*var dbcontext = new Id312896PetanqueContext();
 dbcontext.TestConnection();
-dbcontext.Migration1();
+dbcontext.Migration1();*/
 
+/** Run the application */
 app.Run();

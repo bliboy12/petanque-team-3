@@ -9,7 +9,7 @@ using Petanque.Storage.Interfaces;
 
 namespace Petanque.Services.Services
 {
-    public class DagKlassementService(IDagKlassementRepository dagKlassementRepository, Id312896PetanqueContext context) : IDagKlassementService
+    public class DagKlassementService(IDagKlassementRepository? dagKlassementRepository, ISpeeldagRepository speeldagRepository, ISpeeldagService speeldagService, ISpelverdelingService spelverdelingService,  Id312896PetanqueContext context) : IDagKlassementService
     {
         public DagKlassementResponseContract Create(DagKlassementRequestContract request)
         {
@@ -33,21 +33,22 @@ namespace Petanque.Services.Services
             return dagklassementen.Select(a => a.AsModel().AsContract()).Where(contract => contract != null) .ToList()!;
         }
         
-         ///TODO: Not transfered inside repo ?? (Rina)
-        public IEnumerable<DagKlassementResponseContract> CreateDagKlassementen(SpeeldagResponseContract speeldagData, int id)
+        /** Service to generate all the daily rankings for a specific match day */
+        public IEnumerable<DagKlassementResponseContract> CreateDailyRankings(int matchDayId)
         {
-            var speeldagId = speeldagData.SpeeldagId;
-
-			/// Get all speler-volgnummers that actually appear in spelverdelingen
-			var gebruikteVolgnrs = speeldagData.Spel
-                .SelectMany(s => s.Spelverdelingen ?? [])
+            // SpeeldagResponseContract speeldagData
+            // var speeldagId = speeldagData.SpeeldagId;
+            
+            var speeldagData = speeldagRepository.GetById(matchDayId);
+            
+            var gebruikteVolgnrs = speeldagData.Spels
+                .SelectMany(s => s.Spelverdelings ?? [])
                 .Select(sv => sv.SpelerVolgnr)
                 .Distinct()
                 .ToList();
-
-			/// Find all spelers present on the speeldag AND who appear in the games
-			var spelersInSpeeldag = context.Aanwezigheids
-                .Where(x => x.SpeeldagId == speeldagId && gebruikteVolgnrs.Contains(x.SpelerVolgnr))
+            
+            var spelersInSpeeldag = context.Aanwezigheids
+                .Where(x => x.SpeeldagId == matchDayId && gebruikteVolgnrs.Contains(x.SpelerVolgnr))
                 .AsEnumerable()
                 .GroupBy(x => x.SpelerVolgnr)
                 .ToDictionary(g => g.Key, g => g.First().SpelerId);
@@ -57,21 +58,18 @@ namespace Petanque.Services.Services
 			/// 2) win count per spelerVolgnr
 			var scorePerSpeler = new Dictionary<int, int>();
             var winsPerSpeler = new Dictionary<int, int>();
-
-			/// Iterate through every spel of the speeldag
-			foreach (var spel in speeldagData.Spel)
+            
+            foreach (var spel in speeldagData.Spels)
             {
-				/// Skip empty or invalid spellen
-				if (spel?.Spelverdelingen == null || spel.Spelverdelingen.Count == 0)
+                if (spel?.Spelverdelings == null || spel.Spelverdelings.Count == 0)
                     continue;
 
-				/// Split spelers into team A and team B based on their Spelverdelingen
-				var teamA = spel.Spelverdelingen
+                var teamA = spel.Spelverdelings
                     .Where(v => v.Team == "Team A")
                     .Select(v => v.SpelerVolgnr)
                     .ToList();
 
-                var teamB = spel.Spelverdelingen
+                var teamB = spel.Spelverdelings
                     .Where(v => v.Team == "Team B")
                     .Select(v => v.SpelerVolgnr)
                     .ToList();
@@ -134,7 +132,7 @@ namespace Petanque.Services.Services
 
                 dagKlassementen.Add(new DagKlassementResponseContract
                 {
-                    SpeeldagId = speeldagId,
+                    SpeeldagId = matchDayId,
                     SpelerId = spelerId,
                     Hoofdpunten = 1 + gewonnenSpellen, /// Base 1 + wins
 					PlusMinPunten = plusMin
@@ -156,7 +154,7 @@ namespace Petanque.Services.Services
             {
 				/// Delete all old klassements for this speeldag
 				context.Dagklassements
-                    .Where(dk => dk.SpeeldagId == speeldagId)
+                    .Where(dk => dk.SpeeldagId == speeldagData.SpeeldagId)
                     .ExecuteDelete();
 
 				/// Insert new klassements

@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 interface Speler {
-    spelerId: number;
-    voornaam: string;
-    naam: string;
-    skillLevel: number;
+  spelerId: number;
+  voornaam: string;
+  naam: string;
+  skillLevel: number;
 }
 
 function SpelerPagina() {

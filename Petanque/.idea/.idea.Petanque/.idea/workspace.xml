@@ -63,20 +63,20 @@
     <setting file="file://$PROJECT_DIR$/petanquefrontend/package-lock.json" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="false" />
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET Launch Settings Profile.Petanque.Api: http.executor": "Run",
-    "Docker.Petanque.Api/Dockerfile.executor": "Run",
-    "XThreadsFramesViewSplitterKey": "0.5010352",
-    "git-widget-placeholder": "lucas__frontend__implement__skilllevel",
-    "node.js.selected.package.tslint": "(autodetect)"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Launch Settings Profile.Petanque.Api: http.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.Petanque.Api/Dockerfile.executor&quot;: &quot;Run&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.5010352&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;lucas__frontend__implement__skilllevel&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Launch Settings Profile.Petanque.Api: http">
     <configuration name="Petanque.Api: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile" temporary="true">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/Petanque.Api/Petanque.Api.csproj" />

@@ -36,7 +36,7 @@ namespace Petanque.Services.Services
 			var spelverdelingen = _spelverdelingRepository.GetBySpelIds(spelIds);
 
 			var aanwezigheden = _aanwezigheidRepository.GetAanwezighedenOpSpeeldag(speeldagId);
-			
+
 			var t = spelverdelingen.Select(sv =>
 			{
 				var speler = aanwezigheden
@@ -119,10 +119,10 @@ namespace Petanque.Services.Services
 				/// Bepaal hoeveel terreinen effectief gebruikt zullen worden
 				/// (team A & B per terrein => dus delen door 2)
 				aantalGebruikteTerreinen = (int)Math.Floor((double)aantalAanwezigen / minAantalSpelersPerTeam / 2);
-				
+
 				if (aantalGebruikteTerreinen < 1)
 					throw new InvalidOperationException($"Er zijn slechts {aantalAanwezigen} aanwezigen. Dit is onvoldoende als je minstens {minAantalSpelersPerTeam} spelers per team wilt. (Verlaag evt. 'minAantalSpelersPerTeam')");
-				
+
 				/// Controle: is teamgrootte haalbaar?
 				if ((int)Math.Ceiling((double)aantalAanwezigen / aantalGebruikteTerreinen / 2) > maxAantalSpelersPerTeam)
 					throw new InvalidOperationException($"Met {aantalAanwezigen} aanwezigen kan er geen spelverdeling gemaakt worden met minstens {minAantalSpelersPerTeam} en maximaal {maxAantalSpelersPerTeam} spelers per team. (Verlaag evt. 'minAantalSpelersPerTeam' of verhoog 'maxAantalSpelersPerTeam')");

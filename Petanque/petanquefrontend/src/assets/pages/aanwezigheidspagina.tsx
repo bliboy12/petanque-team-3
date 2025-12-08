@@ -193,115 +193,85 @@ function Aanwezigheidspagina() {
         setShowCalendar(false);
     };
 
-    const handleToggleCalendar = () => {
-        setShowCalendar(!showCalendar);
-    };
-
     if (loading) return <p className="text-center mt-10">Bezig met laden...</p>;
     if (error) return <p className="text-center text-red-600 mt-10">Fout: {error}</p>;
 
-    const filteredAanwezigheden = selectedSpeeldag
-        ? aanwezigheden.filter(a => a.speeldagId === selectedSpeeldag.speeldagId)
-        : [];
-
-    const formatDateToDutch = (dateString: string): string => {
-        const date = new Date(dateString);
-        return `Huidige speeldag: ${date.toLocaleDateString("nl-NL", { weekday: "short", day: "numeric", month: "long", year: "numeric" })}`;
-    };
+    /** Filter the attendances to only show the one of the selected day */
+    const filteredAanwezigheden = selectedSpeeldag ? aanwezigheden.filter(a => a.speeldagId === selectedSpeeldag.speeldagId) : [];
 
     return (
-        <div className="max-w-3xl place-self-center p-0">
-            <h2 className="text-3xl font-bold text-white bg-[#3c444c] p-2 rounded-2xl shadow mb-6 text-center w">
-                Aanwezigheden
-            </h2>
+      <div className="max-w-3xl place-self-center p-0">
+        {/** Title of the page */}
+        <h2 className="text-3xl font-bold text-white bg-[#3c444c] p-2 rounded-2xl shadow mb-6 text-center w">
+          Aanwezigheden
+        </h2>
 
-            {speeldagen.length > 0 && selectedSpeeldag && (
-                <Kalender
-                    speeldagen={speeldagen}
-                    selectedSpeeldag={selectedSpeeldag}
-                    onSelectSpeeldag={handleSelectSpeeldag}
-                    showCalendar={showCalendar}
-                    onToggleCalendar={handleToggleCalendar}
-                />
-            )}
+        {speeldagen.length > 0 && selectedSpeeldag && (
+          <Kalender
+              speeldagen={speeldagen}
+              selectedSpeeldag={selectedSpeeldag}
+              onSelectSpeeldag={handleSelectSpeeldag}
+              showCalendar={showCalendar}
+              onToggleCalendar={() => setShowCalendar(!showCalendar)}
+          />
+        )}
 
-            <Weather speeldagDatum={selectedSpeeldag?.datum ?? null} />
+        <Weather speeldagDatum={selectedSpeeldag?.datum ?? null} />
 
-            <div className="overflow-x-auto overflow-y-auto border rounded-2xl shadow-md w-fit place-self-center">
-                <table className="text-left text-xl">
-                    <thead className="bg-[#3c444c] text-white sticky top-0">
-                        <tr>
-                            <th
-                                className="cursor-pointer px-6 py-1"
-                                onClick={() => setSortField('naam')}
-                            >
-                                Naam {sortField === 'naam' ? '▲' : ''}
-                            </th>
-                            <th
-                                className="cursor-pointer px-6 py-1 my-0"
-                                onClick={() => setSortField('voornaam')}
-                            >
-                                Voornaam {sortField === 'voornaam' ? '▲' : ''}
-                            </th>
-                            <th className="px-6 py-1 my-0">
-                              Skill Level
-                            </th>
-                            <th className="px-6 py-1">Aanwezig?</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {sortedSpelers.map((speler) => {
-                        const spelerAanwezig = filteredAanwezigheden.find(
-                            (aanwezigheid) => aanwezigheid.spelerId === speler.spelerId
-                        );
+        <div className="overflow-x-auto overflow-y-auto border rounded-2xl shadow-md w-fit place-self-center">
+          <table className="text-left text-xl">
 
-                        const isAanwezig = !!spelerAanwezig;
+            {/** Header */}
+            <thead className="bg-[#3c444c] text-white sticky top-0">
+              <tr>
+                <th className="cursor-pointer px-6 py-1" onClick={() => setSortField('naam')}>
+                  Naam {sortField === 'naam' ? '▲' : ''}
+                </th>
+                <th className="cursor-pointer px-6 py-1 my-0" onClick={() => setSortField('voornaam')}>Voornaam {sortField === 'voornaam' ? '▲' : ''}</th>
+                <th className="px-6 py-1 my-0">Skill Level</th>
+                <th className="px-6 py-1">Aanwezig?</th>
+              </tr>
+            </thead>
+            <tbody>
+            {sortedSpelers.map((speler) => {
+              const spelerAanwezig = filteredAanwezigheden.find(
+                (aanwezigheid) => aanwezigheid.spelerId === speler.spelerId
+              );
 
-                        return (
-                            <tr
-                                key={speler.spelerId}
-                                className={
-                                    isAanwezig
-                                        ? 'bg-green-200 border-t-2 border-b-2 border-black'
-                                        : 'bg-red-200 border-t-2 border-b-2 border-black'
-                                }
-                            >
-                                <td className="px-6 py-1 border-b border-gray-200">{speler.naam}</td>
-                                <td className="px-6 py-1 border-b border-gray-200">{speler.voornaam}</td>
-                                <td className="px-6 py-1 border-b border-gray-200">{speler.skillLevel ? "Expert" : "Noob"}</td>
-                                <td className="px-6 py-1 border-b border-gray-200 text-center">
-                                    <div className="flex items-center justify-center space-x-2">
-                                        <input
-                                            type="checkbox"
-                                            checked={isAanwezig}
-                                            onChange={() => {
-                                                if (isAanwezig && spelerAanwezig) {
-                                                    verwijderAanwezigheid(spelerAanwezig.aanwezigheidId);
-                                                } else {
-                                                    bevestigAanwezigheid(speler.spelerId);
-                                                }
-                                            }}
+              const isAanwezig = !!spelerAanwezig;
 
-                                            className="h-5 w-5 cursor-pointer"
-                                        />
-                                        <div
-                                            className={`inline-block px-3 py-1 rounded-full text-white text-xs font-semibold
-                                ${isAanwezig ? 'bg-green-500' : 'bg-red-500'}`}
-                                        >
-                                            {isAanwezig ? 'Volgnr '+spelerAanwezig.spelerVolgnr : 'Afwezig'}
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        );
-                    })}
-                    </tbody>
+              return (
+                <tr key={speler.spelerId} className={isAanwezig ? 'bg-green-200 border-t-2 border-b-2 border-black' : 'bg-red-200 border-t-2 border-b-2 border-black'}>
+                  <td className="px-6 py-1 border-b border-gray-200">{speler.naam}</td>
+                  <td className="px-6 py-1 border-b border-gray-200">{speler.voornaam}</td>
+                  <td className="px-6 py-1 border-b border-gray-200">{speler.skillLevel ? "Expert" : "Noob"}</td>
+                  <td className="px-6 py-1 border-b border-gray-200 text-center">
+                    <div className="flex items-center justify-center space-x-2">
+                      <input
+                        type="checkbox"
+                        checked={isAanwezig}
+                        onChange={() => {
+                            if (isAanwezig && spelerAanwezig) {
+                                verwijderAanwezigheid(spelerAanwezig.aanwezigheidId);
+                            } else {
+                                bevestigAanwezigheid(speler.spelerId);
+                            }
+                        }}
 
-
-                </table>
-            </div>
-
+                        className="h-5 w-5 cursor-pointer"
+                      />
+                      <div className={`inline-block px-3 py-1 rounded-full text-white text-xs font-semibold ${isAanwezig ? 'bg-green-500' : 'bg-red-500'}`}>
+                        {isAanwezig ? 'Volgnr '+spelerAanwezig.spelerVolgnr : 'Afwezig'}
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+            </tbody>
+          </table>
         </div>
+      </div>
     );
 }
 

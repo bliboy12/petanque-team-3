@@ -6,11 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Petanque.Services.Interfaces {
-    public interface IDagKlassementService 
-    {
-        IEnumerable<DagKlassementResponseContract>? GetById(int id);
-        DagKlassementResponseContract Create(DagKlassementRequestContract request);
-        IEnumerable<DagKlassementResponseContract> CreateDagKlassementen(SpeeldagResponseContract spelerscores, int id);
-    }
+namespace Petanque.Services.Interfaces;
+
+public interface IDagKlassementService 
+{
+    IEnumerable<DagKlassementResponseContract>? GetById(int id);
+    DagKlassementResponseContract Create(DagKlassementRequestContract request);
+    
+    /** Service to generate all the daily rankings for a specific match day */
+    IEnumerable<DagKlassementResponseContract> CreateDailyRankings(int matchDayId);
 }

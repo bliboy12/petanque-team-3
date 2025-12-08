@@ -2,12 +2,12 @@ import { useState } from "react";
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import SecondPage from '../pages/aanwezigheidspagina.tsx';
 import ThirdPage from '../pages/spelerpagina.tsx';
-import HomePage from '../pages/HomePagina.tsx';
 import ScorePagina from '../pages/scorebladpagina.tsx';
 import vlasLogo from '../Images/vlas_logo.png';
 // import DagKlassementpagina from '../pages/Dagklassementpagina.tsx';
 import SpeeldagenDropdown from '../pages/spelverdeling.tsx';
 import KlassementenPagina from "../pages/KlassementenPagina.tsx";
+import Home from "../../pages/Home.tsx";
 
 function Header() {
     const navigate = useNavigate();
@@ -75,12 +75,12 @@ function Header() {
 
             <main className="max-w-screen-xl mx-auto p-8">
                 <Routes>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/aanwezigheden" element={<SecondPage />} />
-                    <Route path="/leden" element={<ThirdPage />} />
-                    <Route path="/scorebladeren" element={<ScorePagina />} />
-                    <Route path="/klassement" element={<KlassementenPagina />} />
-                    <Route path="/spelverdeling" element={<SpeeldagenDropdown />} />
+                  <Route path="/" element={<Home />} />
+                  <Route path="/aanwezigheden" element={<SecondPage />} />
+                  <Route path="/leden" element={<ThirdPage />} />
+                  <Route path="/scorebladeren" element={<ScorePagina />} />
+                  <Route path="/klassement" element={<KlassementenPagina />} />
+                  <Route path="/spelverdeling" element={<SpeeldagenDropdown />} />
                 </Routes>
             </main>
         </div>
