@@ -33,35 +33,67 @@ namespace Petanque.Services.Services
             return dagklassementen.Select(a => a.AsModel().AsContract()).Where(contract => contract != null) .ToList()!;
         }
         
+<<<<<<< HEAD
         /** Service to generate all the daily rankings for a specific match day */
         public IEnumerable<DagKlassementResponseContract> CreateDailyRankings(int matchDayId)
+=======
+         ///TODO: Not transfered inside repo ?? (Rina)
+        public IEnumerable<DagKlassementResponseContract> CreateDagKlassementen(SpeeldagResponseContract speeldagData, int id)
+>>>>>>> main
         {
             // SpeeldagResponseContract speeldagData
             // var speeldagId = speeldagData.SpeeldagId;
 
+<<<<<<< HEAD
             var speeldagData = speeldagRepository.GetById(matchDayId);
             
             var gebruikteVolgnrs = speeldagData.Spels
                 .SelectMany(s => s.Spelverdelings ?? [])
+=======
+			/// Get all speler-volgnummers that actually appear in spelverdelingen
+			var gebruikteVolgnrs = speeldagData.Spel
+                .SelectMany(s => s.Spelverdelingen ?? [])
+>>>>>>> main
                 .Select(sv => sv.SpelerVolgnr)
                 .Distinct()
                 .ToList();
 
+<<<<<<< HEAD
             var spelersInSpeeldag = context.Aanwezigheids
                 .Where(x => x.SpeeldagId == matchDayId && gebruikteVolgnrs.Contains(x.SpelerVolgnr))
+=======
+			/// Find all spelers present on the speeldag AND who appear in the games
+			var spelersInSpeeldag = context.Aanwezigheids
+                .Where(x => x.SpeeldagId == speeldagId && gebruikteVolgnrs.Contains(x.SpelerVolgnr))
+>>>>>>> main
                 .AsEnumerable()
                 .GroupBy(x => x.SpelerVolgnr)
                 .ToDictionary(g => g.Key, g => g.First().SpelerId);
-            
-            var scorePerSpeler = new Dictionary<int, int>();
+
+			/// Tracking dictionaries:
+			/// 1) plus/min score per spelerVolgnr
+			/// 2) win count per spelerVolgnr
+			var scorePerSpeler = new Dictionary<int, int>();
             var winsPerSpeler = new Dictionary<int, int>();
 
+<<<<<<< HEAD
             foreach (var spel in speeldagData.Spels)
             {
                 if (spel?.Spelverdelings == null || spel.Spelverdelings.Count == 0)
                     continue;
 
                 var teamA = spel.Spelverdelings
+=======
+			/// Iterate through every spel of the speeldag
+			foreach (var spel in speeldagData.Spel)
+            {
+				/// Skip empty or invalid spellen
+				if (spel?.Spelverdelingen == null || spel.Spelverdelingen.Count == 0)
+                    continue;
+
+				/// Split spelers into team A and team B based on their Spelverdelingen
+				var teamA = spel.Spelverdelingen
+>>>>>>> main
                     .Where(v => v.Team == "Team A")
                     .Select(v => v.SpelerVolgnr)
                     .ToList();
@@ -76,29 +108,43 @@ namespace Petanque.Services.Services
 
                 var scoreA = spel.ScoreA;
                 var scoreB = spel.ScoreB;
-                var scoreVerschil = scoreA - scoreB;
 
-                 //Punten toekennen
-                foreach (var speler in teamA)
+				/// Score difference used for plus/min calculation
+				var scoreVerschil = scoreA - scoreB;
+
+				/// --- APPLY SCORING LOGIC ---
+
+				/// For every speler in team A
+				foreach (var speler in teamA)
                 {
-                    if (!scorePerSpeler.ContainsKey(speler)) scorePerSpeler[speler] = 0;
-                    scorePerSpeler[speler] += scoreVerschil;
+                    if (!scorePerSpeler.ContainsKey(speler)) 
+                        scorePerSpeler[speler] = 0;
 
-                    if (scoreA > scoreB)  //Team A wint
+					/// Add the score difference (positive if A wins, negative if A loses)
+					scorePerSpeler[speler] += scoreVerschil;
+
+                    if (scoreA > scoreB)  ///Team A wins
                     {
-                        if (!winsPerSpeler.ContainsKey(speler)) winsPerSpeler[speler] = 0;
+                        if (!winsPerSpeler.ContainsKey(speler)) 
+                            winsPerSpeler[speler] = 0;
+
                         winsPerSpeler[speler]++;
                     }
                 }
-
-                foreach (var speler in teamB)
+				/// For every speler in team B
+				foreach (var speler in teamB)
                 {
-                    if (!scorePerSpeler.ContainsKey(speler)) scorePerSpeler[speler] = 0;
-                    scorePerSpeler[speler] -= scoreVerschil;
+                    if (!scorePerSpeler.ContainsKey(speler)) 
+                        scorePerSpeler[speler] = 0;
 
-                    if (scoreB > scoreA)  //Team B wint
+					/// Team B’s plus/min is the inverted score difference
+					scorePerSpeler[speler] -= scoreVerschil;
+
+                    if (scoreB > scoreA)  ///Team B wins
                     {
-                        if (!winsPerSpeler.ContainsKey(speler)) winsPerSpeler[speler] = 0;
+                        if (!winsPerSpeler.ContainsKey(speler)) 
+                            winsPerSpeler[speler] = 0;
+
                         winsPerSpeler[speler]++;
                     }
                 }
@@ -108,19 +154,22 @@ namespace Petanque.Services.Services
 
             foreach (var (spelerVolgNr, spelerId) in spelersInSpeeldag)
             {
-                var plusMin = scorePerSpeler.TryGetValue(spelerVolgNr, out var punten) ? punten : 0;
-                var gewonnenSpellen = winsPerSpeler.TryGetValue(spelerVolgNr, out var wins) ? wins : 0;
+				/// Fetch plus/min score if it exists
+				var plusMin = scorePerSpeler.TryGetValue(spelerVolgNr, out var punten) ? punten : 0;
+				/// Fetch number of wins
+				var gewonnenSpellen = winsPerSpeler.TryGetValue(spelerVolgNr, out var wins) ? wins : 0;
 
                 dagKlassementen.Add(new DagKlassementResponseContract
                 {
                     SpeeldagId = matchDayId,
                     SpelerId = spelerId,
-                    Hoofdpunten = 1 + gewonnenSpellen,
-                    PlusMinPunten = plusMin
+                    Hoofdpunten = 1 + gewonnenSpellen, /// Base 1 + wins
+					PlusMinPunten = plusMin
                 });
             }
 
-            var entities = dagKlassementen.Select(k => new Dagklassement
+			/// Convert to EF Core entities
+			var entities = dagKlassementen.Select(k => new Dagklassement
             {
                 SpeeldagId = k.SpeeldagId,
                 SpelerId = k.SpelerId,
@@ -128,18 +177,17 @@ namespace Petanque.Services.Services
                 PlusMinPunten = k.PlusMinPunten
             }).ToList();
 
-            // TODO is dit correct?? waarom hier add range en in try catch nog eens add range?
-            context.AddRange(entities);
-            context.SaveChanges();
-
-            using var transaction = context.Database.BeginTransaction();
+			/// Start transaction to clear existing records first, then re-insert
+			using var transaction = context.Database.BeginTransaction();
             try
             {
-                context.Dagklassements
-                    .Where(dk => dk.SpeeldagId == matchDayId)
+				/// Delete all old klassements for this speeldag
+				context.Dagklassements
+                    .Where(dk => dk.SpeeldagId == speeldagId)
                     .ExecuteDelete();
 
-                context.AddRange(entities);
+				/// Insert new klassements
+				context.AddRange(entities);
                 context.SaveChanges();
                 transaction.Commit();
             }

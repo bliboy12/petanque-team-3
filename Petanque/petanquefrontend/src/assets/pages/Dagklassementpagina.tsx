@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Kalender from '../Components/Kalender.tsx';
 import PageHeader from "../../components/PageHeader.tsx";
 import Button from "../../components/buttons/Button.tsx";
+import Weather from '../Components/Weather.tsx';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -101,6 +102,8 @@ export default function Dagklassementpagina() {
             onToggleCalendar={handleToggleCalendar}
           />
         )}
+
+          <Weather speeldagDatum={selectedSpeeldag?.datum ?? null} />
 
       <Button onClick={fetchPdf}>
         (Her)genereer PDF

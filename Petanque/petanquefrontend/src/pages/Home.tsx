@@ -1,7 +1,6 @@
-import Kalender from "../assets/Components/Kalender.tsx";
 import { useState, useEffect } from "react";
-import PageHeader from "../components/PageHeader.tsx";
-import Button from "../components/buttons/Button.tsx";
+import Weather from "../assets/Components/Weather.tsx";
+import Kalender from "../assets/Components/Kalender.tsx";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -16,7 +15,7 @@ interface Seizoen {
   einddatum: string;
 }
 
-export default function Home() {
+function Home() {
   const [speeldagen, setSpeeldagen] = useState<Speeldag[]>([]);
   const [selectedSpeeldag, setSelectedSpeeldag] = useState<Speeldag | null>(null);
   const [seizoenen, setSeizoenen] = useState<Seizoen[]>([]);
@@ -31,36 +30,36 @@ export default function Home() {
   const [seizoenEind, setSeizoenEind] = useState<string>("");
 
   useEffect(() => {
-      const fetchSpeeldagen = async () => {
-          try {
-              const response = await fetch(`${apiUrl}/speeldagen`);
-              const data = await response.json();
-              setSpeeldagen(data);
+    const fetchSpeeldagen = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/speeldagen`);
+        const data: Speeldag[] = await response.json();
+        setSpeeldagen(data);
 
-              const savedSpeeldagId = localStorage.getItem('speeldagId');
-              if (savedSpeeldagId) {
-                  const foundSpeeldag = data.find((dag) => dag.speeldagId.toString() === savedSpeeldagId);
-                  if (foundSpeeldag) {
-                      setSelectedSpeeldag(foundSpeeldag);
-                  }
-              }
-          } catch (error) {
-              console.error("Fout bij ophalen van speeldagen:", error);
+        const savedSpeeldagId = localStorage.getItem('speeldagId');
+        if (savedSpeeldagId) {
+          const foundSpeeldag = data.find((dag) => dag.speeldagId.toString() === savedSpeeldagId);
+          if (foundSpeeldag) {
+            setSelectedSpeeldag(foundSpeeldag);
           }
-      };
+        }
+      } catch (error) {
+        console.error("Fout bij ophalen van speeldagen:", error);
+      }
+    };
 
-      const fetchSeizoenen = async () => {
-          try {
-              const response = await fetch(`${apiUrl}/seizoenen`);
-              const data = await response.json();
-              setSeizoenen(data);
-          } catch (error) {
-              console.error("Fout bij ophalen van seizoenen:", error);
-          }
-      };
+    const fetchSeizoenen = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/seizoenen`);
+        const data = await response.json();
+        setSeizoenen(data);
+      } catch (error) {
+        console.error("Fout bij ophalen van seizoenen:", error);
+      }
+    };
 
-      fetchSpeeldagen();
-      fetchSeizoenen();
+    fetchSpeeldagen();
+    fetchSeizoenen();
   }, []);
 
   const handleSelectSpeeldag = (speeldag: Speeldag) => {
@@ -104,7 +103,7 @@ export default function Home() {
       const response = await fetch(`${apiUrl}/speeldagen`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(request)
       });
@@ -127,120 +126,132 @@ export default function Home() {
   };
 
   const handleCancelCreateSpeeldag = () => {
-      setShowCreateSpeeldagDialog(false);
-      setPendingDate(null);
+    setShowCreateSpeeldagDialog(false);
+    setPendingDate(null);
   };
 
   const formatDateDutch = (date: Date) => {
-      return date.toLocaleDateString("nl-NL", {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric"
-      });
+    return date.toLocaleDateString("nl-NL", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    });
   };
 
   const handleCreateSeizoen = async () => {
-      if (!seizoenStart || !seizoenEind) {
-          alert("Gelieve beide datums in te vullen.");
-          return;
+    if (!seizoenStart || !seizoenEind) {
+      alert("Gelieve beide datums in te vullen.");
+      return;
+    }
+
+    try {
+      const request = {
+        startdatum: seizoenStart,
+        einddatum: seizoenEind
+      };
+
+      const response = await fetch(`${apiUrl}/seizoenen`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(request)
+      });
+
+      if (!response.ok) {
+        const errMsg = await response.text();
+        throw new Error(errMsg);
       }
 
-      try {
-          const request = {
-              startdatum: seizoenStart,
-              einddatum: seizoenEind
-          };
+      const createdSeizoen = await response.json();
 
-          const response = await fetch(`${apiUrl}/seizoenen`, {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/json"
-              },
-              body: JSON.stringify(request)
-          });
+      setSeizoenen((prev) => [...prev, createdSeizoen]);
+      setShowCreateSeizoenForm(false);
+      setSeizoenStart("");
+      setSeizoenEind("");
 
-          if (!response.ok) {
-              const errMsg = await response.text();
-              throw new Error(errMsg);
-          }
-
-          const createdSeizoen = await response.json();
-
-          setSeizoenen((prev) => [...prev, createdSeizoen]);
-          setShowCreateSeizoenForm(false);
-          setSeizoenStart("");
-          setSeizoenEind("");
-
-          alert("Seizoen succesvol aangemaakt!");
-      } catch (error) {
-          console.error("Fout bij aanmaken van seizoen:", error.message);
-          alert(error.message);
-      }
+      alert("Seizoen succesvol aangemaakt!");
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Onbekende fout';
+      console.error("Fout bij aanmaken van seizoen:", errorMessage);
+      alert(errorMessage);
+    }
   };
 
   return (
-    <div>
-      <PageHeader title="Home"/>
-
-      <Button onClick={() => setShowCreateSeizoenForm(!showCreateSeizoenForm)}>
+    <div className="p-0">
+      <h2 className="text-3xl font-bold text-white bg-[#3c444c] p-2 rounded-2xl shadow mb-6 text-center">
+        Home
+      </h2>
+      <h2 className="text-2xl font-bold text-[#3c444c] mt-8 mb-2">
+        Seizoen toevoegen:
+      </h2>
+      <button
+        onClick={() => setShowCreateSeizoenForm(!showCreateSeizoenForm)}
+        className="mt-0 mb-2 bg-[#ccac4c] bg-[#ccac4c] hover:bg-[#b8953d] text-white font-bold px-6 py-3 rounded-xl transition cursor-pointer"
+      >
         {showCreateSeizoenForm ? "Verberg Seizoen Toevoegen" : "Voeg Seizoen Toe"}
-      </Button>
+      </button>
 
       {showCreateSeizoenForm && (
-        <div className="bg-white p-6 rounded-lg shadow-md max-w-sm w-full mb-6">
+        <div className="bg-white p-6 rounded shadow-md max-w-sm w-full mb-6">
           <h2 className="text-xl font-semibold mb-4">Nieuw Seizoen</h2>
 
           <div className="mb-4">
-              <label className="block text-left mb-2">Startdatum:</label>
-              <div className="relative">
-                  <input
-                      type="date"
-                      value={seizoenStart}
-                      onChange={(e) => setSeizoenStart(e.target.value)}
-                      className="border p-2 rounded w-full appearance-none pr-10"
-                      id="startdate-input"
-                  />
-
-                  <button
-                      type="button"
-                      onClick={() => {
-                          const input = document.getElementById('startdate-input') as HTMLInputElement;
-                          input?.showPicker?.();
-                          input?.focus();
-                      }}
-                      className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 cursor-pointer"
-                  >
-                      📅
-                  </button>
-              </div>
+            <label className="block text-left mb-2">Startdatum:</label>
+            <div className="relative">
+              <input
+                type="date"
+                value={seizoenStart}
+                onChange={(e) => setSeizoenStart(e.target.value)}
+                className="border p-2 rounded w-full appearance-none pr-10"
+                id="startdate-input"
+              />
+              <button
+                type="button"
+                onClick={() => {
+                  const input = document.getElementById('startdate-input') as HTMLInputElement;
+                  input?.showPicker?.();
+                  input?.focus();
+                }}
+                className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 cursor-pointer"
+              >
+                📅
+              </button>
+            </div>
           </div>
 
           <div className="mb-4">
-              <label className="block text-left mb-2">Einddatum:</label>
-              <div className="relative">
-                  <input
-                      type="date"
-                      value={seizoenEind}
-                      onChange={(e) => setSeizoenEind(e.target.value)}
-                      className="border p-2 rounded w-full appearance-none pr-10"
-                      id="enddate-input"
-                  />
-                  <button
-                      type="button"
-                      onClick={() => {
-                          const input = document.getElementById('enddate-input') as HTMLInputElement;
-                          input?.showPicker?.();
-                          input?.focus();
-                      }}
-                      className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 cursor-pointer"
-                  >
-                      📅
-                  </button>
-              </div>
+            <label className="block text-left mb-2">Einddatum:</label>
+            <div className="relative">
+              <input
+                type="date"
+                value={seizoenEind}
+                onChange={(e) => setSeizoenEind(e.target.value)}
+                className="border p-2 rounded w-full appearance-none pr-10"
+                id="enddate-input"
+              />
+              <button
+                type="button"
+                onClick={() => {
+                  const input = document.getElementById('enddate-input') as HTMLInputElement;
+                  input?.showPicker?.();
+                  input?.focus();
+                }}
+                className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 cursor-pointer"
+              >
+                📅
+              </button>
+            </div>
           </div>
 
-          <Button onClick={handleCreateSeizoen}>Seizoen toevoegen</Button>
+          <button
+            onClick={handleCreateSeizoen}
+            className="bg-[#ccac4c] hover:bg-[#b8953d] text-white font-bold py-2 px-4 rounded w-full"
+          >
+            Seizoen toevoegen
+          </button>
         </div>
       )}
 
@@ -249,36 +260,38 @@ export default function Home() {
       </h2>
 
       <Kalender
-          speeldagen={speeldagen}
-          selectedSpeeldag={selectedSpeeldag}
-          onSelectSpeeldag={handleSelectSpeeldag}
-          showCalendar={showCalendar}
-          onToggleCalendar={handleToggleCalendar}
-          onClickOnNewDate={handleClickOnNewDate}
+        speeldagen={speeldagen}
+        selectedSpeeldag={selectedSpeeldag}
+        onSelectSpeeldag={handleSelectSpeeldag}
+        showCalendar={showCalendar}
+        onToggleCalendar={handleToggleCalendar}
+        onClickOnNewDate={handleClickOnNewDate}
       />
+
+      <Weather speeldagDatum={selectedSpeeldag?.datum ?? null} />
 
       {showCreateSpeeldagDialog && pendingDate && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="bg-white p-6 rounded shadow-md max-w-sm w-full text-center">
-                <h2 className="text-xl font-semibold mb-4">Speeldag toevoegen</h2>
-                <p className="mb-4">
-                    Wil je <span className="font-bold">{formatDateDutch(pendingDate)}</span> als speeldag instellen?
-                </p>
-                <div className="flex justify-center gap-4">
-                    <button
-                        onClick={handleCreateSpeeldag}
-                        className="bg-[#ccac4c] hover:bg-[#b8953d] text-white font-bold py-2 px-4 rounded"
-                    >
-                        Ja
-                    </button>
-                    <button
-                        onClick={handleCancelCreateSpeeldag}
-                        className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
-                    >
-                        Nee
-                    </button>
-                </div>
+          <div className="bg-white p-6 rounded shadow-md max-w-sm w-full text-center">
+            <h2 className="text-xl font-semibold mb-4">Speeldag toevoegen</h2>
+            <p className="mb-4">
+              Wil je <span className="font-bold">{formatDateDutch(pendingDate)}</span> als speeldag instellen?
+            </p>
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={handleCreateSpeeldag}
+                className="bg-[#ccac4c] hover:bg-[#b8953d] text-white font-bold py-2 px-4 rounded"
+              >
+                Ja
+              </button>
+              <button
+                onClick={handleCancelCreateSpeeldag}
+                className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
+              >
+                Nee
+              </button>
             </div>
+          </div>
         </div>
       )}
       <div className="max-w-xl w-full text-center bg-white border border-[#fbd46d] shadow-lg rounded-2xl p-10">
@@ -294,3 +307,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default Home;

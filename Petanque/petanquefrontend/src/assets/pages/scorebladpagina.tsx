@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Kalender from "../Components/Kalender.tsx"; // ← importeer jouw eigen component!
+import Weather from "../Components/Weather.tsx";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 // Interfaces
@@ -225,6 +226,8 @@ function Scorebladpagina() {
                     onToggleCalendar={() => setShowCalendar(!showCalendar)}
                 />
             </div>
+
+            <Weather speeldagDatum={selectedSpeeldag?.datum ?? null} />
 
             {Object.entries(gamesPerTerrein).map(([terrein, games]) => (
                 <div key={terrein} className="mb-0">

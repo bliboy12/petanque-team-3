@@ -21,6 +21,7 @@ builder.Services.AddCors(options =>
 
 /** Find all controllers and add them to the service collection */
 builder.Services.AddControllers();
+builder.Services.AddHttpClient<IWeatherService, WeatherService>();
 
 /** Configure the database context to use MySQL */
 var connectionString = builder.Configuration.GetConnectionString("LocalMySQL");
