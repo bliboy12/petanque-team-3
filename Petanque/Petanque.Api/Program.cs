@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Petanque.Services.Api;
 using Petanque.Services.Interfaces;
 using Petanque.Services.Services;
 using Petanque.Storage;
@@ -31,6 +32,8 @@ builder.Services.AddDbContext<Id312896PetanqueContext>(options =>
 /** Configure logging to use console output */
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
+
+builder.Services.AddHttpClient<IWeatherApiClient, WeatherApiClient>();
 
 /** Add all repositories and services to the dependency injection container */
 // ------------- REPOS -------------

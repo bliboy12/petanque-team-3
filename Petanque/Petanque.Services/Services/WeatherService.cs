@@ -1,16 +1,17 @@
+using Petanque.Contracts.Responses;
+using Petanque.Services.Api;
+using Petanque.Services.Interfaces;
 using System.Net.Http.Json;
 using System.Text.Json.Serialization;
-using Petanque.Contracts.Responses;
-using Petanque.Services.Interfaces;
 
 namespace Petanque.Services.Services;
 
 public class WeatherService : IWeatherService
 {
-    private readonly HttpClient _httpClient;
+    private readonly IWeatherApiClient _httpClient;
     private const string OpenMeteoBaseUrl = "https://api.open-meteo.com/v1/forecast";
 
-    public WeatherService(HttpClient httpClient)
+    public WeatherService(IWeatherApiClient httpClient)
     {
         _httpClient = httpClient;
     }
@@ -23,7 +24,7 @@ public class WeatherService : IWeatherService
 
         var url = $"{OpenMeteoBaseUrl}?latitude={latitudeRoundedWithPoint}&longitude={longitudeRoundedWithPoint}&hourly=temperature_2m,precipitation&start_date={dateString}&end_date={dateString}&timezone=Europe/Brussels";
 
-        var response = await _httpClient.GetFromJsonAsync<OpenMeteoResponse>(url);
+        var response = await _httpClient.GetWeatherAsync(url);
 
         if (response == null || response.Hourly == null || response.Hourly.Time == null || response.Hourly.Time.Count == 0)
         {
@@ -60,12 +61,12 @@ public class WeatherService : IWeatherService
         };
     }
 
-    private class OpenMeteoResponse
+    public class OpenMeteoResponse
     {
         public HourlyData? Hourly { get; set; }
     }
 
-    private class HourlyData
+    public class HourlyData
     {
         [JsonPropertyName("time")]
         public List<string> Time { get; set; } = new();
