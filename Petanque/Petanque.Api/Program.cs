@@ -57,6 +57,7 @@ builder.Services.AddScoped<IDagKlassementPDFService, DagKlassementPDFService>();
 builder.Services.AddScoped<ISpelverdelingPDFService, SpelverdelingPDFService>();
 builder.Services.AddScoped<ISeizoensKlassementPDFService, SeizoensKlassementPDFService>();
 builder.Services.AddScoped<ISeizoensService, SeizoensService>();
+builder.Services.AddScoped<IWeatherService, WeatherService>();
 
 /** Build the app */
 var app = builder.Build();
