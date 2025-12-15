@@ -2,11 +2,7 @@
 using Petanque.Contracts.Responses;
 using Petanque.Services.Api;
 using Petanque.Services.Services;
-using System;
-using System.Collections.Generic;
-using System.Net.Http.Json;
-using System.Text;
-using System.Text.Json;
+using System.Globalization;
 using static Petanque.Services.Services.WeatherService;
 
 namespace Petanque.Models.Tests {
@@ -41,35 +37,16 @@ namespace Petanque.Models.Tests {
             Assert.Equal(location, w.Location);
         }
 
-        //[Theory]
-        //[InlineData("")]
-        //[InlineData(null)]
-        //public void Test_Location_Invalid(string location) {
-        //    WeatherResponseContract w = new WeatherResponseContract();
-        //    w.Location = location;
-
-        //    Assert.Throws<Exception>(() => w.Location = location);
-        //}
-
         [Theory]
         [InlineData("21/12/2025")]
         [InlineData("16/03/2026")]
         public void Test_Date_Valid(string dateTime) {
-            var datuminput = DateTime.Parse(dateTime);
+            var datuminput = DateTime.ParseExact(dateTime, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             WeatherResponseContract w = new WeatherResponseContract();
             w.Date = datuminput;
 
             Assert.Equal(datuminput, w.Date);
         }
-
-        //[Theory]
-        //[InlineData("0")]
-        //[InlineData(null)]
-        //public void Test_Date_Invalid(DateTime dateTime) {
-        //    WeatherResponseContract w = new WeatherResponseContract();
-
-        //    Assert.Throws<Exception>(() => w.Date = dateTime);
-        //}
 
         [Fact]
         public async Task GetWeatherForecastAsync_WithResponse_ReturnResult() {
@@ -99,7 +76,6 @@ namespace Petanque.Models.Tests {
             #region Act & Assert
             var result = await service.GetWeatherForecastAsync(date, latitude, longitude);
 
-            // Assert
             Assert.NotNull(result);
             Assert.Equal(date, result.Date);
             Assert.Equal(10.0, result.Temperature);
@@ -124,9 +100,6 @@ namespace Petanque.Models.Tests {
             #endregion
 
             #region Act & Assert
-            //var result = await service.GetWeatherForecastAsync(date, latitude, longitude);
-
-            // Assert
             await Assert.ThrowsAsync<Exception>(() => service.GetWeatherForecastAsync(date, latitude, longitude));
 
             #endregion
