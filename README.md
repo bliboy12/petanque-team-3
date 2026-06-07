@@ -1,14 +1,16 @@
 # 🎯 VL@S Petanque
 
-A club management web application for a petanque club. Built as a refactoring project for the *Nieuwe Technologieen* course at HOGENT.
+A club management web application for a real petanque club. Built as a refactoring project for the *Nieuwe Technologieen* course at HOGENT.
 
 ---
 
 ## 📖 About the project
 
-We received an existing codebase for a petanque club management system and were tasked with analysing, improving and extending it — without breaking existing functionality. The application allows the club to manage seasons, game days, members, attendance, scores and standings.
+The codebase was originally written by students from a previous year. It was a working application but had accumulated issues over time. Our task was to take ownership of this inherited codebase, analyse it thoroughly and improve it — without breaking existing functionality.
 
-Our team chose **software architecture** as our refactoring focus. We used **Sigrid** to monitor code quality metrics across sprints, making the impact of our changes measurable and visible over time.
+Our team chose **software architecture** as our refactoring topic. We started by going through the codebase piece by piece, identifying architectural weaknesses and inconsistencies. From there we made deliberate, targeted improvements and used **Sigrid** to monitor how our changes impacted code quality metrics across sprints — making the evolution of the codebase measurable and visible.
+
+On top of the refactoring work, the teacher introduced new feature requests mid-sprint, simulating a real-world scenario where requirements evolve while you're already deep in existing code.
 
 ---
 
@@ -26,13 +28,14 @@ Our team chose **software architecture** as our refactoring focus. We used **Sig
 
 This was my first experience working in a structured agile team with defined roles. My role focused on **project management** — setting sprint goals, tracking progress and keeping the team aligned.
 
-We worked in two-week sprints, presenting results to the teacher acting as the client at the end of each cycle. Mid-sprint the teacher would introduce new feature requests, simulating real-world changing requirements under time pressure.
+We worked in two-week sprints, presenting results to the teacher acting as the client at the end of each cycle. At key moments the teacher introduced new features to implement and demonstrate — pushing us to balance refactoring work with active development under time pressure.
 
 Key experiences:
-- First time working on an unfamiliar existing codebase
-- Learning to read and understand code before touching it
-- Using Sigrid to make code quality measurable across sprints
+- First time working on an inherited codebase from a previous team
+- Learning to analyse and understand unfamiliar code before modifying it
+- Using Sigrid to make architectural improvements measurable over time
 - Collaborating in a team while everyone was learning at the same time
+- Balancing technical debt reduction with new feature delivery
 
 ---
 
@@ -41,10 +44,10 @@ Key experiences:
 - C# — backend
 - React + TypeScript + Vite — frontend
 - Tailwind CSS
-- Sigrid — code quality monitoring
+- Sigrid — code quality monitoring and evolution tracking
 
 ---
 
 ## 💡 Key learnings
 
-Working on this project taught me that understanding existing code before modifying it is just as important as writing new code. What seems obvious now was full of unknowns at the time — and navigating that as a team while delivering real results every two weeks was one of the most valuable experiences of the program.
+The most valuable lesson from this project was learning to read and understand someone else's code before touching it. Going through an unfamiliar codebase piece by piece — understanding the original intent, spotting the problems and making improvements — is a completely different challenge from building something from scratch. It's a skill that only becomes obvious once you've done it.
