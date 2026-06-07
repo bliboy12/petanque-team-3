@@ -1,6 +1,6 @@
 # 🎯 VL@S Petanque
 
-A club management web application for a real petanque club. Built as a refactoring project for the *Nieuwe Technologieen* course at HOGENT.
+A club management web application for a petanque club. Built as a refactoring project for the *Nieuwe Technologieen* course at HOGENT.
 
 ---
 
